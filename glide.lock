@@ -1,11 +1,47 @@
-hash: 4b6cf09fdd6c207786460945e0f25cb074ce1cddce5bbe747425b7e871c96bec
-updated: 2017-03-09T22:27:31.997155761Z
+hash: 755e9af88a0c0799749a7aaf9b5e3604c12b2b750ae6cd57fb7bad395f8b7cd8
+updated: 2017-03-11T00:10:56.561142979Z
 imports:
+- name: github.com/golang/glog
+  version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998
 - name: github.com/golang/protobuf
   version: c9c7427a2a70d2eb3bafa0ab2dc163e45f143317
   subpackages:
   - proto
   - protoc-gen-go
+  - protoc-gen-go/descriptor
+- name: github.com/grpc-ecosystem/grpc-gateway
+  version: a8f25bd1ab549f8b87afd48aa9181221e9d439bb
+  subpackages:
+  - protoc-gen-grpc-gateway
+  - protoc-gen-swagger
+- name: github.com/mitchellh/gox
+  version: 54b619477e8932bbb6314644c867e7e6db7a9c71
+- name: github.com/mitchellh/iochan
+  version: 87b45ffd0e9581375c491fef3d32130bb15c5bd7
+- name: golang.org/x/net
+  version: a6577fac2d73be281a500b310739095313165611
+  subpackages:
+  - context
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - lex/httplex
+  - trace
 - name: google.golang.org/grpc
   version: 708a7f9f3283aa2d4f6132d287d78683babe55c8
+  subpackages:
+  - codes
+  - credentials
+  - examples/helloworld/helloworld
+  - grpclog
+  - internal
+  - metadata
+  - naming
+  - peer
+  - reflection
+  - reflection/grpc_reflection_v1alpha
+  - stats
+  - tap
+  - transport
 testImports: []

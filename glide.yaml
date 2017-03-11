@@ -1,4 +1,8 @@
-package: .
+package: github.com/dcwangmit01/pax-entry-api
+owners:
+- name: David Wang
+  email: dcwangmit01@gmail.com
+  homepage: https://davidwang.com
 import:
 - package: google.golang.org/grpc
   version: ^1.0.5
@@ -6,3 +10,15 @@ import:
   subpackages:
   - proto
   - protoc-gen-go
+- package: golang.org/x/net
+  subpackages:
+  - http2
+- package: github.com/mitchellh/gox
+  version: ^0.3.0
+- package: github.com/mitchellh/iochan
+- package: github.com/grpc-ecosystem/grpc-gateway
+  version: ~1.1.0
+  subpackages:
+  - protoc-gen-grpc-gateway
+  - protoc-gen-swagger
+- package: github.com/golang/glog
