@@ -1,6 +1,7 @@
 SHELL := /bin/bash
 
 PATH := $(shell readlink -f ./bin/linux_amd64):$(shell readlink -f ./vendor/bin):$(PATH)
+CWD := $(shell readlink -f ./)
 BIN_DIR := $(shell readlink -f ./bin)
 PKG_DIR := $(shell readlink -f ./pkg)
 CACHE_DIR := .cache
@@ -105,10 +106,15 @@ assets:
 
 	@# Generate the golang file which contains the swagger-ui as a binary file
 	@# Ignore the warning about "Cannot read bindata.go open bindata.go: no such file or directory"
-	go-bindata-assetfs -o entry-lib/swagger-ui.go -pkg swagger-ui assets/swagger-ui-2.2.8/dist/... || true
+	mkdir -p $(CWD)/entry-lib/swagger-ui
+	pushd assets/swagger-ui-$(SWAGGER_UI_VERSION)/dist && \
+	go-bindata-assetfs -o $(CWD)/entry-lib/swagger-ui/swagger-ui.go -pkg swagger-ui ./... || true
 
-	@# Generaete the golang file which is the single swagger file as binary file
-	pushd entry-lib && go-bindata -o swagger-file.go -pkg swagger-file entry.swagger.json
+	@# Generate the golang file which is the single swagger file as binary file
+	mkdir -p $(CWD)/entry-lib/swagger-json
+	cp ./entry-lib/entry.swagger.json ./entry-lib/swagger-json/swagger.json
+	pushd entry-ui/swagger-json && go-bindata -o swagger-json.go -pkg swagger-json swagger.json
+	rm -f ./entry-lib/swagger-json/swagger.json
 
 test:
 	go test $(glide novendor)
