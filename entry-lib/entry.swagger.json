@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "entry/entry.proto",
+    "title": "entry-lib/entry.proto",
     "version": "version not set"
   },
   "schemes": [
@@ -22,7 +22,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/pax_entry_apiStringMessage"
+              "$ref": "#/definitions/entryStringMessage"
             }
           }
         },
@@ -32,7 +32,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/pax_entry_apiStringMessage"
+              "$ref": "#/definitions/entryStringMessage"
             }
           }
         ],
@@ -43,7 +43,7 @@
     }
   },
   "definitions": {
-    "pax_entry_apiStringMessage": {
+    "entryStringMessage": {
       "type": "object",
       "properties": {
         "value": {

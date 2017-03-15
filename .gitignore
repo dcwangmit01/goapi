@@ -25,3 +25,5 @@ _testmain.go
 
 # Custom
 vendor/
+bin/
+pkg/

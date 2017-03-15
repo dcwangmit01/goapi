@@ -1,5 +1,5 @@
 syntax = "proto3";
-package pax_entry_api;
+package entry;
 
 import "google/api/annotations.proto";
 
