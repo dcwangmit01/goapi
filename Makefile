@@ -3,12 +3,14 @@ SHELL := /bin/bash
 PATH := $(shell readlink -f ./bin/linux_amd64):$(shell readlink -f ./vendor/bin):$(PATH)
 BIN_DIR := $(shell readlink -f ./bin)
 PKG_DIR := $(shell readlink -f ./pkg)
+CACHE_DIR := .cache
 
 # "ldflags" make go compile statically-linked binaries
 GO_BUILD_FLAGS := -ldflags "-linkmode external -extldflags -static"
 
+SWAGGER_UI_VERSION := 2.2.8
 
-.PHONY: check deps vendor gen dist test clean mrclean
+.PHONY: check deps vendor gen dist test assets clean mrclean
 
 check:
 	@# This is a check to make sure you run this makefile from within the GOPATH
@@ -27,22 +29,27 @@ deps: check
 	  ln -s $$(readlink -f ../) $$GOPATH/src/github.com/dcwangmit01; \
 	fi
 
-	@# Install the package dependencies in ./vendor
-	glide install
-
 	@# install the arm cross compiler
 	if ! which arm-linux-gnueabihf-gcc-5; then \
 	  sudo apt-get -yq install gcc-5-arm-linux-gnueabihf; \
 	fi
 
 vendor: check deps
+	@# Work "directory not empty" bug on second glide up/install
+	rm -rf vendor
+
+	@# Install the package dependencies in ./vendor
+	glide install
+
 	@# Build tools on which this make system depends
 	mkdir -p vendor/bin
 	go build -o vendor/bin/protoc-gen-go vendor/github.com/golang/protobuf/protoc-gen-go/*.go
 	go build -o vendor/bin/protoc-gen-grpc-gateway vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway/*.go
 	go build -o vendor/bin/protoc-gen-swagger vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/*.go
+	go build -o vendor/bin/go-bindata vendor/github.com/jteeuwen/go-bindata/go-bindata/*.go
+	go build -o vendor/bin/go-bindata-assetfs vendor/github.com/elazarl/go-bindata-assetfs/go-bindata-assetfs/*.go
 
-gen:
+gen: check
 	@# Generate from the .proto file the GRPC definitons
 	protoc \
 	  -I . \
@@ -82,6 +89,26 @@ dist: check
 	    popd > /dev/null ; \
 	  done; \
 	done
+
+assets:
+	mkdir -p .cache
+	rm -rf assets
+	mkdir -p assets
+
+	if [ ! -f $(CACHE_DIR)/swagger-ui-$(SWAGGER_UI_VERSION).tar.gz ]; then \
+	  curl -fsSL https://github.com/swagger-api/swagger-ui/archive/v2.2.8.tar.gz > \
+	  $(CACHE_DIR)/swagger-ui-$(SWAGGER_UI_VERSION).tar.gz; \
+	fi
+	if [ ! -d $(CACHE_DIR)/swagger-ui-$(SWAGGER_UI_VERSION) ]; then \
+	  tar xzf $(CACHE_DIR)/swagger-ui-$(SWAGGER_UI_VERSION).tar.gz -C assets; \
+	fi
+
+	@# Generate the golang file which contains the swagger-ui as a binary file
+	@# Ignore the warning about "Cannot read bindata.go open bindata.go: no such file or directory"
+	go-bindata-assetfs -o entry-lib/swagger-ui.go -pkg swagger-ui assets/swagger-ui-2.2.8/dist/... || true
+
+	@# Generaete the golang file which is the single swagger file as binary file
+	pushd entry-lib && go-bindata -o swagger-file.go -pkg swagger-file entry.swagger.json
 
 test:
 	go test $(glide novendor)

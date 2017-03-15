@@ -22,3 +22,9 @@ import:
   - protoc-gen-grpc-gateway
   - protoc-gen-swagger
 - package: github.com/golang/glog
+- package: github.com/spf13/cobra
+  subpackages:
+  - cobra
+- package: github.com/jteeuwen/go-bindata
+  version: ^3.0.7
+- package: github.com/elazarl/go-bindata-assetfs

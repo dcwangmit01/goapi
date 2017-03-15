@@ -1,11 +1,16 @@
-hash: 755e9af88a0c0799749a7aaf9b5e3604c12b2b750ae6cd57fb7bad395f8b7cd8
-updated: 2017-03-11T00:10:56.561142979Z
+hash: f921bcd936303f10dcf3ceadf3c12f649a92c20d2bf9327dadf4d88b39cefc27
+updated: 2017-03-15T17:51:43.532509065Z
 imports:
+- name: github.com/elazarl/go-bindata-assetfs
+  version: 30f82fa23fd844bd5bb1e5f216db87fd77b5eb43
+- name: github.com/fsnotify/fsnotify
+  version: 7d7316ed6e1ed2de075aab8dfc76de5d158d66e1
 - name: github.com/golang/glog
   version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998
 - name: github.com/golang/protobuf
   version: c9c7427a2a70d2eb3bafa0ab2dc163e45f143317
   subpackages:
+  - jsonpb
   - proto
   - protoc-gen-go
   - protoc-gen-go/descriptor
@@ -14,10 +19,60 @@ imports:
   subpackages:
   - protoc-gen-grpc-gateway
   - protoc-gen-swagger
+  - runtime
+  - runtime/internal
+  - third_party/googleapis/google/api
+  - utilities
+- name: github.com/hashicorp/hcl
+  version: 630949a3c5fa3c613328e1b8256052cbc2327c9b
+  subpackages:
+  - hcl/ast
+  - hcl/parser
+  - hcl/scanner
+  - hcl/strconv
+  - hcl/token
+  - json/parser
+  - json/scanner
+  - json/token
+- name: github.com/inconshreveable/mousetrap
+  version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
+- name: github.com/jteeuwen/go-bindata
+  version: bbd0c6e271208dce66d8fda4bc536453cd27fc4a
+- name: github.com/magiconair/properties
+  version: b3b15ef068fd0b17ddf408a23669f20811d194d2
 - name: github.com/mitchellh/gox
   version: 54b619477e8932bbb6314644c867e7e6db7a9c71
 - name: github.com/mitchellh/iochan
   version: 87b45ffd0e9581375c491fef3d32130bb15c5bd7
+- name: github.com/mitchellh/mapstructure
+  version: 53818660ed4955e899c0bcafa97299a388bd7c8e
+- name: github.com/pelletier/go-buffruneio
+  version: c37440a7cf42ac63b919c752ca73a85067e05992
+- name: github.com/pelletier/go-toml
+  version: fee7787d3f811af92276f5ff10107092e95b7a1d
+- name: github.com/philips/go-bindata-assetfs
+  version: 3dcc96556217539f50599357fb481ac0dc7439b9
+- name: github.com/philips/grpc-gateway-example
+  version: 0412e3928cb7d47e68b91971a8e79f93d92361ee
+  subpackages:
+  - echopb
+  - pkg/ui/data/swagger
+- name: github.com/spf13/afero
+  version: 9be650865eab0c12963d8753212f4f9c66cdcf12
+  subpackages:
+  - mem
+- name: github.com/spf13/cast
+  version: ce135a4ebeee6cfe9a26c93ee0d37825f26113c7
+- name: github.com/spf13/cobra
+  version: 7be4beda01ec05d0b93d80b3facd2b6f44080d94
+  subpackages:
+  - cobra
+- name: github.com/spf13/jwalterweatherman
+  version: fa7ca7e836cf3a8bb4ebf799f472c12d7e903d66
+- name: github.com/spf13/pflag
+  version: 9ff6c6923cfffbcd502984b8e0c80539a94968b7
+- name: github.com/spf13/viper
+  version: 84f94806c67f59dd7ae87bc5351f7a9c94a4558d
 - name: golang.org/x/net
   version: a6577fac2d73be281a500b310739095313165611
   subpackages:
@@ -28,20 +83,28 @@ imports:
   - internal/timeseries
   - lex/httplex
   - trace
+- name: golang.org/x/sys
+  version: 99f16d856c9836c42d24e7ab64ea72916925fa97
+  subpackages:
+  - unix
+- name: golang.org/x/text
+  version: f28f36722d5ef2f9655ad3de1f248e3e52ad5ebd
+  subpackages:
+  - transform
+  - unicode/norm
 - name: google.golang.org/grpc
   version: 708a7f9f3283aa2d4f6132d287d78683babe55c8
   subpackages:
   - codes
   - credentials
-  - examples/helloworld/helloworld
   - grpclog
   - internal
   - metadata
   - naming
   - peer
-  - reflection
-  - reflection/grpc_reflection_v1alpha
   - stats
   - tap
   - transport
+- name: gopkg.in/yaml.v2
+  version: a3f3340b5840cee44f372bddb5880fcbc419b46a
 testImports: []
