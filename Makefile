@@ -18,7 +18,7 @@ check:
 	  echo "Please change to this current directory within GOPATH"; \
 	fi
 
-deps:
+deps: check
 	@# Link the parent of this current golang project directly into the GOPATH src
 	@#   Golang needs to find the sources of this project in the GOPATH.
 	@#   The parent directory is the org name 'dcwangmit01'
@@ -63,13 +63,12 @@ gen:
 	  entry-lib/entry.proto
 
 dist: check
-	@for GOOS in "linux"; do \
+	for GOOS in "linux"; do \
 	  for GOARCH in "amd64" "arm"; do \
 	    echo "Building $$GOOS-$$GOARCH"; \
 	    export GOOS=$$GOOS; \
 	    export GOARCH=$$GOARCH; \
 	    if [ $$GOARCH = "arm" ]; then \
-	      export CGO_ENABLED=0; \
 	      export GOARM=7; \
 	      export CC=arm-linux-gnueabihf-gcc-5; \
 	    fi; \
