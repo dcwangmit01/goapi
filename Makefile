@@ -17,7 +17,7 @@ check:
 	@# This is a check to make sure you run this makefile from within the GOPATH
 	@#  Go requires building to be be run within GOPATH
 	@if ! pwd | grep "$$GOPATH" > /dev/null; then \
-	  echo "Cannot build unless within GOPATH $GOPATH"; \
+	  echo "Cannot build unless within GOPATH $$GOPATH"; \
 	  echo "Please change to this current directory within GOPATH"; \
 	fi
 
@@ -56,19 +56,19 @@ gen: check
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --go_out=Mgoogle/api/annotations.proto=github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api,plugins=grpc:. \
-	  entry-lib/entry.proto
+	  entry/entry.proto
 	@# Generate from the .proto file the GRPC Gateway which proxies to JSON
 	protoc \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --grpc-gateway_out=logtostderr=true:. \
-	  entry-lib/entry.proto
+	  entry/entry.proto
 	@# Generate from the .proto file the swagger definition
 	protoc -I/usr/local/include -I. \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --swagger_out=logtostderr=true:. \
-	  entry-lib/entry.proto
+	  entry/entry.proto
 
 dist: check
 	for GOOS in "linux"; do \
@@ -80,16 +80,21 @@ dist: check
 	      export GOARM=7; \
 	      export CC=arm-linux-gnueabihf-gcc-5; \
 	    fi; \
-	    pushd ./entry-lib > /dev/null && \
+	    pushd ./entry > /dev/null && \
 	      go install -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}" && \
 	    popd > /dev/null ; \
-	    pushd ./entry-server > /dev/null && \
-	      go build $(GO_BUILD_FLAGS) \
-	        -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/entry-server" \
-	        -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}" && \
-	    popd > /dev/null ; \
+	    go build $(GO_BUILD_FLAGS) \
+	      -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/entry-server" \
+	      -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}"; \
 	  done; \
 	done
+
+dist_local:
+	export GOOS=linux; \
+	export GOARCH=amd64; \
+	go build $(GO_BUILD_FLAGS) \
+	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/entry-server" \
+	  -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}"
 
 assets:
 	mkdir -p .cache
@@ -106,15 +111,15 @@ assets:
 
 	@# Generate the golang file which contains the swagger-ui as a binary file
 	@# Ignore the warning about "Cannot read bindata.go open bindata.go: no such file or directory"
-	mkdir -p $(CWD)/entry-lib/swagger-ui
+	mkdir -p $(CWD)/entry/swagger-ui
 	pushd assets/swagger-ui-$(SWAGGER_UI_VERSION)/dist && \
-	go-bindata-assetfs -o $(CWD)/entry-lib/swagger-ui/swagger-ui.go -pkg swagger-ui ./... || true
+	go-bindata-assetfs -o $(CWD)/entry/swagger-ui/swagger-ui.go -pkg swagger-ui ./... || true
 
 	@# Generate the golang file which is the single swagger file as binary file
-	mkdir -p $(CWD)/entry-lib/swagger-json
-	cp ./entry-lib/entry.swagger.json ./entry-lib/swagger-json/swagger.json
+	mkdir -p $(CWD)/entry/swagger-json
+	cp ./entry/entry.swagger.json ./entry/swagger-json/swagger.json
 	pushd entry-ui/swagger-json && go-bindata -o swagger-json.go -pkg swagger-json swagger.json
-	rm -f ./entry-lib/swagger-json/swagger.json
+	rm -f ./entry/swagger-json/swagger.json
 
 test:
 	go test $(glide novendor)

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "entry-lib/entry.proto",
+    "title": "entry/entry.proto",
     "version": "version not set"
   },
   "schemes": [
