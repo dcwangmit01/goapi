@@ -1,4 +1,4 @@
-package swagger-ui
+package ui
 
 import (
 	"bytes"

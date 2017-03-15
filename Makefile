@@ -111,15 +111,15 @@ assets:
 
 	@# Generate the golang file which contains the swagger-ui as a binary file
 	@# Ignore the warning about "Cannot read bindata.go open bindata.go: no such file or directory"
-	mkdir -p $(CWD)/entry/swagger-ui
+	mkdir -p $(CWD)/entry/swagger/ui
 	pushd assets/swagger-ui-$(SWAGGER_UI_VERSION)/dist && \
-	go-bindata-assetfs -o $(CWD)/entry/swagger-ui/swagger-ui.go -pkg swagger-ui ./... || true
+	go-bindata-assetfs -o $(CWD)/entry/swagger/ui/ui.go -pkg ui ./... || true
 
 	@# Generate the golang file which is the single swagger file as binary file
-	mkdir -p $(CWD)/entry/swagger-json
-	cp ./entry/entry.swagger.json ./entry/swagger-json/swagger.json
-	pushd entry-ui/swagger-json && go-bindata -o swagger-json.go -pkg swagger-json swagger.json
-	rm -f ./entry/swagger-json/swagger.json
+	mkdir -p $(CWD)/entry/swagger/file
+	cp ./entry/entry.swagger.json ./entry/swagger/file/swagger.json
+	pushd entry/swagger/file && go-bindata -o file.go -pkg file swagger.json
+	rm -f ./entry/swagger/file/swagger.json
 
 test:
 	go test $(glide novendor)
