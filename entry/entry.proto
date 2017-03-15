@@ -3,12 +3,12 @@ package entry;
 
 import "google/api/annotations.proto";
 
-message StringMessage {
+message EchoMessage {
   string value = 1;
 }
 
 service PaxEntryApi {
-  rpc Echo(StringMessage) returns (StringMessage) {
+  rpc Echo(EchoMessage) returns (EchoMessage) {
     option (google.api.http) = {
       post: "/v1/example/echo"
       body: "*"
