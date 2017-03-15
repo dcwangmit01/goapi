@@ -7,7 +7,7 @@ message EchoMessage {
   string value = 1;
 }
 
-service PaxEntryApi {
+service Entry {
   rpc Echo(EchoMessage) returns (EchoMessage) {
     option (google.api.http) = {
       post: "/v1/example/echo"

@@ -27,7 +27,7 @@ var _ io.Reader
 var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
-func request_PaxEntryApi_Echo_0(ctx context.Context, marshaler runtime.Marshaler, client PaxEntryApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Entry_Echo_0(ctx context.Context, marshaler runtime.Marshaler, client EntryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq EchoMessage
 	var metadata runtime.ServerMetadata
 
@@ -40,9 +40,9 @@ func request_PaxEntryApi_Echo_0(ctx context.Context, marshaler runtime.Marshaler
 
 }
 
-// RegisterPaxEntryApiHandlerFromEndpoint is same as RegisterPaxEntryApiHandler but
+// RegisterEntryHandlerFromEndpoint is same as RegisterEntryHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterPaxEntryApiHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterEntryHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -62,15 +62,15 @@ func RegisterPaxEntryApiHandlerFromEndpoint(ctx context.Context, mux *runtime.Se
 		}()
 	}()
 
-	return RegisterPaxEntryApiHandler(ctx, mux, conn)
+	return RegisterEntryHandler(ctx, mux, conn)
 }
 
-// RegisterPaxEntryApiHandler registers the http handlers for service PaxEntryApi to "mux".
+// RegisterEntryHandler registers the http handlers for service Entry to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterPaxEntryApiHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	client := NewPaxEntryApiClient(conn)
+func RegisterEntryHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	client := NewEntryClient(conn)
 
-	mux.Handle("POST", pattern_PaxEntryApi_Echo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Entry_Echo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -87,14 +87,14 @@ func RegisterPaxEntryApiHandler(ctx context.Context, mux *runtime.ServeMux, conn
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_PaxEntryApi_Echo_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Entry_Echo_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_PaxEntryApi_Echo_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Entry_Echo_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -102,9 +102,9 @@ func RegisterPaxEntryApiHandler(ctx context.Context, mux *runtime.ServeMux, conn
 }
 
 var (
-	pattern_PaxEntryApi_Echo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "example", "echo"}, ""))
+	pattern_Entry_Echo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "example", "echo"}, ""))
 )
 
 var (
-	forward_PaxEntryApi_Echo_0 = runtime.ForwardResponseMessage
+	forward_Entry_Echo_0 = runtime.ForwardResponseMessage
 )

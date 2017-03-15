@@ -1,5 +1,7 @@
 SHELL := /bin/bash
 
+PACKAGE := github.com/dcwangmit01/pax-api
+
 PATH := $(shell readlink -f ./bin/linux_amd64):$(shell readlink -f ./vendor/bin):$(PATH)
 CWD := $(shell readlink -f ./)
 BIN_DIR := $(shell readlink -f ./bin)
@@ -84,7 +86,7 @@ dist: check
 	      go install -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}" && \
 	    popd > /dev/null ; \
 	    go build $(GO_BUILD_FLAGS) \
-	      -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/entry-server" \
+	      -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/pax-api" \
 	      -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}"; \
 	  done; \
 	done
@@ -93,7 +95,7 @@ dist_local:
 	export GOOS=linux; \
 	export GOARCH=amd64; \
 	go build $(GO_BUILD_FLAGS) \
-	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/entry-server" \
+	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/pax-api" \
 	  -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}"
 
 assets:
