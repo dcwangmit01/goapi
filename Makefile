@@ -1,25 +1,22 @@
-
 SHELL := /bin/bash
 
 PATH := $(shell readlink -f ./bin/linux_amd64):$(shell readlink -f ./vendor/bin):$(PATH)
 BIN_DIR := $(shell readlink -f ./bin)
 PKG_DIR := $(shell readlink -f ./pkg)
 
+# "ldflags" make go compile statically-linked binaries
 GO_BUILD_FLAGS := -ldflags "-linkmode external -extldflags -static"
 
-.PHONY: vendor deps test clean bin check
+
+.PHONY: check deps vendor gen dist test clean mrclean
 
 check:
+	@# This is a check to make sure you run this makefile from within the GOPATH
+	@#  Go requires building to be be run within GOPATH
 	@if ! pwd | grep "$$GOPATH" > /dev/null; then \
 	  echo "Cannot build unless within GOPATH $GOPATH"; \
 	  echo "Please change to this current directory within GOPATH"; \
 	fi
-
-vendor: check
-	mkdir -p vendor/bin
-	go build -o vendor/bin/protoc-gen-go vendor/github.com/golang/protobuf/protoc-gen-go/*.go
-	go build -o vendor/bin/protoc-gen-grpc-gateway vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway/*.go
-	go build -o vendor/bin/protoc-gen-swagger vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/*.go
 
 deps:
 	@# Link the parent of this current golang project directly into the GOPATH src
@@ -30,7 +27,7 @@ deps:
 	  ln -s $$(readlink -f ../) $$GOPATH/src/github.com/dcwangmit01; \
 	fi
 
-	@# install the package dependencies in ./vendor
+	@# Install the package dependencies in ./vendor
 	glide install
 
 	@# install the arm cross compiler
@@ -38,17 +35,27 @@ deps:
 	  sudo apt-get -yq install gcc-5-arm-linux-gnueabihf; \
 	fi
 
+vendor: check deps
+	@# Build tools on which this make system depends
+	mkdir -p vendor/bin
+	go build -o vendor/bin/protoc-gen-go vendor/github.com/golang/protobuf/protoc-gen-go/*.go
+	go build -o vendor/bin/protoc-gen-grpc-gateway vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway/*.go
+	go build -o vendor/bin/protoc-gen-swagger vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/*.go
+
 gen:
+	@# Generate from the .proto file the GRPC definitons
 	protoc \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --go_out=Mgoogle/api/annotations.proto=github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api,plugins=grpc:. \
 	  entry-lib/entry.proto
+	@# Generate from the .proto file the GRPC Gateway which proxies to JSON
 	protoc \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --grpc-gateway_out=logtostderr=true:. \
 	  entry-lib/entry.proto
+	@# Generate from the .proto file the swagger definition
 	protoc -I/usr/local/include -I. \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \

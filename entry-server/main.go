@@ -9,7 +9,6 @@ import (
  "github.com/grpc-ecosystem/grpc-gateway/runtime"
  "google.golang.org/grpc"
 
-// gw "path/to/your_service_package"
   gw "github.com/dcwangmit01/pax-api/entry-lib"
 )
 
