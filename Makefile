@@ -91,7 +91,7 @@ codegen: check
 	@# Download and extract the swagger-ui release
 	export SWAGGER_UI_TGZ=$(CACHE_DIR)/swagger-ui-$(SWAGGER_UI_VERSION).tar.gz; \
 	if [ ! -f $$SWAGGER_UI_TGZ ]; then \
-	  curl -fsSL https://github.com/swagger-api/swagger-ui/archive/v$$(SWAGGER_UI_VERSION).tar.gz > \
+	  curl -fsSL https://github.com/swagger-api/swagger-ui/archive/v$(SWAGGER_UI_VERSION).tar.gz > \
 	    $$SWAGGER_UI_TGZ; \
 	fi; \
 	if [ ! -d $(CACHE_DIR)/swagger-ui-$(SWAGGER_UI_VERSION) ]; then \
@@ -114,8 +114,7 @@ dist: check
 	export GOOS=linux; \
 	export GOARCH=amd64; \
 	go build $(GO_BUILD_FLAGS) \
-	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/pax-api" \
-	  -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}"
+	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/pax-api"
 
 dist_all: check
 	for GOOS in "linux"; do \
@@ -127,15 +126,10 @@ dist_all: check
 	      export GOARM=7; \
 	      export CC=arm-linux-gnueabihf-gcc-5; \
 	    fi; \
-	    pushd ./entry > /dev/null && \
-	      go install -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}" && \
-	    popd > /dev/null ; \
 	    go build $(GO_BUILD_FLAGS) \
-	      -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/pax-api" \
-	      -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}"; \
+	      -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/pax-api"; \
 	  done; \
 	done
-
 
 test:
 	go test $(glide novendor)
@@ -145,3 +139,10 @@ clean:
 
 mrclean: clean
 	rm -rf vendor
+
+
+notes:
+	@### Notes. The following can be used to build a lib file
+	@# pushd ./entry > /dev/null && \
+	@# go install -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}" && \
+	@# popd > /dev/null ; \
