@@ -8,3 +8,8 @@ cfssl:
   O: Paxarm
   OU: Paxarm
   validity: 876000h  # 100 years
+
+openvpn:
+  remote: s.paxarm.com
+  port: 1194
+  dev: tun
