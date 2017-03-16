@@ -13,3 +13,5 @@ openvpn:
   remote: s.paxarm.com
   port: 1194
   dev: tun
+  proto: tcp
+

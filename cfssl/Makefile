@@ -26,28 +26,21 @@ certs:
 	  cfssl genkey -config=ca-cnf.json -profile=ca -initca ca-csr.json | cfssljson -bare ./ca/ca; \
 	fi
 
-	@# Generate Diffie-Hellman Params
-	if [ ! -f ./ca/dh4096.pem ]; then \
-	  openssl dhparam -out ./ca/dh4096.pem 4096; \
-	fi
-
-	@# Generate client certificates signed by root CA
+	@# Generate single server and many client certificates signed by root CA
 	mkdir -p clients
-	for i in $$(seq -f "%02g" 01 $(NUM_CLIENTS)); do \
-	  export CLIENT_NAME=client$$i; \
-	  if [ ! -f ./clients/$$CLIENT_NAME.pem ]; then \
+	for i in server $$(seq -f "%02g" 01 $(NUM_CLIENTS) | awk '{print "client" $$0}'); do \
+	  if [ ! -f ./clients/$$i.pem ]; then \
 	    cat ca-csr.json | \
-	      jq ".CN=\"$$CLIENT_NAME\"" | jq ".hosts=[\"$$CLIENT_NAME\"]" | \
+	      jq ".CN=\"$$i\"" | jq ".hosts=[\"$$i\"]" | \
 	      cfssl gencert -config=ca-cnf.json -profile=client \
 	        -ca=./ca/ca.pem -ca-key=./ca/ca-key.pem - \
-	        | cfssljson -bare ./clients/$$CLIENT_NAME; \
+	        | cfssljson -bare ./clients/$$i; \
 	  fi; \
 	done
 
 	@# Generate OpenVPN configs per client
-	for i in $$(seq -f "%02g" 01 $(NUM_CLIENTS)); do \
-	  export CLIENT_NAME=client$$i; \
-	  export C=clients/$$CLIENT_NAME; \
+	for i in $$(seq -f "%02g" 01 $(NUM_CLIENTS) | awk '{print "client" $$0}'); do \
+	  export C=clients/$$i; \
 	  cp client.ovpn $$C.ovpn; \
 	  echo "" >> $$C.ovpn; \
 	  echo "<ca>" >> $$C.ovpn; \
@@ -64,8 +57,16 @@ certs:
 	  echo "" >> $$C.ovpn; \
 	  echo "<dh>" >> $$C.ovpn; \
 	  cat ./ca/dh4096.pem >> $$C.ovpn; \
-	  echo "<dh>" >> $$C.ovpn; \
+	  echo "</dh>" >> $$C.ovpn; \
 	done
+
+	@# Generate Diffie-Hellman Params
+	if [ ! -f ./ca/dh4096.pem ]; then \
+	  openssl dhparam -out ./ca/dh4096.pem 4096; \
+	fi
+
+mrclean:
+	rm -rf ./ca ./clients *.json *.ovpn
 
 
 certcheck:
