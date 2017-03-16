@@ -1,0 +1,10 @@
+# this is a custom configuration not affiliated with CFSSL
+
+cfssl:
+  domain: paxarm.com
+  C: US
+  ST: California  
+  L: San Francisco
+  O: Paxarm
+  OU: Paxarm
+  validity: 876000h  # 100 years

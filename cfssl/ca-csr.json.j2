@@ -1,0 +1,19 @@
+{
+    "CN": "ca.{{ cfssl.domain }}",
+    "hosts": [
+        "ca.{{ cfssl.domain }}"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 4096
+    },
+    "names": [
+        {
+            "C": "{{ cfssl.C }}",
+            "L": "{{ cfssl.L }}",
+            "O": "{{ cfssl.O }}",
+            "OU": "{{ cfssl.OU }}",
+            "ST": "{{ cfssl.ST }}"
+        }
+    ]
+}
