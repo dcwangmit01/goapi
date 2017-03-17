@@ -20,7 +20,7 @@ import (
 
 	"github.com/elazarl/go-bindata-assetfs"
 
-	pb "github.com/dcwangmit01/grpc-gw-poc/entry"
+	pb "github.com/dcwangmit01/grpc-gw-poc/app"
 	sw "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/ui"
 	swf "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/files"
 	certs "github.com/dcwangmit01/grpc-gw-poc/resources/certs"
@@ -120,7 +120,7 @@ func serve() {
 		grpc.Creds(credentials.NewClientTLSFromCert(certPool, serverAddress))}
 
 	grpcServer := grpc.NewServer(opts...)
-	pb.RegisterEntryServer(grpcServer, newServer())
+	pb.RegisterAppServer(grpcServer, newServer())
 	ctx := context.Background()
 
 	// client credentials
@@ -140,7 +140,7 @@ func serve() {
 	})
 
 	gwmux := runtime.NewServeMux()
-	err := pb.RegisterEntryHandlerFromEndpoint(ctx, gwmux, serverAddress, copts)
+	err := pb.RegisterAppHandlerFromEndpoint(ctx, gwmux, serverAddress, copts)
 	if err != nil {
 		fmt.Printf("serve: %v\n", err)
 		return

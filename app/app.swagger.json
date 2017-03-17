@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "entry/entry.proto",
+    "title": "app/app.proto",
     "version": "version not set"
   },
   "schemes": [
@@ -37,7 +37,7 @@
           }
         ],
         "tags": [
-          "Entry"
+          "App"
         ]
       }
     }

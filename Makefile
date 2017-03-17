@@ -1,7 +1,8 @@
 SHELL := /bin/bash
 PACKAGE := github.com/dcwangmit01/grpc-gw-poc
 
-BIN_NAME := $(basename $(PACKAGE))
+# Name of this app (the last segment of the package path
+BIN_NAME := $(shell basename $(PACKAGE))
 
 # Modify the current path to use locally built tools
 PATH := $(shell readlink -f ./bin/linux_amd64):$(shell readlink -f ./vendor/bin):$(PATH)
@@ -76,21 +77,21 @@ code_gen: check
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --go_out=Mgoogle/api/annotations.proto=github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api,plugins=grpc:. \
-	  entry/entry.proto
+	  app/app.proto
 
 	@# Generate the GRPC Gateway which proxies to JSON from the .proto file
 	protoc \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --grpc-gateway_out=logtostderr=true:. \
-	  entry/entry.proto
+	  app/app.proto
 
 	@# Generate the swagger definition from the .proto file
 	protoc -I/usr/local/include -I. \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --swagger_out=logtostderr=true:. \
-	  entry/entry.proto
+	  app/app.proto
 
 resource_gen: check
 	@# Download and extract the swagger-ui release
@@ -112,7 +113,7 @@ resource_gen: check
 	@# Generate the swagger.json file as a golang file
 	mkdir -p $(RESOURCE_DIR)/swagger/files
 	mkdir -p $(BUILD_DIR)/swagger/files
-	cp -f $(CWD)/entry/entry.swagger.json $(BUILD_DIR)/swagger/files/swagger.json
+	cp -f $(CWD)/app/app.swagger.json $(BUILD_DIR)/swagger/files/swagger.json
 	cd $(BUILD_DIR)/swagger/files && \
 	  go-bindata-assetfs -o $(RESOURCE_DIR)/swagger/files/files.go -pkg files 2>/dev/null ./... || true
 
@@ -120,7 +121,7 @@ cert_gen:
 	@# Call the Makefile in the subdir
 	make -C cfssl
 
-	@# Generate the certs/entry/ directory as a golang file
+	@# Generate the certs directory as a golang file
 	@# Ignore the warning about "Cannot read bindata.go open bindata.go: no such file or directory"
 	mkdir -p $(RESOURCE_DIR)/certs
 	cd $(CERTS_DIR) && \
@@ -132,7 +133,7 @@ dist: check
 	go build $(GO_BUILD_FLAGS) \
 	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/$(BIN_NAME)"
 
-dist_all: hostdeps check vendor code_gen resource_gen cert_gen dist_all
+dist_all: hostdeps check vendor code_gen resource_gen cert_gen
 	for GOOS in "linux"; do \
 	  for GOARCH in "amd64" "arm"; do \
 	    echo "Building $$GOOS-$$GOARCH"; \
@@ -159,5 +160,5 @@ mrclean: clean
 
 notes:
 	@### Notes. The following can be used to build a lib file
-	@# cd ./entry && \
+	@# cd ./app && \
 	@#   go install -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}"
