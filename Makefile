@@ -11,8 +11,10 @@ BIN_DIR := $(shell readlink -f ./bin)
 PKG_DIR := $(shell readlink -f ./pkg)
 BUILD_DIR := $(shell readlink -f ./.build)
 CACHE_DIR := $(shell readlink -f ./.cache)
+CERTS_DIR := $(shell readlink -f ./cfssl/certs)
+RESOURCE_DIR := $(shell readlink -f ./resources)
 # Ensure the dirs above exist on a clean checkout
-$(shell mkdir -p $(BIN_DIR) $(PKG_DIR) $(BUILD_DIR) $(CACHE_DIR))
+$(shell mkdir -p $(BIN_DIR) $(PKG_DIR) $(BUILD_DIR) $(CACHE_DIR) $(CERTS_DIR) $(RESOURCE_DIR))
 
 # Ensure go compiles statically-linked binaries with "ldflags"
 GO_BUILD_FLAGS := -ldflags "-linkmode external -extldflags -static"
@@ -21,9 +23,9 @@ GO_BUILD_FLAGS := -ldflags "-linkmode external -extldflags -static"
 SWAGGER_UI_VERSION := 2.2.8
 
 
-.PHONY: hostdeps check deps vendor gen dist test clean mrclean
+.PHONY: hostdeps check vendor code_gen resource_gen cert_gen dist_all
 
-all: hostdeps check vendor codegen dist_all
+all: dist
 
 hostdeps:
 	@# install the arm cross compiler
@@ -66,7 +68,7 @@ vendor: check
 	go build -o vendor/bin/go-bindata vendor/github.com/jteeuwen/go-bindata/go-bindata/*.go
 	go build -o vendor/bin/go-bindata-assetfs vendor/github.com/elazarl/go-bindata-assetfs/go-bindata-assetfs/*.go
 
-codegen: check
+code_gen: check
 	@# Generate the GRPC definitons from the .proto file
 	protoc \
 	  -I . \
@@ -88,6 +90,7 @@ codegen: check
 	  --swagger_out=logtostderr=true:. \
 	  entry/entry.proto
 
+resource_gen: check
 	@# Download and extract the swagger-ui release
 	export SWAGGER_UI_TGZ=$(CACHE_DIR)/swagger-ui-$(SWAGGER_UI_VERSION).tar.gz; \
 	if [ ! -f $$SWAGGER_UI_TGZ ]; then \
@@ -100,15 +103,26 @@ codegen: check
 
 	@# Generate the swagger-ui directory as a golang file
 	@# Ignore the warning about "Cannot read bindata.go open bindata.go: no such file or directory"
-	mkdir -p $(CWD)/entry/swagger/ui
-	pushd $(BUILD_DIR)/swagger-ui-$(SWAGGER_UI_VERSION)/dist && \
-	  go-bindata-assetfs -o $(CWD)/entry/swagger/ui/ui.go -pkg ui ./... || true
+	mkdir -p $(RESOURCE_DIR)/swagger/ui
+	cd $(BUILD_DIR)/swagger-ui-$(SWAGGER_UI_VERSION)/dist && \
+	  go-bindata-assetfs -o $(RESOURCE_DIR)/swagger/ui/ui.go -pkg ui 2>/dev/null ./... || true
 
 	@# Generate the swagger.json file as a golang file
-	mkdir -p $(CWD)/entry/swagger/file
-	cp -f ./entry/entry.swagger.json ./entry/swagger/file/swagger.json
-	pushd entry/swagger/file && go-bindata -o file.go -pkg file swagger.json
-	rm -f ./entry/swagger/file/swagger.json
+	mkdir -p $(RESOURCE_DIR)/swagger/files
+	mkdir -p $(BUILD_DIR)/swagger/files
+	cp -f $(CWD)/entry/entry.swagger.json $(BUILD_DIR)/swagger/files/swagger.json
+	cd $(BUILD_DIR)/swagger/files && \
+	  go-bindata-assetfs -o $(RESOURCE_DIR)/swagger/files/files.go -pkg files 2>/dev/null ./... || true
+
+cert_gen:
+	@# Call the Makefile in the subdir
+	make -C cfssl
+
+	@# Generate the certs/entry/ directory as a golang file
+	@# Ignore the warning about "Cannot read bindata.go open bindata.go: no such file or directory"
+	mkdir -p $(RESOURCE_DIR)/certs
+	cd $(CERTS_DIR) && \
+	  go-bindata-assetfs -o $(RESOURCE_DIR)/certs/certs.go -pkg certs ./... 2>/dev/null || true
 
 dist: check
 	export GOOS=linux; \
@@ -116,7 +130,7 @@ dist: check
 	go build $(GO_BUILD_FLAGS) \
 	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/pax-api"
 
-dist_all: check
+dist_all: hostdeps check vendor code_gen resource_gen cert_gen dist_all
 	for GOOS in "linux"; do \
 	  for GOARCH in "amd64" "arm"; do \
 	    echo "Building $$GOOS-$$GOARCH"; \
@@ -135,7 +149,7 @@ test:
 	go test $(glide novendor)
 
 clean:
-	rm -rf bin pkg
+	rm -rf bin pkg .build
 
 mrclean: clean
 	rm -rf vendor
@@ -143,6 +157,5 @@ mrclean: clean
 
 notes:
 	@### Notes. The following can be used to build a lib file
-	@# pushd ./entry > /dev/null && \
-	@# go install -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}" && \
-	@# popd > /dev/null ; \
+	@# cd ./entry && \
+	@#   go install -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}"

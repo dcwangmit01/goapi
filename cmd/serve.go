@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"crypto/tls"
 	"fmt"
 	"io"
 	"log"
@@ -11,6 +10,8 @@ import (
 	"strings"
 	"bytes"
 
+	"crypto/tls"
+	"crypto/x509"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 	"golang.org/x/net/context"
@@ -20,8 +21,17 @@ import (
 	"github.com/elazarl/go-bindata-assetfs"
 
 	pb "github.com/dcwangmit01/pax-api/entry"
-	swagger "github.com/dcwangmit01/pax-api/entry/swagger/ui"
-	swagger_file "github.com/dcwangmit01/pax-api/entry/swagger/file"
+	sw "github.com/dcwangmit01/pax-api/resources/swagger/ui"
+	swf "github.com/dcwangmit01/pax-api/resources/swagger/files"
+	certs "github.com/dcwangmit01/pax-api/resources/certs"
+)
+
+var (
+	keyPair *tls.Certificate
+	certPool *x509.CertPool
+	serverAddress string
+	host = "localhost"
+	port = 10080
 )
 
 // serveCmd represents the serve command
@@ -67,29 +77,62 @@ func serveSwagger(mux *http.ServeMux) {
 
 	// Expose files in third_party/swagger-ui/ on <host>/swagger-ui
 	fileServer := http.FileServer(&assetfs.AssetFS{
-		Asset:    swagger.Asset,
-		AssetDir: swagger.AssetDir,
-		//Prefix:   "",
+		Asset:    sw.Asset,
+		AssetDir: sw.AssetDir,
 	})
 	prefix := "/swagger-ui/"
 	mux.Handle(prefix, http.StripPrefix(prefix, fileServer))
 }
 
+
+func init() {
+
+	var err error
+
+	key, err := certs.Asset("insecure-key.pem")
+	if err != nil {
+		panic(err)
+	}
+
+	pem, err := certs.Asset("insecure.pem")
+	if err != nil {
+		panic(err)
+	}
+
+	pair, err := tls.X509KeyPair(pem, key)
+	if err != nil {
+		panic(err)
+	}
+	keyPair = &pair
+
+        certPool = x509.NewCertPool()
+	ok := certPool.AppendCertsFromPEM(pem)
+	if !ok {
+		panic("bad certs")
+	}
+
+	serverAddress = fmt.Sprintf("%s:%d", host, port)
+}
+
 func serve() {
+
 	opts := []grpc.ServerOption{
-		grpc.Creds(credentials.NewClientTLSFromCert(demoCertPool, "localhost:10000"))}
+		grpc.Creds(credentials.NewClientTLSFromCert(certPool, serverAddress))}
 
 	grpcServer := grpc.NewServer(opts...)
 	pb.RegisterEntryServer(grpcServer, newServer())
 	ctx := context.Background()
 
-	dcreds := credentials.NewTLS(&tls.Config{
-		ServerName: demoAddr,
-		RootCAs:    demoCertPool,
+	// client credentials
+	ccreds := credentials.NewTLS(&tls.Config{
+		ServerName: serverAddress,
+		RootCAs:    certPool,
 	})
-	dopts := []grpc.DialOption{grpc.WithTransportCredentials(dcreds)}
 
-	data, _ := swagger_file.Asset("swagger.json")
+	// client options
+	copts := []grpc.DialOption{grpc.WithTransportCredentials(ccreds)}
+
+	data, _ := swf.Asset("swagger.json")
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/swagger.json", func(w http.ResponseWriter, req *http.Request) {
@@ -97,7 +140,7 @@ func serve() {
 	})
 
 	gwmux := runtime.NewServeMux()
-	err := pb.RegisterEntryHandlerFromEndpoint(ctx, gwmux, demoAddr, dopts)
+	err := pb.RegisterEntryHandlerFromEndpoint(ctx, gwmux, serverAddress, copts)
 	if err != nil {
 		fmt.Printf("serve: %v\n", err)
 		return
@@ -112,10 +155,10 @@ func serve() {
 	}
 
 	srv := &http.Server{
-		Addr:    demoAddr,
+		Addr:    serverAddress,
 		Handler: grpcHandlerFunc(grpcServer, mux),
 		TLSConfig: &tls.Config{
-			Certificates: []tls.Certificate{*demoKeyPair},
+			Certificates: []tls.Certificate{*keyPair},
 			NextProtos:   []string{"h2"},
 		},
 	}

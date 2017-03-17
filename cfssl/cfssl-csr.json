@@ -1,7 +1,7 @@
 {
-    "CN": "insecure.ssl.certificate.com",
+    "CN": "localhost:10080",
     "hosts": [
-        "insecure.ssl.certificate.com"
+        "localhost:10080"
     ],
     "key": {
         "algo": "rsa",
