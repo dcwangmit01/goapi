@@ -20,10 +20,10 @@ import (
 
 	"github.com/elazarl/go-bindata-assetfs"
 
-	pb "github.com/dcwangmit01/pax-api/entry"
-	sw "github.com/dcwangmit01/pax-api/resources/swagger/ui"
-	swf "github.com/dcwangmit01/pax-api/resources/swagger/files"
-	certs "github.com/dcwangmit01/pax-api/resources/certs"
+	pb "github.com/dcwangmit01/grpc-gw-poc/entry"
+	sw "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/ui"
+	swf "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/files"
+	certs "github.com/dcwangmit01/grpc-gw-poc/resources/certs"
 )
 
 var (

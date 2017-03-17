@@ -1,4 +1,4 @@
-package: github.com/dcwangmit01/pax-entry-api
+package: github.com/dcwangmit01/grpc-gw-poc
 owners:
 - name: David Wang
   email: dcwangmit01@gmail.com

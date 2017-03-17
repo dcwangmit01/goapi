@@ -12,16 +12,16 @@ var cfgFile string
 
 // This represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "pax-api",
+	Use:   "grpc-gw-poc",
 	Short: "All-in-one command for running GRPC server, gw, and client",
 	Long: `
 Run the combined GRPC server and gateway
 
-    pax-api serve
+    grpc-gw-poc serve
 
 Run the GRPC client
 
-    pax-api echo
+    grpc-gw-poc client <strings to be echo'd ...>
 `,
 }
 
@@ -40,7 +40,7 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports Persistent Flags, which, if defined here,
 	// will be global for your application.
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.pax-api.yaml)")
+	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.grpc-gw-poc.yaml)")
 
 	// Cobra also supports local flags, which will only run when
 	// this action is called directly.  Any flags ending with "P"
@@ -54,7 +54,7 @@ func initConfig() {
 		viper.SetConfigFile(cfgFile)
 	}
 
-	viper.SetConfigName(".pax-api") // name of config file (without extension)
+	viper.SetConfigName(".grpc-gw-poc") // name of config file (without extension)
 	viper.AddConfigPath("$HOME")    // adding home directory as first search path
 	viper.AutomaticEnv()            // read in environment variables that match
 

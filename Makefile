@@ -1,5 +1,7 @@
 SHELL := /bin/bash
-PACKAGE := github.com/dcwangmit01/pax-api
+PACKAGE := github.com/dcwangmit01/grpc-gw-poc
+
+BIN_NAME := $(basename $(PACKAGE))
 
 # Modify the current path to use locally built tools
 PATH := $(shell readlink -f ./bin/linux_amd64):$(shell readlink -f ./vendor/bin):$(PATH)
@@ -128,7 +130,7 @@ dist: check
 	export GOOS=linux; \
 	export GOARCH=amd64; \
 	go build $(GO_BUILD_FLAGS) \
-	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/pax-api"
+	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/$(BIN_NAME)"
 
 dist_all: hostdeps check vendor code_gen resource_gen cert_gen dist_all
 	for GOOS in "linux"; do \
@@ -141,7 +143,7 @@ dist_all: hostdeps check vendor code_gen resource_gen cert_gen dist_all
 	      export CC=arm-linux-gnueabihf-gcc-5; \
 	    fi; \
 	    go build $(GO_BUILD_FLAGS) \
-	      -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/pax-api"; \
+	      -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/$(BIN_NAME)"; \
 	  done; \
 	done
 
