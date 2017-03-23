@@ -22,7 +22,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/entryEchoMessage"
+              "$ref": "#/definitions/appEchoMessage"
             }
           }
         },
@@ -32,7 +32,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/entryEchoMessage"
+              "$ref": "#/definitions/appEchoMessage"
             }
           }
         ],
@@ -43,7 +43,7 @@
     }
   },
   "definitions": {
-    "entryEchoMessage": {
+    "appEchoMessage": {
       "type": "object",
       "properties": {
         "value": {

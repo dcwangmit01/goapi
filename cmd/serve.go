@@ -9,9 +9,8 @@ import (
 	"net/http"
 	"strings"
 	"bytes"
-
 	"crypto/tls"
-	"crypto/x509"
+
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 	"golang.org/x/net/context"
@@ -23,15 +22,6 @@ import (
 	pb "github.com/dcwangmit01/grpc-gw-poc/app"
 	sw "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/ui"
 	swf "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/files"
-	certs "github.com/dcwangmit01/grpc-gw-poc/resources/certs"
-)
-
-var (
-	keyPair *tls.Certificate
-	certPool *x509.CertPool
-	serverAddress string
-	host = "localhost"
-	port = 10080
 )
 
 // serveCmd represents the serve command
@@ -84,35 +74,6 @@ func serveSwagger(mux *http.ServeMux) {
 	mux.Handle(prefix, http.StripPrefix(prefix, fileServer))
 }
 
-
-func init() {
-
-	var err error
-
-	key, err := certs.Asset("insecure-key.pem")
-	if err != nil {
-		panic(err)
-	}
-
-	pem, err := certs.Asset("insecure.pem")
-	if err != nil {
-		panic(err)
-	}
-
-	pair, err := tls.X509KeyPair(pem, key)
-	if err != nil {
-		panic(err)
-	}
-	keyPair = &pair
-
-        certPool = x509.NewCertPool()
-	ok := certPool.AppendCertsFromPEM(pem)
-	if !ok {
-		panic("bad certs")
-	}
-
-	serverAddress = fmt.Sprintf("%s:%d", host, port)
-}
 
 func serve() {
 

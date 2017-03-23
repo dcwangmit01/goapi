@@ -14,7 +14,7 @@ $(shell mkdir -p $(BIN_DIR) $(PKG_DIR) $(BUILD_DIR) $(CACHE_DIR) $(CERTS_DIR) $(
 SWAGGER_UI_VERSION := 2.2.8
 
 .PHONY: all
-all: deps check vendor code_gen resource_gen cert_gen compile_all  ## run all targets
+all: deps check vendor code_gen resource_gen cert_gen compile  ## run all targets
 
 .PHONY: deps
 deps: _deps  ## install host dependencies
@@ -117,7 +117,7 @@ $(RESOURCE_DIR)/certs/certs.go: cfssl/certs/insecure-key.pem
 	  go-bindata-assetfs -o $(RESOURCE_DIR)/certs/certs.go -pkg certs ./... 2>/dev/null || true
 
 .PHONY: compile
-compile: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) $(BIN_DIR)/linux_arm/$(BIN_NAME)
+compile: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) $(BIN_DIR)/linux_arm/$(BIN_NAME)  ## build the binaries
 
 $(BIN_DIR)/linux_amd64/$(BIN_NAME): check $(GOSOURCES)
 	export GOOS=linux; \

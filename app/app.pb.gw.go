@@ -3,11 +3,11 @@
 // DO NOT EDIT!
 
 /*
-Package entry is a reverse proxy.
+Package app is a reverse proxy.
 
 It translates gRPC into RESTful JSON APIs.
 */
-package entry
+package app
 
 import (
 	"io"
