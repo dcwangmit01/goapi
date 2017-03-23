@@ -28,3 +28,5 @@ import:
 - package: github.com/jteeuwen/go-bindata
   version: ^3.0.7
 - package: github.com/elazarl/go-bindata-assetfs
+- package: github.com/cloudflare/cfssl
+  version: ^1.2.0

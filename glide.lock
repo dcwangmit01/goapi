@@ -1,6 +1,8 @@
-hash: f921bcd936303f10dcf3ceadf3c12f649a92c20d2bf9327dadf4d88b39cefc27
-updated: 2017-03-15T17:51:43.532509065Z
+hash: 542ecc64f3e8b499dba0e2dce758f674aa623b2d437c8d028b52f15a21c8692d
+updated: 2017-03-23T00:09:23.002657923Z
 imports:
+- name: github.com/cloudflare/cfssl
+  version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
 - name: github.com/elazarl/go-bindata-assetfs
   version: 30f82fa23fd844bd5bb1e5f216db87fd77b5eb43
 - name: github.com/fsnotify/fsnotify
@@ -50,13 +52,6 @@ imports:
   version: c37440a7cf42ac63b919c752ca73a85067e05992
 - name: github.com/pelletier/go-toml
   version: fee7787d3f811af92276f5ff10107092e95b7a1d
-- name: github.com/philips/go-bindata-assetfs
-  version: 3dcc96556217539f50599357fb481ac0dc7439b9
-- name: github.com/philips/grpc-gateway-example
-  version: 0412e3928cb7d47e68b91971a8e79f93d92361ee
-  subpackages:
-  - echopb
-  - pkg/ui/data/swagger
 - name: github.com/spf13/afero
   version: 9be650865eab0c12963d8753212f4f9c66cdcf12
   subpackages:
@@ -93,12 +88,13 @@ imports:
   - transform
   - unicode/norm
 - name: google.golang.org/grpc
-  version: 708a7f9f3283aa2d4f6132d287d78683babe55c8
+  version: cdee119ee21e61eef7093a41ba148fa83585e143
   subpackages:
   - codes
   - credentials
   - grpclog
   - internal
+  - keepalive
   - metadata
   - naming
   - peer
