@@ -13,7 +13,9 @@ hostdeps:
 	@# On a linux host, install the following
 	go get -u github.com/cloudflare/cfssl/cmd/...
 
-certs:
+certs: cfssl/certs/insecure-key.pem cfssl/certs/insecure.pem
+
+cfssl/certs/insecure-key.pem cfssl/certs/insecure.pem:
 	cfssl selfsign localhost cfssl-csr.json | cfssljson -bare $(CERTS_DIR)/insecure
 
 mrclean:
