@@ -22,9 +22,13 @@ deps: _deps  ## install host dependencies
 	@if ! which arm-linux-gnueabihf-gcc-5 > /dev/null; then \
 	  sudo apt-get -yq install gcc-5-arm-linux-gnueabihf; \
 	fi
+	@# install sqlite3 cli client
+	@if ! which sqlite3 > /dev/null; then \
+	  sudo apt-get -yq install sqlite3; \
+	fi
 
 .PHONY: check
-check: _check deps
+check: _check deps  ## checks
 
 #.PHONY: THIS IS A REAL TARGET
 vendor: glide.lock  ## install/build all 3rd party vendor libs and bins

@@ -1,6 +1,8 @@
-hash: 542ecc64f3e8b499dba0e2dce758f674aa623b2d437c8d028b52f15a21c8692d
-updated: 2017-03-23T00:09:23.002657923Z
+hash: 1198d30c69004761401060736d3dd012e7b17a9dc525a4100229f9c1e612af39
+updated: 2017-03-28T18:03:05.211206006Z
 imports:
+- name: github.com/andybalholm/cascadia
+  version: 349dd0209470eabd9514242c688c403c0926d266
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
 - name: github.com/elazarl/go-bindata-assetfs
@@ -40,6 +42,8 @@ imports:
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/jteeuwen/go-bindata
   version: bbd0c6e271208dce66d8fda4bc536453cd27fc4a
+- name: github.com/laurent22/go-sqlkv
+  version: db1022af2c66c36268b346d203ceaa78579673d2
 - name: github.com/magiconair/properties
   version: b3b15ef068fd0b17ddf408a23669f20811d194d2
 - name: github.com/mitchellh/gox
@@ -52,6 +56,8 @@ imports:
   version: c37440a7cf42ac63b919c752ca73a85067e05992
 - name: github.com/pelletier/go-toml
   version: fee7787d3f811af92276f5ff10107092e95b7a1d
+- name: github.com/PuerkitoBio/goquery
+  version: ed7d758e9a34ba1f55e8084e0d731448b46921a8
 - name: github.com/spf13/afero
   version: 9be650865eab0c12963d8753212f4f9c66cdcf12
   subpackages:
@@ -72,6 +78,8 @@ imports:
   version: a6577fac2d73be281a500b310739095313165611
   subpackages:
   - context
+  - html
+  - html/atom
   - http2
   - http2/hpack
   - idna
@@ -103,4 +111,8 @@ imports:
   - transport
 - name: gopkg.in/yaml.v2
   version: a3f3340b5840cee44f372bddb5880fcbc419b46a
-testImports: []
+testImports:
+- name: github.com/mattn/go-sqlite3
+  version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
+  subpackages:
+  - sqlite3_test
