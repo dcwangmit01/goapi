@@ -40,8 +40,25 @@ func init() {
 type myService struct{}
 
 func (m *myService) Echo(c context.Context, s *pb.EchoMessage) (*pb.EchoMessage, error) {
-	fmt.Printf("rpc request Echo(%q)\n", s.Value)
+	fmt.Printf("rpc served Echo(%q)\n", s)
 	return s, nil
+}
+
+func (m *myService) KeyValCreate(c context.Context, s *pb.KeyValMessage) (*pb.EmptyMessage, error) {
+	fmt.Printf("rpc served KeyValCreate(%q)", s)
+	return &pb.EmptyMessage{}, nil
+}
+
+func (m *myService) KeyValRead(c context.Context, s *pb.KeyValMessage) (*pb.KeyValMessage, error) {
+	return s, nil
+}
+
+func (m *myService) KeyValUpdate(c context.Context, s *pb.KeyValMessage) (*pb.EmptyMessage, error) {
+	return &pb.EmptyMessage{}, nil
+}
+
+func (m *myService) KeyValDelete(c context.Context, s *pb.KeyValMessage) (*pb.EmptyMessage, error) {
+	return &pb.EmptyMessage{}, nil
 }
 
 func newServer() *myService {

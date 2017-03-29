@@ -15,7 +15,7 @@
     "application/json"
   ],
   "paths": {
-    "/v1/example/echo": {
+    "/v1/echo": {
       "post": {
         "operationId": "Echo",
         "responses": {
@@ -40,12 +40,138 @@
           "App"
         ]
       }
+    },
+    "/v1/keyval/{key}": {
+      "get": {
+        "operationId": "KeyValRead",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/appKeyValMessage"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "App"
+        ]
+      },
+      "delete": {
+        "operationId": "KeyValDelete",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/appEmptyMessage"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "App"
+        ]
+      },
+      "post": {
+        "operationId": "KeyValUpdate",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/appEmptyMessage"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/appKeyValMessage"
+            }
+          }
+        ],
+        "tags": [
+          "App"
+        ]
+      },
+      "put": {
+        "operationId": "KeyValCreate",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/appEmptyMessage"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/appKeyValMessage"
+            }
+          }
+        ],
+        "tags": [
+          "App"
+        ]
+      }
     }
   },
   "definitions": {
     "appEchoMessage": {
       "type": "object",
       "properties": {
+        "value": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "appEmptyMessage": {
+      "type": "object"
+    },
+    "appKeyValMessage": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "format": "string"
+        },
         "value": {
           "type": "string",
           "format": "string"

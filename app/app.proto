@@ -3,15 +3,50 @@ package app;
 
 import "google/api/annotations.proto";
 
+// Syntax defined in
+//   https://github.com/googleapis/googleapis/blob/master/google/api/http.proto
+
 message EchoMessage {
   string value = 1;
 }
 
+message KeyValMessage {
+  string key = 1;
+  string value = 2;
+}
+
+message EmptyMessage{}
+
 service App {
   rpc Echo(EchoMessage) returns (EchoMessage) {
     option (google.api.http) = {
-      post: "/v1/example/echo"
+      post: "/v1/echo"
       body: "*"
+    };
+  }
+
+  rpc KeyValCreate(KeyValMessage) returns (EmptyMessage) {
+    option (google.api.http) = {
+      put: "/v1/keyval/{key}"
+      body: "*"
+    };
+  }
+  rpc KeyValRead(KeyValMessage) returns (KeyValMessage) {
+    option (google.api.http) = {
+      get: "/v1/keyval/{key}"
+      // body: none, drop the value
+    };
+  }
+  rpc KeyValUpdate(KeyValMessage) returns (EmptyMessage) {
+    option (google.api.http) = {
+      post: "/v1/keyval/{key}"
+      body: "*"
+    };
+  }
+  rpc KeyValDelete(KeyValMessage) returns (EmptyMessage) {
+  option (google.api.http) = {
+      delete: "/v1/keyval/{key}"
+      // body: none, drop the value
     };
   }
 }

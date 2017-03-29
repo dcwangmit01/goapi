@@ -33,7 +33,7 @@ make
 ./bin/linux_amd64/grpc-gw-poc client "foo bar"
 
 # Run the curl client against the gateway
-curl -vvv -X POST -k https://localhost:10080/v1/example/echo -H "Content-Type: text/plain" -d '{"value": "foo bar"}'
+curl -vvv -X POST -k https://localhost:10080/v1/echo -H "Content-Type: text/plain" -d '{"value": "foo bar"}'
 
 # View the swagger-ui
 curl -k https://localhost:10080/swagger-ui/

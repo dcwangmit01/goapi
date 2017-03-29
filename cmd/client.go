@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -28,7 +29,7 @@ var clientCmd = &cobra.Command{
 		client := pb.NewAppClient(conn)
 
 		msg, err := client.Echo(context.Background(), &pb.EchoMessage{strings.Join(os.Args[2:], " ")})
-		println(msg.Value)
+		fmt.Printf("rpc client request Echo(%q)\n", msg.Value)
 
 	},
 }
