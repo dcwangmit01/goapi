@@ -54,7 +54,7 @@ var keyvalReadCmd = &cobra.Command{
 };
 
 func keyvalRead(client pb.AppClient) {
-	msg, _ := client.KeyValCreate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
+	msg, _ := client.KeyValRead(context.Background(), &pb.KeyValMessage{os.Args[3], ""})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
 	})).Info("Sent RPC Request")
@@ -69,7 +69,7 @@ var keyvalUpdateCmd = &cobra.Command{
 };
 
 func keyvalUpdate(client pb.AppClient) {
-	msg, _ := client.KeyValCreate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
+	msg, _ := client.KeyValUpdate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
 	})).Info("Sent RPC Request")
@@ -84,7 +84,7 @@ var keyvalDeleteCmd = &cobra.Command{
 };
 
 func keyvalDelete(client pb.AppClient) {
-	msg, _ := client.KeyValCreate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
+	msg, _ := client.KeyValDelete(context.Background(), &pb.KeyValMessage{os.Args[3], ""})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
 	})).Info("Sent RPC Request")
@@ -93,5 +93,7 @@ func keyvalDelete(client pb.AppClient) {
 func init() {
 	RootCmd.AddCommand(keyvalRootCmd)
 	keyvalRootCmd.AddCommand(keyvalCreateCmd)
+	keyvalRootCmd.AddCommand(keyvalReadCmd)
+	keyvalRootCmd.AddCommand(keyvalUpdateCmd)
+	keyvalRootCmd.AddCommand(keyvalDeleteCmd)
 }
-
