@@ -6,6 +6,14 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
+
+	pb "github.com/dcwangmit01/grpc-gw-poc/app"
 )
 
 var cfgFile string
@@ -62,4 +70,21 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+}
+
+// Helper method used by many commands to dial to the GRPC server, and
+// then run a callback function immediately after connection.
+func grpcDialAndRun(callback_func func(pb.AppClient)) {
+	var opts []grpc.DialOption
+	creds := credentials.NewClientTLSFromCert(certPool, "localhost:10080")
+	opts = append(opts, grpc.WithTransportCredentials(creds))
+	conn, err := grpc.Dial(serverAddress, opts...)
+	if err != nil {
+		logutil.AddCtx(log.WithFields(log.Fields{
+			"error": err,
+		})).Info("Failed to Dial")
+	}
+	defer conn.Close()
+	client := pb.NewAppClient(conn)
+	callback_func(client)
 }

@@ -29,7 +29,7 @@ import (
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
 	Use:   "serve",
-	Short: "Launches the example webserver on https://localhost:10000",
+	Short: "Launches the example webserver on https://localhost:10080",
 	Run: func(cmd *cobra.Command, args []string) {
 		serve()
 	},
@@ -40,13 +40,6 @@ func init() {
 }
 
 type myService struct{}
-
-func (s *myService) Echo(c context.Context, m *pb.EchoMessage) (*pb.EchoMessage, error) {
-	logutil.AddCtx(log.WithFields(log.Fields{
-		"message": m,
-	})).Info("Received RPC Request")
-	return m, nil
-}
 
 func (s *myService) KeyValCreate(c context.Context, m *pb.KeyValMessage) (*pb.EmptyMessage, error) {
 	logutil.AddCtx(log.WithFields(log.Fields{
@@ -160,7 +153,9 @@ func serve() {
 	err = srv.Serve(tls.NewListener(conn, srv.TLSConfig))
 
 	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
+		logutil.AddCtx(log.WithFields(log.Fields{
+			"error": err,
+		})).Info("ListenAndServe")
 	}
 
 	return

@@ -15,32 +15,6 @@
     "application/json"
   ],
   "paths": {
-    "/v1/echo": {
-      "post": {
-        "operationId": "Echo",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/appEchoMessage"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/appEchoMessage"
-            }
-          }
-        ],
-        "tags": [
-          "App"
-        ]
-      }
-    },
     "/v1/keyval/{key}": {
       "get": {
         "operationId": "KeyValRead",
@@ -153,15 +127,6 @@
     }
   },
   "definitions": {
-    "appEchoMessage": {
-      "type": "object",
-      "properties": {
-        "value": {
-          "type": "string",
-          "format": "string"
-        }
-      }
-    },
     "appEmptyMessage": {
       "type": "object"
     },

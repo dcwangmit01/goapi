@@ -29,11 +29,35 @@ make
 # Start the GRPC+JSON server on port 10080
 ./bin/linux_amd64/grpc-gw-poc serve
 
-# Run the GRPC client
-./bin/linux_amd64/grpc-gw-poc client "foo bar"
+### Use the GRPC CLI Client
 
-# Run the curl client against the gateway
-curl -vvv -X POST -k https://localhost:10080/v1/echo -H "Content-Type: text/plain" -d '{"value": "foo bar"}'
+# Create a Key
+./bin/linux_amd64/grpc-gw-poc kevval create mykey myval
+
+# Read a Key
+./bin/linux_amd64/grpc-gw-poc kevval read mykey
+
+# Update a Key
+./bin/linux_amd64/grpc-gw-poc kevval create mykey myval2
+
+# Delete a Key
+./bin/linux_amd64/grpc-gw-poc kevval delete mykey
+
+### Use Curl
+
+# Create a Key
+curl -vvv -X PUT -k https://localhost:10080/v1/keyval -H "Content-Type: text/plain" -d '{"key": mykey", value": "myval"}'
+
+# Read a Key
+curl -vvv -X GET -k https://localhost:10080/v1/keyval -H "Content-Type: text/plain" -d '{"key": mykey"}'
+
+# Update a Key
+curl -vvv -X POST -k https://localhost:10080/v1/keyval -H "Content-Type: text/plain" -d '{"key": mykey", value": "myval2"}'
+
+# Delete a Key
+curl -vvv -X DELETE -k https://localhost:10080/v1/keyval -H "Content-Type: text/plain" -d '{"key": mykey"}'
+
+### View the Swagger UI
 
 # View the swagger-ui
 curl -k https://localhost:10080/swagger-ui/

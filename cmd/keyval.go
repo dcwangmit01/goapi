@@ -1,14 +1,13 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
 	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/grpclog"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
 
 	pb "github.com/dcwangmit01/grpc-gw-poc/app"
 )
@@ -35,26 +34,60 @@ var keyvalCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create new Key/Value on gRPC service",
 	Run: func(cmd *cobra.Command, args []string) {
-		connectClientRunFunc(keyvalCreate)
+		grpcDialAndRun(keyvalCreate)
 	},
 };
 
-func connectClientRunFunc(f func(pb.AppClient)) {
-	var opts []grpc.DialOption
-	creds := credentials.NewClientTLSFromCert(certPool, "localhost:10080")
-	opts = append(opts, grpc.WithTransportCredentials(creds))
-	conn, err := grpc.Dial(serverAddress, opts...)
-	if err != nil {
-		grpclog.Fatalf("fail to dial: %v", err)
-	}
-	defer conn.Close()
-	client := pb.NewAppClient(conn)
-	f(client)
-}
-
 func keyvalCreate(client pb.AppClient) {
 	msg, _ := client.KeyValCreate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
-	fmt.Printf("rpc client request s(%q)\n", msg)
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"message": msg,
+	})).Info("Sent RPC Request")
+}
+
+var keyvalReadCmd = &cobra.Command{
+	Use:   "read",
+	Short: "Read new Key/Value on gRPC service",
+	Run: func(cmd *cobra.Command, args []string) {
+		grpcDialAndRun(keyvalRead)
+	},
+};
+
+func keyvalRead(client pb.AppClient) {
+	msg, _ := client.KeyValCreate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"message": msg,
+	})).Info("Sent RPC Request")
+}
+
+var keyvalUpdateCmd = &cobra.Command{
+	Use:   "update",
+	Short: "Update new Key/Value on gRPC service",
+	Run: func(cmd *cobra.Command, args []string) {
+		grpcDialAndRun(keyvalUpdate)
+	},
+};
+
+func keyvalUpdate(client pb.AppClient) {
+	msg, _ := client.KeyValCreate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"message": msg,
+	})).Info("Sent RPC Request")
+}
+
+var keyvalDeleteCmd = &cobra.Command{
+	Use:   "delete",
+	Short: "Delete new Key/Value on gRPC service",
+	Run: func(cmd *cobra.Command, args []string) {
+		grpcDialAndRun(keyvalDelete)
+	},
+};
+
+func keyvalDelete(client pb.AppClient) {
+	msg, _ := client.KeyValCreate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"message": msg,
+	})).Info("Sent RPC Request")
 }
 
 func init() {
