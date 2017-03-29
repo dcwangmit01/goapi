@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"io"
-	"log"
 	"mime"
 	"net"
 	"net/http"
@@ -18,6 +17,9 @@ import (
 	"google.golang.org/grpc/credentials"
 
 	"github.com/elazarl/go-bindata-assetfs"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
 
 	pb "github.com/dcwangmit01/grpc-gw-poc/app"
 	sw "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/ui"
@@ -39,25 +41,38 @@ func init() {
 
 type myService struct{}
 
-func (m *myService) Echo(c context.Context, s *pb.EchoMessage) (*pb.EchoMessage, error) {
-	fmt.Printf("rpc served Echo(%q)\n", s)
-	return s, nil
+func (s *myService) Echo(c context.Context, m *pb.EchoMessage) (*pb.EchoMessage, error) {
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"message": m,
+	})).Info("Received RPC Request")
+	return m, nil
 }
 
-func (m *myService) KeyValCreate(c context.Context, s *pb.KeyValMessage) (*pb.EmptyMessage, error) {
-	fmt.Printf("rpc served KeyValCreate(%q)", s)
+func (s *myService) KeyValCreate(c context.Context, m *pb.KeyValMessage) (*pb.EmptyMessage, error) {
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"message": m,
+	})).Info("Received RPC Request")
 	return &pb.EmptyMessage{}, nil
 }
 
-func (m *myService) KeyValRead(c context.Context, s *pb.KeyValMessage) (*pb.KeyValMessage, error) {
-	return s, nil
+func (s *myService) KeyValRead(c context.Context, m *pb.KeyValMessage) (*pb.KeyValMessage, error) {
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"message": m,
+	})).Info("Received RPC Request")
+	return m, nil
 }
 
-func (m *myService) KeyValUpdate(c context.Context, s *pb.KeyValMessage) (*pb.EmptyMessage, error) {
+func (s *myService) KeyValUpdate(c context.Context, m *pb.KeyValMessage) (*pb.EmptyMessage, error) {
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"message": m,
+	})).Info("Received RPC Request")
 	return &pb.EmptyMessage{}, nil
 }
 
-func (m *myService) KeyValDelete(c context.Context, s *pb.KeyValMessage) (*pb.EmptyMessage, error) {
+func (s *myService) KeyValDelete(c context.Context, m *pb.KeyValMessage) (*pb.EmptyMessage, error) {
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"message": m,
+	})).Info("Received RPC Request")
 	return &pb.EmptyMessage{}, nil
 }
 
