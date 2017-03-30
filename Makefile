@@ -142,7 +142,8 @@ $(BIN_DIR)/linux_arm/$(BIN_NAME): check $(GOSOURCES)
 
 .PHONY: test
 test: _test
-	ginkgo -cover $(shell glide novendor)
+	@# Find package dirs, skipping "."
+	ginkgo -pkgdir .ginkgo -cover $(shell glide novendor | grep -v '^\.$$')
 
 .PHONY: clean
 clean:  ## delete all non-repo files
