@@ -46,7 +46,7 @@ _check:
 
 .PHONY: _test
 _test:
-	go test $(shell glide novendor)
+	:
 
 .PHONY: printvars
 printvars:

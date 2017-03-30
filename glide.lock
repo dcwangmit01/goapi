@@ -1,5 +1,5 @@
-hash: 6abfbcc76efe8348259cb2b0bc72e8d737f4f18c4146a591fe52767d94a2e73c
-updated: 2017-03-30T00:16:38.867208296Z
+hash: c5376fb76f2a2a4ded81948035952a95e4feb4ccdd9044a8c792088e0ffdf335
+updated: 2017-03-30T03:02:18.67153281Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
@@ -52,6 +52,8 @@ imports:
   version: 87b45ffd0e9581375c491fef3d32130bb15c5bd7
 - name: github.com/mitchellh/mapstructure
   version: 53818660ed4955e899c0bcafa97299a388bd7c8e
+- name: github.com/onsi/ginkgo
+  version: 13c94a130ef24c498bdb2d8d3873cf7790925dcf
 - name: github.com/pelletier/go-buffruneio
   version: c37440a7cf42ac63b919c752ca73a85067e05992
 - name: github.com/pelletier/go-toml
