@@ -124,17 +124,19 @@ $(RESOURCE_DIR)/certs/certs.go: cfssl/certs/insecure-key.pem
 compile: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) $(BIN_DIR)/linux_arm/$(BIN_NAME)  ## build the binaries
 
 $(BIN_DIR)/linux_amd64/$(BIN_NAME): check $(GOSOURCES)
+	@echo "## Building AMD64 Binary"
 	export GOOS=linux; \
 	export GOARCH=amd64; \
 	go build $(GO_BUILD_FLAGS) \
 	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/$(BIN_NAME)"
 
 $(BIN_DIR)/linux_arm/$(BIN_NAME): check $(GOSOURCES)
+	@echo "## Building ARM Binary"
 	export GOOS=linux; \
 	export GOARCH=arm; \
 	export GOARM=7; \
 	export CC=arm-linux-gnueabihf-gcc-5; \
-	go build $(GO_BUILD_FLAGS) \
+	CGO_ENABLED=1 go build $(GO_BUILD_FLAGS) \
 	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/$(BIN_NAME)"
 
 .PHONY: test
@@ -149,3 +151,5 @@ notes:
 	@### Notes. The following can be used to build a lib file
 	@# cd ./app && \
 	@#   go install -pkgdir="$(PKG_DIR)/$${GOOS}_$${GOARCH}"
+	@# gcc-arm-linux-gnueabihf
+	@# https://developer.ubuntu.com/en/snappy/guides/cross-build/
