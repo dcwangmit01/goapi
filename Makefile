@@ -121,7 +121,7 @@ $(RESOURCE_DIR)/certs/certs.go: cfssl/certs/insecure-key.pem
 	cd $(CERTS_DIR) && \
 	  go-bindata-assetfs -o $(RESOURCE_DIR)/certs/certs.go -pkg certs ./... 2>/dev/null || true
 
-.PHONY: compile
+.PHONY: compile format
 compile: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) $(BIN_DIR)/linux_arm/$(BIN_NAME)  ## build the binaries
 
 $(BIN_DIR)/linux_amd64/$(BIN_NAME): check $(GOSOURCES)
@@ -140,10 +140,15 @@ $(BIN_DIR)/linux_arm/$(BIN_NAME): check $(GOSOURCES)
 	CGO_ENABLED=1 go build $(GO_BUILD_FLAGS) \
 	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/$(BIN_NAME)"
 
+.PHONY: format  ## run gofmt on all go sources
+format: $(GOSOURCES)
+	find app cmd resources -type f -name '*.go' | xargs gofmt -w
+
 .PHONY: test
-test: _test
+test: _test format
 	@# Find package dirs, skipping "."
-	ginkgo -pkgdir .ginkgo -cover $(shell glide novendor | grep -v '^\.$$')
+	@#ginkgo -pkgdir .ginkgo -cover $(shell glide novendor | grep -v '^\.$$')
+	ginkgo -cover app cmd resources
 
 .PHONY: clean
 clean:  ## delete all non-repo files

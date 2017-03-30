@@ -1,9 +1,9 @@
 package logutil
 
 import (
-	"runtime"
-	"path"
 	"github.com/Sirupsen/logrus"
+	"path"
+	"runtime"
 )
 
 // Appends line, file and function context to the logger
@@ -14,7 +14,7 @@ func AddCtx(entry *logrus.Entry) *logrus.Entry {
 			"file": path.Base(file),
 			"line": line,
 			"func": path.Base(function),
-		});
+		})
 	}
 	return entry
 }

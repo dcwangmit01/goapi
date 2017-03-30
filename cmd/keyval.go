@@ -28,7 +28,7 @@ Update a key:
 Delete a key:
     grpc-gw-poc keyval delete <key>
 `,
-};
+}
 
 var keyvalCreateCmd = &cobra.Command{
 	Use:   "create",
@@ -36,7 +36,7 @@ var keyvalCreateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		grpcDialAndRun(keyvalCreate)
 	},
-};
+}
 
 func keyvalCreate(client pb.AppClient) {
 	msg, _ := client.KeyValCreate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
@@ -51,7 +51,7 @@ var keyvalReadCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		grpcDialAndRun(keyvalRead)
 	},
-};
+}
 
 func keyvalRead(client pb.AppClient) {
 	msg, _ := client.KeyValRead(context.Background(), &pb.KeyValMessage{os.Args[3], ""})
@@ -66,7 +66,7 @@ var keyvalUpdateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		grpcDialAndRun(keyvalUpdate)
 	},
-};
+}
 
 func keyvalUpdate(client pb.AppClient) {
 	msg, _ := client.KeyValUpdate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
@@ -81,7 +81,7 @@ var keyvalDeleteCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		grpcDialAndRun(keyvalDelete)
 	},
-};
+}
 
 func keyvalDelete(client pb.AppClient) {
 	msg, _ := client.KeyValDelete(context.Background(), &pb.KeyValMessage{os.Args[3], ""})

@@ -75,9 +75,10 @@ func AssetNames() []string {
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() ([]byte, error){
 	"insecure-key.pem": insecure_key_pem,
-	"insecure.csr": insecure_csr,
-	"insecure.pem": insecure_pem,
+	"insecure.csr":     insecure_csr,
+	"insecure.pem":     insecure_pem,
 }
+
 // AssetDir returns the file names below a certain
 // directory embedded in the file by go-bindata.
 // For example if you run go-bindata on data/... and data contains the
@@ -114,14 +115,12 @@ func AssetDir(name string) ([]string, error) {
 }
 
 type _bintree_t struct {
-	Func func() ([]byte, error)
+	Func     func() ([]byte, error)
 	Children map[string]*_bintree_t
 }
+
 var _bintree = &_bintree_t{nil, map[string]*_bintree_t{
-	"insecure-key.pem": &_bintree_t{insecure_key_pem, map[string]*_bintree_t{
-	}},
-	"insecure.csr": &_bintree_t{insecure_csr, map[string]*_bintree_t{
-	}},
-	"insecure.pem": &_bintree_t{insecure_pem, map[string]*_bintree_t{
-	}},
+	"insecure-key.pem": &_bintree_t{insecure_key_pem, map[string]*_bintree_t{}},
+	"insecure.csr":     &_bintree_t{insecure_csr, map[string]*_bintree_t{}},
+	"insecure.pem":     &_bintree_t{insecure_pem, map[string]*_bintree_t{}},
 }}

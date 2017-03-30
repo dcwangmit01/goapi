@@ -1,7 +1,6 @@
 package cmd
 
 import (
-
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
@@ -10,13 +9,12 @@ import (
 )
 
 var (
-	keyPair *tls.Certificate
-	certPool *x509.CertPool
+	keyPair       *tls.Certificate
+	certPool      *x509.CertPool
 	serverAddress string
-	host = "localhost"
-	port = 10080
+	host          = "localhost"
+	port          = 10080
 )
-
 
 func init() {
 
@@ -38,7 +36,7 @@ func init() {
 	}
 	keyPair = &pair
 
-        certPool = x509.NewCertPool()
+	certPool = x509.NewCertPool()
 	ok := certPool.AppendCertsFromPEM(pem)
 	if !ok {
 		panic("bad certs")

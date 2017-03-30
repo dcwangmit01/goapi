@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"bytes"
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"io"
@@ -8,8 +10,6 @@ import (
 	"net"
 	"net/http"
 	"strings"
-	"bytes"
-	"crypto/tls"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
@@ -23,9 +23,9 @@ import (
 	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
 
 	pb "github.com/dcwangmit01/grpc-gw-poc/app"
-	sw "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/ui"
-	swf "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/files"
 	kv "github.com/dcwangmit01/grpc-gw-poc/app/sqlitekv"
+	swf "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/files"
+	sw "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/ui"
 )
 
 // serveCmd represents the serve command
@@ -112,7 +112,6 @@ func serveSwagger(mux *http.ServeMux) {
 	prefix := "/swagger-ui/"
 	mux.Handle(prefix, http.StripPrefix(prefix, fileServer))
 }
-
 
 func serve() {
 

@@ -515,59 +515,60 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() ([]byte, error){
-	"css/print.css": css_print_css,
-	"css/reset.css": css_reset_css,
-	"css/screen.css": css_screen_css,
-	"css/style.css": css_style_css,
-	"css/typography.css": css_typography_css,
-	"fonts/DroidSans-Bold.ttf": fonts_droidsans_bold_ttf,
-	"fonts/DroidSans.ttf": fonts_droidsans_ttf,
-	"images/collapse.gif": images_collapse_gif,
-	"images/expand.gif": images_expand_gif,
-	"images/explorer_icons.png": images_explorer_icons_png,
-	"images/favicon-16x16.png": images_favicon_16x16_png,
-	"images/favicon-32x32.png": images_favicon_32x32_png,
-	"images/favicon.ico": images_favicon_ico,
-	"images/logo_small.png": images_logo_small_png,
-	"images/pet_store_api.png": images_pet_store_api_png,
-	"images/throbber.gif": images_throbber_gif,
-	"images/wordnik_api.png": images_wordnik_api_png,
-	"index.html": index_html,
-	"lang/ca.js": lang_ca_js,
-	"lang/el.js": lang_el_js,
-	"lang/en.js": lang_en_js,
-	"lang/es.js": lang_es_js,
-	"lang/fr.js": lang_fr_js,
-	"lang/geo.js": lang_geo_js,
-	"lang/it.js": lang_it_js,
-	"lang/ja.js": lang_ja_js,
-	"lang/ko-kr.js": lang_ko_kr_js,
-	"lang/pl.js": lang_pl_js,
-	"lang/pt.js": lang_pt_js,
-	"lang/ru.js": lang_ru_js,
-	"lang/tr.js": lang_tr_js,
-	"lang/translator.js": lang_translator_js,
-	"lang/zh-cn.js": lang_zh_cn_js,
-	"lib/backbone-min.js": lib_backbone_min_js,
-	"lib/es5-shim.js": lib_es5_shim_js,
-	"lib/handlebars-4.0.5.js": lib_handlebars_4_0_5_js,
-	"lib/highlight.9.1.0.pack.js": lib_highlight_9_1_0_pack_js,
+	"css/print.css":                        css_print_css,
+	"css/reset.css":                        css_reset_css,
+	"css/screen.css":                       css_screen_css,
+	"css/style.css":                        css_style_css,
+	"css/typography.css":                   css_typography_css,
+	"fonts/DroidSans-Bold.ttf":             fonts_droidsans_bold_ttf,
+	"fonts/DroidSans.ttf":                  fonts_droidsans_ttf,
+	"images/collapse.gif":                  images_collapse_gif,
+	"images/expand.gif":                    images_expand_gif,
+	"images/explorer_icons.png":            images_explorer_icons_png,
+	"images/favicon-16x16.png":             images_favicon_16x16_png,
+	"images/favicon-32x32.png":             images_favicon_32x32_png,
+	"images/favicon.ico":                   images_favicon_ico,
+	"images/logo_small.png":                images_logo_small_png,
+	"images/pet_store_api.png":             images_pet_store_api_png,
+	"images/throbber.gif":                  images_throbber_gif,
+	"images/wordnik_api.png":               images_wordnik_api_png,
+	"index.html":                           index_html,
+	"lang/ca.js":                           lang_ca_js,
+	"lang/el.js":                           lang_el_js,
+	"lang/en.js":                           lang_en_js,
+	"lang/es.js":                           lang_es_js,
+	"lang/fr.js":                           lang_fr_js,
+	"lang/geo.js":                          lang_geo_js,
+	"lang/it.js":                           lang_it_js,
+	"lang/ja.js":                           lang_ja_js,
+	"lang/ko-kr.js":                        lang_ko_kr_js,
+	"lang/pl.js":                           lang_pl_js,
+	"lang/pt.js":                           lang_pt_js,
+	"lang/ru.js":                           lang_ru_js,
+	"lang/tr.js":                           lang_tr_js,
+	"lang/translator.js":                   lang_translator_js,
+	"lang/zh-cn.js":                        lang_zh_cn_js,
+	"lib/backbone-min.js":                  lib_backbone_min_js,
+	"lib/es5-shim.js":                      lib_es5_shim_js,
+	"lib/handlebars-4.0.5.js":              lib_handlebars_4_0_5_js,
+	"lib/highlight.9.1.0.pack.js":          lib_highlight_9_1_0_pack_js,
 	"lib/highlight.9.1.0.pack_extended.js": lib_highlight_9_1_0_pack_extended_js,
-	"lib/jquery-1.8.0.min.js": lib_jquery_1_8_0_min_js,
-	"lib/jquery.ba-bbq.min.js": lib_jquery_ba_bbq_min_js,
-	"lib/jquery.slideto.min.js": lib_jquery_slideto_min_js,
-	"lib/jquery.wiggle.min.js": lib_jquery_wiggle_min_js,
-	"lib/js-yaml.min.js": lib_js_yaml_min_js,
-	"lib/jsoneditor.min.js": lib_jsoneditor_min_js,
-	"lib/lodash.min.js": lib_lodash_min_js,
-	"lib/marked.js": lib_marked_js,
-	"lib/object-assign-pollyfill.js": lib_object_assign_pollyfill_js,
-	"lib/sanitize-html.min.js": lib_sanitize_html_min_js,
-	"lib/swagger-oauth.js": lib_swagger_oauth_js,
-	"o2c.html": o2c_html,
-	"swagger-ui.js": swagger_ui_js,
-	"swagger-ui.min.js": swagger_ui_min_js,
+	"lib/jquery-1.8.0.min.js":              lib_jquery_1_8_0_min_js,
+	"lib/jquery.ba-bbq.min.js":             lib_jquery_ba_bbq_min_js,
+	"lib/jquery.slideto.min.js":            lib_jquery_slideto_min_js,
+	"lib/jquery.wiggle.min.js":             lib_jquery_wiggle_min_js,
+	"lib/js-yaml.min.js":                   lib_js_yaml_min_js,
+	"lib/jsoneditor.min.js":                lib_jsoneditor_min_js,
+	"lib/lodash.min.js":                    lib_lodash_min_js,
+	"lib/marked.js":                        lib_marked_js,
+	"lib/object-assign-pollyfill.js":       lib_object_assign_pollyfill_js,
+	"lib/sanitize-html.min.js":             lib_sanitize_html_min_js,
+	"lib/swagger-oauth.js":                 lib_swagger_oauth_js,
+	"o2c.html":                             o2c_html,
+	"swagger-ui.js":                        swagger_ui_js,
+	"swagger-ui.min.js":                    swagger_ui_min_js,
 }
+
 // AssetDir returns the file names below a certain
 // directory embedded in the file by go-bindata.
 // For example if you run go-bindata on data/... and data contains the
@@ -604,122 +605,71 @@ func AssetDir(name string) ([]string, error) {
 }
 
 type _bintree_t struct {
-	Func func() ([]byte, error)
+	Func     func() ([]byte, error)
 	Children map[string]*_bintree_t
 }
+
 var _bintree = &_bintree_t{nil, map[string]*_bintree_t{
 	"css": &_bintree_t{nil, map[string]*_bintree_t{
-		"print.css": &_bintree_t{css_print_css, map[string]*_bintree_t{
-		}},
-		"reset.css": &_bintree_t{css_reset_css, map[string]*_bintree_t{
-		}},
-		"screen.css": &_bintree_t{css_screen_css, map[string]*_bintree_t{
-		}},
-		"style.css": &_bintree_t{css_style_css, map[string]*_bintree_t{
-		}},
-		"typography.css": &_bintree_t{css_typography_css, map[string]*_bintree_t{
-		}},
+		"print.css":      &_bintree_t{css_print_css, map[string]*_bintree_t{}},
+		"reset.css":      &_bintree_t{css_reset_css, map[string]*_bintree_t{}},
+		"screen.css":     &_bintree_t{css_screen_css, map[string]*_bintree_t{}},
+		"style.css":      &_bintree_t{css_style_css, map[string]*_bintree_t{}},
+		"typography.css": &_bintree_t{css_typography_css, map[string]*_bintree_t{}},
 	}},
 	"fonts": &_bintree_t{nil, map[string]*_bintree_t{
-		"DroidSans-Bold.ttf": &_bintree_t{fonts_droidsans_bold_ttf, map[string]*_bintree_t{
-		}},
-		"DroidSans.ttf": &_bintree_t{fonts_droidsans_ttf, map[string]*_bintree_t{
-		}},
+		"DroidSans-Bold.ttf": &_bintree_t{fonts_droidsans_bold_ttf, map[string]*_bintree_t{}},
+		"DroidSans.ttf":      &_bintree_t{fonts_droidsans_ttf, map[string]*_bintree_t{}},
 	}},
 	"images": &_bintree_t{nil, map[string]*_bintree_t{
-		"collapse.gif": &_bintree_t{images_collapse_gif, map[string]*_bintree_t{
-		}},
-		"expand.gif": &_bintree_t{images_expand_gif, map[string]*_bintree_t{
-		}},
-		"explorer_icons.png": &_bintree_t{images_explorer_icons_png, map[string]*_bintree_t{
-		}},
-		"favicon-16x16.png": &_bintree_t{images_favicon_16x16_png, map[string]*_bintree_t{
-		}},
-		"favicon-32x32.png": &_bintree_t{images_favicon_32x32_png, map[string]*_bintree_t{
-		}},
-		"favicon.ico": &_bintree_t{images_favicon_ico, map[string]*_bintree_t{
-		}},
-		"logo_small.png": &_bintree_t{images_logo_small_png, map[string]*_bintree_t{
-		}},
-		"pet_store_api.png": &_bintree_t{images_pet_store_api_png, map[string]*_bintree_t{
-		}},
-		"throbber.gif": &_bintree_t{images_throbber_gif, map[string]*_bintree_t{
-		}},
-		"wordnik_api.png": &_bintree_t{images_wordnik_api_png, map[string]*_bintree_t{
-		}},
+		"collapse.gif":       &_bintree_t{images_collapse_gif, map[string]*_bintree_t{}},
+		"expand.gif":         &_bintree_t{images_expand_gif, map[string]*_bintree_t{}},
+		"explorer_icons.png": &_bintree_t{images_explorer_icons_png, map[string]*_bintree_t{}},
+		"favicon-16x16.png":  &_bintree_t{images_favicon_16x16_png, map[string]*_bintree_t{}},
+		"favicon-32x32.png":  &_bintree_t{images_favicon_32x32_png, map[string]*_bintree_t{}},
+		"favicon.ico":        &_bintree_t{images_favicon_ico, map[string]*_bintree_t{}},
+		"logo_small.png":     &_bintree_t{images_logo_small_png, map[string]*_bintree_t{}},
+		"pet_store_api.png":  &_bintree_t{images_pet_store_api_png, map[string]*_bintree_t{}},
+		"throbber.gif":       &_bintree_t{images_throbber_gif, map[string]*_bintree_t{}},
+		"wordnik_api.png":    &_bintree_t{images_wordnik_api_png, map[string]*_bintree_t{}},
 	}},
-	"index.html": &_bintree_t{index_html, map[string]*_bintree_t{
-	}},
+	"index.html": &_bintree_t{index_html, map[string]*_bintree_t{}},
 	"lang": &_bintree_t{nil, map[string]*_bintree_t{
-		"ca.js": &_bintree_t{lang_ca_js, map[string]*_bintree_t{
-		}},
-		"el.js": &_bintree_t{lang_el_js, map[string]*_bintree_t{
-		}},
-		"en.js": &_bintree_t{lang_en_js, map[string]*_bintree_t{
-		}},
-		"es.js": &_bintree_t{lang_es_js, map[string]*_bintree_t{
-		}},
-		"fr.js": &_bintree_t{lang_fr_js, map[string]*_bintree_t{
-		}},
-		"geo.js": &_bintree_t{lang_geo_js, map[string]*_bintree_t{
-		}},
-		"it.js": &_bintree_t{lang_it_js, map[string]*_bintree_t{
-		}},
-		"ja.js": &_bintree_t{lang_ja_js, map[string]*_bintree_t{
-		}},
-		"ko-kr.js": &_bintree_t{lang_ko_kr_js, map[string]*_bintree_t{
-		}},
-		"pl.js": &_bintree_t{lang_pl_js, map[string]*_bintree_t{
-		}},
-		"pt.js": &_bintree_t{lang_pt_js, map[string]*_bintree_t{
-		}},
-		"ru.js": &_bintree_t{lang_ru_js, map[string]*_bintree_t{
-		}},
-		"tr.js": &_bintree_t{lang_tr_js, map[string]*_bintree_t{
-		}},
-		"translator.js": &_bintree_t{lang_translator_js, map[string]*_bintree_t{
-		}},
-		"zh-cn.js": &_bintree_t{lang_zh_cn_js, map[string]*_bintree_t{
-		}},
+		"ca.js":         &_bintree_t{lang_ca_js, map[string]*_bintree_t{}},
+		"el.js":         &_bintree_t{lang_el_js, map[string]*_bintree_t{}},
+		"en.js":         &_bintree_t{lang_en_js, map[string]*_bintree_t{}},
+		"es.js":         &_bintree_t{lang_es_js, map[string]*_bintree_t{}},
+		"fr.js":         &_bintree_t{lang_fr_js, map[string]*_bintree_t{}},
+		"geo.js":        &_bintree_t{lang_geo_js, map[string]*_bintree_t{}},
+		"it.js":         &_bintree_t{lang_it_js, map[string]*_bintree_t{}},
+		"ja.js":         &_bintree_t{lang_ja_js, map[string]*_bintree_t{}},
+		"ko-kr.js":      &_bintree_t{lang_ko_kr_js, map[string]*_bintree_t{}},
+		"pl.js":         &_bintree_t{lang_pl_js, map[string]*_bintree_t{}},
+		"pt.js":         &_bintree_t{lang_pt_js, map[string]*_bintree_t{}},
+		"ru.js":         &_bintree_t{lang_ru_js, map[string]*_bintree_t{}},
+		"tr.js":         &_bintree_t{lang_tr_js, map[string]*_bintree_t{}},
+		"translator.js": &_bintree_t{lang_translator_js, map[string]*_bintree_t{}},
+		"zh-cn.js":      &_bintree_t{lang_zh_cn_js, map[string]*_bintree_t{}},
 	}},
 	"lib": &_bintree_t{nil, map[string]*_bintree_t{
-		"backbone-min.js": &_bintree_t{lib_backbone_min_js, map[string]*_bintree_t{
-		}},
-		"es5-shim.js": &_bintree_t{lib_es5_shim_js, map[string]*_bintree_t{
-		}},
-		"handlebars-4.0.5.js": &_bintree_t{lib_handlebars_4_0_5_js, map[string]*_bintree_t{
-		}},
-		"highlight.9.1.0.pack.js": &_bintree_t{lib_highlight_9_1_0_pack_js, map[string]*_bintree_t{
-		}},
-		"highlight.9.1.0.pack_extended.js": &_bintree_t{lib_highlight_9_1_0_pack_extended_js, map[string]*_bintree_t{
-		}},
-		"jquery-1.8.0.min.js": &_bintree_t{lib_jquery_1_8_0_min_js, map[string]*_bintree_t{
-		}},
-		"jquery.ba-bbq.min.js": &_bintree_t{lib_jquery_ba_bbq_min_js, map[string]*_bintree_t{
-		}},
-		"jquery.slideto.min.js": &_bintree_t{lib_jquery_slideto_min_js, map[string]*_bintree_t{
-		}},
-		"jquery.wiggle.min.js": &_bintree_t{lib_jquery_wiggle_min_js, map[string]*_bintree_t{
-		}},
-		"js-yaml.min.js": &_bintree_t{lib_js_yaml_min_js, map[string]*_bintree_t{
-		}},
-		"jsoneditor.min.js": &_bintree_t{lib_jsoneditor_min_js, map[string]*_bintree_t{
-		}},
-		"lodash.min.js": &_bintree_t{lib_lodash_min_js, map[string]*_bintree_t{
-		}},
-		"marked.js": &_bintree_t{lib_marked_js, map[string]*_bintree_t{
-		}},
-		"object-assign-pollyfill.js": &_bintree_t{lib_object_assign_pollyfill_js, map[string]*_bintree_t{
-		}},
-		"sanitize-html.min.js": &_bintree_t{lib_sanitize_html_min_js, map[string]*_bintree_t{
-		}},
-		"swagger-oauth.js": &_bintree_t{lib_swagger_oauth_js, map[string]*_bintree_t{
-		}},
+		"backbone-min.js":                  &_bintree_t{lib_backbone_min_js, map[string]*_bintree_t{}},
+		"es5-shim.js":                      &_bintree_t{lib_es5_shim_js, map[string]*_bintree_t{}},
+		"handlebars-4.0.5.js":              &_bintree_t{lib_handlebars_4_0_5_js, map[string]*_bintree_t{}},
+		"highlight.9.1.0.pack.js":          &_bintree_t{lib_highlight_9_1_0_pack_js, map[string]*_bintree_t{}},
+		"highlight.9.1.0.pack_extended.js": &_bintree_t{lib_highlight_9_1_0_pack_extended_js, map[string]*_bintree_t{}},
+		"jquery-1.8.0.min.js":              &_bintree_t{lib_jquery_1_8_0_min_js, map[string]*_bintree_t{}},
+		"jquery.ba-bbq.min.js":             &_bintree_t{lib_jquery_ba_bbq_min_js, map[string]*_bintree_t{}},
+		"jquery.slideto.min.js":            &_bintree_t{lib_jquery_slideto_min_js, map[string]*_bintree_t{}},
+		"jquery.wiggle.min.js":             &_bintree_t{lib_jquery_wiggle_min_js, map[string]*_bintree_t{}},
+		"js-yaml.min.js":                   &_bintree_t{lib_js_yaml_min_js, map[string]*_bintree_t{}},
+		"jsoneditor.min.js":                &_bintree_t{lib_jsoneditor_min_js, map[string]*_bintree_t{}},
+		"lodash.min.js":                    &_bintree_t{lib_lodash_min_js, map[string]*_bintree_t{}},
+		"marked.js":                        &_bintree_t{lib_marked_js, map[string]*_bintree_t{}},
+		"object-assign-pollyfill.js":       &_bintree_t{lib_object_assign_pollyfill_js, map[string]*_bintree_t{}},
+		"sanitize-html.min.js":             &_bintree_t{lib_sanitize_html_min_js, map[string]*_bintree_t{}},
+		"swagger-oauth.js":                 &_bintree_t{lib_swagger_oauth_js, map[string]*_bintree_t{}},
 	}},
-	"o2c.html": &_bintree_t{o2c_html, map[string]*_bintree_t{
-	}},
-	"swagger-ui.js": &_bintree_t{swagger_ui_js, map[string]*_bintree_t{
-	}},
-	"swagger-ui.min.js": &_bintree_t{swagger_ui_min_js, map[string]*_bintree_t{
-	}},
+	"o2c.html":          &_bintree_t{o2c_html, map[string]*_bintree_t{}},
+	"swagger-ui.js":     &_bintree_t{swagger_ui_js, map[string]*_bintree_t{}},
+	"swagger-ui.min.js": &_bintree_t{swagger_ui_min_js, map[string]*_bintree_t{}},
 }}
