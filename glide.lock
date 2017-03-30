@@ -1,5 +1,5 @@
-hash: 21fcd732cd312d9b10597cf2da5232c67996a3525a891cecf8ea0645c2d9ff85
-updated: 2017-03-29T16:48:45.602948484Z
+hash: 6abfbcc76efe8348259cb2b0bc72e8d737f4f18c4146a591fe52767d94a2e73c
+updated: 2017-03-30T00:16:38.867208296Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
@@ -44,6 +44,8 @@ imports:
   version: db1022af2c66c36268b346d203ceaa78579673d2
 - name: github.com/magiconair/properties
   version: b3b15ef068fd0b17ddf408a23669f20811d194d2
+- name: github.com/mattn/go-sqlite3
+  version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
 - name: github.com/mitchellh/gox
   version: 54b619477e8932bbb6314644c867e7e6db7a9c71
 - name: github.com/mitchellh/iochan

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"mime"
@@ -24,6 +25,7 @@ import (
 	pb "github.com/dcwangmit01/grpc-gw-poc/app"
 	sw "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/ui"
 	swf "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/files"
+	kv "github.com/dcwangmit01/grpc-gw-poc/app/sqlitekv"
 )
 
 // serveCmd represents the serve command
@@ -45,6 +47,12 @@ func (s *myService) KeyValCreate(c context.Context, m *pb.KeyValMessage) (*pb.Em
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": m,
 	})).Info("Received RPC Request")
+
+	if kv.SqlKV.HasKey(m.Key) {
+		return &pb.EmptyMessage{}, errors.New("Cannot create existing Key")
+	}
+
+	kv.SqlKV.SetString(m.Key, m.Value)
 	return &pb.EmptyMessage{}, nil
 }
 
@@ -52,6 +60,7 @@ func (s *myService) KeyValRead(c context.Context, m *pb.KeyValMessage) (*pb.KeyV
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": m,
 	})).Info("Received RPC Request")
+	m.Value = kv.SqlKV.String(m.Key)
 	return m, nil
 }
 
@@ -59,6 +68,7 @@ func (s *myService) KeyValUpdate(c context.Context, m *pb.KeyValMessage) (*pb.Em
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": m,
 	})).Info("Received RPC Request")
+	kv.SqlKV.SetString(m.Key, m.Value)
 	return &pb.EmptyMessage{}, nil
 }
 
@@ -66,6 +76,10 @@ func (s *myService) KeyValDelete(c context.Context, m *pb.KeyValMessage) (*pb.Em
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": m,
 	})).Info("Received RPC Request")
+	if !kv.SqlKV.HasKey(m.Key) {
+		return &pb.EmptyMessage{}, errors.New("Cannot delete non-existent Key")
+	}
+	kv.SqlKV.Del(m.Key)
 	return &pb.EmptyMessage{}, nil
 }
 
@@ -101,6 +115,8 @@ func serveSwagger(mux *http.ServeMux) {
 
 
 func serve() {
+
+	kv.Init()
 
 	opts := []grpc.ServerOption{
 		grpc.Creds(credentials.NewClientTLSFromCert(certPool, serverAddress))}
