@@ -3,7 +3,7 @@
 *.a
 *.so
 
-# Folders
+0# Folders
 _obj
 _test
 
@@ -30,3 +30,5 @@ pkg/
 .cache/
 .build/
 cfssl/certs
+*.coverprofile
+*.db
