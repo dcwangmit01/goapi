@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-var _ = Describe("RootCmd", func() {
+var _ = Describe("Cmd", func() {
 	// The Ginkgo test runner takes over os.Args and fills it with its own
 	// flags.  This makes the cobra command arg parsing fail because of
 	// unexpected options.  Work around this.
@@ -39,35 +39,42 @@ var _ = Describe("RootCmd", func() {
 		cmd.RootCmd.SetOutput(os.Stdout)
 	})
 
-	It("Should show rootcmd help", func() {
+	Describe("RootCmd", func() {
+		Context("When run with no args", func() {
+			It("Should show rootcmd help", func() {
+				// Run the command which outputs to stdout
+				err := cmd.RootCmd.Execute()
 
-		// Run the command which outputs to stdout
-		err := cmd.RootCmd.Execute()
+				// bytes.Buffer.String() returns the contents of the unread
+				// portion of the buffer as a string.
+				out := buf.String()
 
-		// bytes.Buffer.String() returns the contents of the unread
-		// portion of the buffer as a string.
-		out := buf.String()
-
-		// process the output
-		//  (?s): allows for "." to represent "\n"
-		Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval"))
-		Expect(err).Should(BeNil())
+				// process the output
+				//  (?s): allows for "." to represent "\n"
+				Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval"))
+				Expect(err).Should(BeNil())
+			})
+		})
 	})
 
-	It("Should show keyval help", func() {
+	Describe("keyval Subcommand", func() {
+		Context("When run with no args", func() {
+			It("Should show keyval help", func() {
+				// Set args to command
+				os.Args = append(os.Args, "keyval")
 
-		os.Args = append(os.Args, "keyval")
+				// Run the command which outputs to stdout
+				err := cmd.RootCmd.Execute()
 
-		// Run the command which outputs to stdout
-		err := cmd.RootCmd.Execute()
+				// bytes.Buffer.String() returns the contents of the unread
+				// portion of the buffer as a string.
+				out := buf.String()
 
-		// bytes.Buffer.String() returns the contents of the unread
-		// portion of the buffer as a string.
-		out := buf.String()
-
-		// process the output
-		//  (?s): allows for "." to represent "\n"
-		Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval.*create.*read.*update.*delete"))
-		Expect(err).Should(BeNil())
+				// process the output
+				//  (?s): allows for "." to represent "\n"
+				Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval.*create.*read.*update.*delete"))
+				Expect(err).Should(BeNil())
+			})
+		})
 	})
 })
