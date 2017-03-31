@@ -19,32 +19,55 @@ var _ = Describe("RootCmd", func() {
 	// Save a copy of os.Args
 	var origArgs = os.Args[:]
 
+	// A non-threadsafe buffer for capturing stdout
+	var buf bytes.Buffer
+
 	BeforeEach(func() {
 		// Trim os.Args to only the first arg, which is the command itself
 		os.Args = os.Args[:1]
+
+		// set the output to both Stdout and a byteBuffer
+		mw := io.MultiWriter(&buf, os.Stdout)
+		cmd.RootCmd.SetOutput(mw)
 	})
 
 	AfterEach(func() {
 		// Restore os.Args
 		os.Args = origArgs[:]
-	})
-
-	It("Should run without arguments", func() {
-
-		// set the output to both Stdout and a byteBuffer
-		var buf bytes.Buffer
-		mw := io.MultiWriter(&buf, os.Stdout)
-		cmd.RootCmd.SetOutput(mw)
-
-		// Run the command which parses os.Args
-		err := cmd.RootCmd.Execute()
 
 		// restore the output to Stdout
 		cmd.RootCmd.SetOutput(os.Stdout)
+	})
+
+	It("Should show rootcmd help", func() {
+
+		// Run the command which outputs to stdout
+		err := cmd.RootCmd.Execute()
+
+		// bytes.Buffer.String() returns the contents of the unread
+		// portion of the buffer as a string.
+		out := buf.String()
 
 		// process the output
 		//  (?s): allows for "." to represent "\n"
-		Expect(buf.String()).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval"))
+		Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval"))
+		Expect(err).Should(BeNil())
+	})
+
+	It("Should show keyval help", func() {
+
+		os.Args = append(os.Args, "keyval")
+
+		// Run the command which outputs to stdout
+		err := cmd.RootCmd.Execute()
+
+		// bytes.Buffer.String() returns the contents of the unread
+		// portion of the buffer as a string.
+		out := buf.String()
+
+		// process the output
+		//  (?s): allows for "." to represent "\n"
+		Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval.*create.*read.*update.*delete"))
 		Expect(err).Should(BeNil())
 	})
 })
