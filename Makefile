@@ -148,7 +148,7 @@ format: $(GOSOURCES)
 test: _test format
 	@# Find package dirs, skipping "."
 	@#ginkgo -pkgdir .ginkgo -cover $(shell glide novendor | grep -v '^\.$$')
-	ginkgo -cover app cmd resources
+	ginkgo -v -cover app cmd resources
 
 .PHONY: clean
 clean:  ## delete all non-repo files

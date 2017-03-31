@@ -6,6 +6,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	"bytes"
+	"io"
 	"os"
 )
 
@@ -29,9 +31,20 @@ var _ = Describe("RootCmd", func() {
 
 	It("Should run without arguments", func() {
 
+		// set the output to both Stdout and a byteBuffer
+		var buf bytes.Buffer
+		mw := io.MultiWriter(&buf, os.Stdout)
+		cmd.RootCmd.SetOutput(mw)
+
 		// Run the command which parses os.Args
 		err := cmd.RootCmd.Execute()
 
+		// restore the output to Stdout
+		cmd.RootCmd.SetOutput(os.Stdout)
+
+		// process the output
+		//  (?s): allows for "." to represent "\n"
+		Expect(buf.String()).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval"))
 		Expect(err).Should(BeNil())
 	})
 })
