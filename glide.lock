@@ -1,5 +1,5 @@
-hash: e976734c6750731ba1109ad47dc01a820319b8bc575e0a3103213e297dac773f
-updated: 2017-03-30T03:18:14.21815473Z
+hash: cec0934ccfb7c8edde7c14f2da0bc87d7306a75d2d72855b7a76084da217cb45
+updated: 2017-04-01T00:59:34.757124802Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
@@ -7,6 +7,12 @@ imports:
   version: 30f82fa23fd844bd5bb1e5f216db87fd77b5eb43
 - name: github.com/fsnotify/fsnotify
   version: 7d7316ed6e1ed2de075aab8dfc76de5d158d66e1
+- name: github.com/go-playground/locales
+  version: 1e5f1161c6416a5ff48840eb8724a394e48cc534
+  subpackages:
+  - currency
+- name: github.com/go-playground/universal-translator
+  version: 71201497bace774495daed26a3874fd339e0b538
 - name: github.com/golang/glog
   version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998
 - name: github.com/golang/protobuf
@@ -141,6 +147,8 @@ imports:
   - stats
   - tap
   - transport
+- name: gopkg.in/go-playground/validator.v9
+  version: 4bd19358521c53f09639f21e2a9d6883d6890f24
 - name: gopkg.in/yaml.v2
   version: a3f3340b5840cee44f372bddb5880fcbc419b46a
 testImports: []
