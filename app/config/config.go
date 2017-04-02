@@ -13,7 +13,6 @@ import (
 const (
 	defaultAdminUser = "admin"
 	defaultAdminPass = "password"
-	defaultAdminUuid = "11111111-1111-1111-1111-111111111111" // 128 bits set to 1
 )
 
 type AppConfig struct {
@@ -22,20 +21,21 @@ type AppConfig struct {
 }
 
 type Settings struct {
-	Debug    bool
-	LogLevel string `validate:"eq=DEBUG|eq=INFO"`
+	Initialized bool
+	Debug       bool
+	LogLevel    string `validate:"eq=DEBUG|eq=INFO"`
 }
 type User struct {
-	Id             uuid.UUID `validate:"uuid"`
-	Email          string    `validate:"required,email"`
-	Name           string    `validate:"required,printascii"` // TODO: plan on escaping and handling all printable ASCII
-	HashedPassword string    `validate:"required,base64"`     // Hashed and Salted by the bcrypt library
-	Role           string    `validate:"eq=user|eq=admin"`
-	PhoneNumber    string    `validate:"phone,min=7"`
+	Id           string `validate:"uuid4"`
+	Email        string `validate:"required,email"`
+	Name         string `validate:"required,printascii"` // TODO: plan on escaping and handling all printable ASCII
+	PasswordHash string `validate:"required,base64"`     // Hashed and Salted by the bcrypt library
+	Role         string `validate:"eq=USER|eq=ADMIN"`
+	PhoneNumber  string `validate:"phone,min=7"`
 }
 
 func (u *User) ValidatePassword(password string) (bool, error) {
-	err := bcrypt.CompareHashAndPassword([]byte(u.HashedPassword), []byte(password))
+	err := bcrypt.CompareHashAndPassword([]byte(u.PasswordHash), []byte(password))
 	if err != nil {
 		return false, err
 	}
@@ -44,20 +44,20 @@ func (u *User) ValidatePassword(password string) (bool, error) {
 
 func NewUser() *User {
 	return &User{
-		Id:   uuid.NewV4(),
+		Id:   uuid.NewV4().String(),
 		Role: "USER",
 	}
 }
 
 func NewAppConfig() *AppConfig {
 
-	// If starting with an empty AppConfig, initialize with a default admin
-	// login user/password.  Some fields will be set to default, but most
-	// things will be set to zero values and thus this AppConfig will not
-	// validate.  It will be up to the UI to get field values from the
-	// first (admin) user, after which Validate will be enforced
+	// If no current AppConfig exists, start from scratch and initialize
+	// with a default admin login user/password.  Some fields will be set
+	// to default, but most things will be set to zero values and thus this
+	// AppConfig will not validate.  It will be up to the UI to get field
+	// values from the first (admin) user, after which Validate will be
+	// enforced
 
-	adminUuid, _ := uuid.FromString(defaultAdminUuid)
 	adminPass, _ := bcrypt.GenerateFromPassword([]byte(defaultAdminPass), bcrypt.DefaultCost)
 
 	return &AppConfig{
@@ -66,22 +66,35 @@ func NewAppConfig() *AppConfig {
 		},
 		[]*User{
 			&User{ // default admin user
-				Id:             adminUuid,
-				Role:           "ADMIN",
-				HashedPassword: string(adminPass),
+				Id:           uuid.NewV4().String(),
+				Role:         "ADMIN",
+				PasswordHash: string(adminPass),
 			},
 		},
 	}
 }
 
-func main() {
-	// t := T{}
+func ParseAppConfig(yamlString string) (*AppConfig, error) {
+	// Parse appConfig from a string
+	ac := &AppConfig{}
 
-	// err := yaml.Unmarshal([]byte(data), &t)
-	// if err != nil {
-	//         log.Fatalf("error: %v", err)
-	// }
-	// fmt.Printf("--- t:\n%v\n\n", t)
+	err := yaml.Unmarshal([]byte(yamlString), ac)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	return ac, err
+
+}
+
+func (ac *AppConfig) Dump() (string, error) {
+	d, err := yaml.Marshal(ac)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	return string(d), err
+}
+
+func main() {
 
 	ac := NewAppConfig()
 	ac.Users = append(ac.Users, NewUser())
@@ -114,10 +127,9 @@ func main() {
 		fmt.Println(errs)
 	}
 
-	d, err := yaml.Marshal(&ac)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	fmt.Printf("--- t dump:\n%s\n\n", string(d))
-
+	ac1Str, err := ac.Dump()
+	ac2, err := ParseAppConfig(ac1Str)
+	ac2Str, err := ac2.Dump()
+	fmt.Println(ac1Str)
+	fmt.Println(ac2Str)
 }
