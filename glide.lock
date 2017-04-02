@@ -1,5 +1,5 @@
-hash: cec0934ccfb7c8edde7c14f2da0bc87d7306a75d2d72855b7a76084da217cb45
-updated: 2017-04-01T00:59:34.757124802Z
+hash: d0d2b10099af3097d91e49e1383b4a08a8a3cc1c9684ef9d642928b5c0f0e4c4
+updated: 2017-04-02T03:31:45.361526819Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
@@ -7,16 +7,23 @@ imports:
   version: 30f82fa23fd844bd5bb1e5f216db87fd77b5eb43
 - name: github.com/fsnotify/fsnotify
   version: 7d7316ed6e1ed2de075aab8dfc76de5d158d66e1
+- name: github.com/gin-gonic/gin
+  version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
+  subpackages:
+  - binding
 - name: github.com/go-playground/locales
   version: 1e5f1161c6416a5ff48840eb8724a394e48cc534
   subpackages:
   - currency
+  - en
+  - fr
+  - nl
 - name: github.com/go-playground/universal-translator
   version: 71201497bace774495daed26a3874fd339e0b538
 - name: github.com/golang/glog
   version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998
 - name: github.com/golang/protobuf
-  version: c9c7427a2a70d2eb3bafa0ab2dc163e45f143317
+  version: 2402d76f3d41f928c7902a765dfc872356dd3aad
   subpackages:
   - jsonpb
   - proto
@@ -96,6 +103,8 @@ imports:
   version: c37440a7cf42ac63b919c752ca73a85067e05992
 - name: github.com/pelletier/go-toml
   version: fee7787d3f811af92276f5ff10107092e95b7a1d
+- name: github.com/satori/go.uuid
+  version: 879c5887cd475cd7864858769793b2ceb0d44feb
 - name: github.com/Sirupsen/logrus
   version: ba1b36c82c5e05c4f912a88eab0dcd91a171688f
 - name: github.com/spf13/afero
@@ -114,15 +123,18 @@ imports:
   version: 9ff6c6923cfffbcd502984b8e0c80539a94968b7
 - name: github.com/spf13/viper
   version: 84f94806c67f59dd7ae87bc5351f7a9c94a4558d
+- name: golang.org/x/crypto
+  version: 3cb07270c9455e8ad27956a70891c962d121a228
+  subpackages:
+  - bcrypt
+  - blowfish
 - name: golang.org/x/net
-  version: a6577fac2d73be281a500b310739095313165611
+  version: f315505cf3349909cdf013ea56690da34e96a451
   subpackages:
   - context
   - http2
   - http2/hpack
-  - idna
   - internal/timeseries
-  - lex/httplex
   - trace
 - name: golang.org/x/sys
   version: 99f16d856c9836c42d24e7ab64ea72916925fa97
@@ -147,8 +159,14 @@ imports:
   - stats
   - tap
   - transport
+- name: gopkg.in/go-playground/validator.v8
+  version: c193cecd124b5cc722d7ee5538e945bdb3348435
 - name: gopkg.in/go-playground/validator.v9
   version: 4bd19358521c53f09639f21e2a9d6883d6890f24
+  subpackages:
+  - translations/en
 - name: gopkg.in/yaml.v2
   version: a3f3340b5840cee44f372bddb5880fcbc419b46a
-testImports: []
+testImports:
+- name: gopkg.in/go-playground/assert.v1
+  version: 4f4dfbc7d1c48336cf93399deae81aa9067e88af
