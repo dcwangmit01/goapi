@@ -1,34 +1,40 @@
 hash: d0d2b10099af3097d91e49e1383b4a08a8a3cc1c9684ef9d642928b5c0f0e4c4
-updated: 2017-04-02T03:31:45.361526819Z
+updated: 2017-04-02T05:49:44.726714832Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
 - name: github.com/elazarl/go-bindata-assetfs
   version: 30f82fa23fd844bd5bb1e5f216db87fd77b5eb43
 - name: github.com/fsnotify/fsnotify
-  version: 7d7316ed6e1ed2de075aab8dfc76de5d158d66e1
-- name: github.com/gin-gonic/gin
-  version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
-  subpackages:
-  - binding
+  version: 4da3e2cfbabc9f751898f250b49f2439785783a1
 - name: github.com/go-playground/locales
   version: 1e5f1161c6416a5ff48840eb8724a394e48cc534
   subpackages:
   - currency
-  - en
-  - fr
-  - nl
 - name: github.com/go-playground/universal-translator
   version: 71201497bace774495daed26a3874fd339e0b538
 - name: github.com/golang/glog
   version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998
 - name: github.com/golang/protobuf
-  version: 2402d76f3d41f928c7902a765dfc872356dd3aad
+  version: 2bba0603135d7d7f5cb73b2125beeda19c09f4ef
   subpackages:
+  - descriptor
   - jsonpb
+  - jsonpb/jsonpb_test_proto
   - proto
+  - proto/proto3_proto
+  - proto/testdata
   - protoc-gen-go
   - protoc-gen-go/descriptor
+  - protoc-gen-go/generator
+  - protoc-gen-go/grpc
+  - protoc-gen-go/plugin
+  - ptypes
+  - ptypes/any
+  - ptypes/duration
+  - ptypes/struct
+  - ptypes/timestamp
+  - ptypes/wrappers
 - name: github.com/grpc-ecosystem/grpc-gateway
   version: a8f25bd1ab549f8b87afd48aa9181221e9d439bb
   subpackages:
@@ -56,7 +62,7 @@ imports:
 - name: github.com/laurent22/go-sqlkv
   version: db1022af2c66c36268b346d203ceaa78579673d2
 - name: github.com/magiconair/properties
-  version: b3b15ef068fd0b17ddf408a23669f20811d194d2
+  version: 51463bfca2576e06c62a8504b5c0f06d61312647
 - name: github.com/mattn/go-sqlite3
   version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
 - name: github.com/mitchellh/gox
@@ -102,7 +108,7 @@ imports:
 - name: github.com/pelletier/go-buffruneio
   version: c37440a7cf42ac63b919c752ca73a85067e05992
 - name: github.com/pelletier/go-toml
-  version: fee7787d3f811af92276f5ff10107092e95b7a1d
+  version: e32a2e04744250647a72bf17da1b09befc03b6b1
 - name: github.com/satori/go.uuid
   version: 879c5887cd475cd7864858769793b2ceb0d44feb
 - name: github.com/Sirupsen/logrus
@@ -114,13 +120,13 @@ imports:
 - name: github.com/spf13/cast
   version: ce135a4ebeee6cfe9a26c93ee0d37825f26113c7
 - name: github.com/spf13/cobra
-  version: 7be4beda01ec05d0b93d80b3facd2b6f44080d94
+  version: 6421115516beea57a41a46555c21899eb83f6387
   subpackages:
   - cobra
 - name: github.com/spf13/jwalterweatherman
   version: fa7ca7e836cf3a8bb4ebf799f472c12d7e903d66
 - name: github.com/spf13/pflag
-  version: 9ff6c6923cfffbcd502984b8e0c80539a94968b7
+  version: d16db1e50e33dff1b6cdf37596cef36742128670
 - name: github.com/spf13/viper
   version: 84f94806c67f59dd7ae87bc5351f7a9c94a4558d
 - name: golang.org/x/crypto
@@ -129,21 +135,25 @@ imports:
   - bcrypt
   - blowfish
 - name: golang.org/x/net
-  version: f315505cf3349909cdf013ea56690da34e96a451
+  version: ffcf1bedda3b04ebb15a168a59800a73d6dc0f4d
   subpackages:
   - context
   - http2
   - http2/hpack
+  - idna
   - internal/timeseries
+  - lex/httplex
   - trace
 - name: golang.org/x/sys
-  version: 99f16d856c9836c42d24e7ab64ea72916925fa97
+  version: 9a7256cb28ed514b4e1e5f68959914c4c28a92e0
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: f28f36722d5ef2f9655ad3de1f248e3e52ad5ebd
+  version: f4b4367115ec2de254587813edaa901bc1c723a8
   subpackages:
+  - secure/bidirule
   - transform
+  - unicode/bidi
   - unicode/norm
 - name: google.golang.org/grpc
   version: cdee119ee21e61eef7093a41ba148fa83585e143
@@ -159,14 +169,12 @@ imports:
   - stats
   - tap
   - transport
-- name: gopkg.in/go-playground/validator.v8
-  version: c193cecd124b5cc722d7ee5538e945bdb3348435
 - name: gopkg.in/go-playground/validator.v9
   version: 4bd19358521c53f09639f21e2a9d6883d6890f24
-  subpackages:
-  - translations/en
 - name: gopkg.in/yaml.v2
   version: a3f3340b5840cee44f372bddb5880fcbc419b46a
 testImports:
-- name: gopkg.in/go-playground/assert.v1
-  version: 4f4dfbc7d1c48336cf93399deae81aa9067e88af
+- name: golang.org/x/sync
+  version: 5a06fca2c336a4b2b2fcb45702e8c47621b2aa2c
+  subpackages:
+  - errgroup

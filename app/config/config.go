@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"fmt"
@@ -23,8 +23,9 @@ type AppConfig struct {
 type Settings struct {
 	Initialized bool
 	Debug       bool
-	LogLevel    string `validate:"eq=DEBUG|eq=INFO"`
+	LogLevel    string `validate:"eq=DEBUG|eq=INFO|eq=WARNING|eq=ERROR|eq=FATAL|eq=PANIC"`
 }
+
 type User struct {
 	Id           string `validate:"uuid4"`
 	Email        string `validate:"required,email"`
@@ -75,7 +76,7 @@ func NewAppConfig() *AppConfig {
 }
 
 func ParseAppConfig(yamlString string) (*AppConfig, error) {
-	// Parse appConfig from a string
+	// Parse from a string and populate a new nested AppConfig struct
 	ac := &AppConfig{}
 
 	err := yaml.Unmarshal([]byte(yamlString), ac)

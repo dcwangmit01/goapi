@@ -30,7 +30,7 @@ deps: _deps  ## install host dependencies
 .PHONY: check
 check: _check deps  ## checks
 
-#.PHONY: THIS IS A REAL TARGET
+.PHONY: vendor
 vendor: glide.lock  ## install/build all 3rd party vendor libs and bins
 	@# Work around "directory not empty" bug on second glide up/install
 	rm -rf vendor
