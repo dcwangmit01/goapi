@@ -28,7 +28,7 @@ _deps:
 	@#   Golang needs to find the sources of this project in the GOPATH.
 	@if [ ! -L $(GO_DIR) ]; then \
 	  mkdir -p $(shell dirname $(GO_DIR)); \
-	  ln -s $(CWD) $(GO_DIR); \
+	  ln -s $(CURDIR) $(GO_DIR); \
 	fi
 
 .PHONY: _check
