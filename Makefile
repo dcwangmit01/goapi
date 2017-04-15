@@ -31,7 +31,7 @@ deps: _deps  ## install host dependencies
 check: _check deps  ## checks
 
 .PHONY: vendor
-vendor: glide.lock  ## install/build all 3rd party vendor libs and bins
+vendor: check glide.lock  ## install/build all 3rd party vendor libs and bins
 	@# Work around "directory not empty" bug on second glide up/install
 	rm -rf vendor
 
@@ -146,9 +146,11 @@ format: $(GOSOURCES)
 
 .PHONY: test
 test: _test format
-	@# Find package dirs, skipping "."
-	@#ginkgo -pkgdir .ginkgo -cover $(shell glide novendor | grep -v '^\.$$')
-	ginkgo -v -cover app cmd resources
+	ginkgo -v -cover ./app/... ./cmd/... ./resources/...
+
+.PHONY: testrandom
+testrandom: _test format
+	ginkgo -v -cover --randomizeSuites --randomizeAllSpecs ./app/... ./cmd/... ./resources/...
 
 .PHONY: clean
 clean:  ## delete all non-repo files

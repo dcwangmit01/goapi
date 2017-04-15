@@ -46,7 +46,6 @@ _check:
 
 .PHONY: _test
 _test:
-	:
 
 .PHONY: printvars
 printvars:
