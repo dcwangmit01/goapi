@@ -11,6 +11,8 @@ import (
 	"os"
 )
 
+var debug = false
+
 var _ = Describe("Cmd", func() {
 	// The Ginkgo test runner takes over os.Args and fills it with its own
 	// flags.  This makes the cobra command arg parsing fail because of
@@ -27,7 +29,12 @@ var _ = Describe("Cmd", func() {
 		os.Args = os.Args[:1]
 
 		// set the output to both Stdout and a byteBuffer
-		mw := io.MultiWriter(&buf, os.Stdout)
+		var mw io.Writer
+		if debug == true {
+			mw = io.MultiWriter(&buf, os.Stdout)
+		} else {
+			mw = io.MultiWriter(&buf)
+		}
 		cmd.RootCmd.SetOutput(mw)
 	})
 
@@ -72,7 +79,7 @@ var _ = Describe("Cmd", func() {
 
 				// process the output
 				//  (?s): allows for "." to represent "\n"
-				Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval.*create.*read.*update.*delete"))
+				Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*keyval.*create.*read.*update.*delete"))
 				Expect(err).Should(BeNil())
 			})
 		})
