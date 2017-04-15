@@ -95,7 +95,6 @@ var _ = Describe("Config", func() {
 
 		Context("HashPassword and ValidatePassword", func() {
 			u := config.NewUser()
-
 			myPassword := "1234asdf!@#$"
 
 			It("Should create a hash of the password and validate", func() {
@@ -113,11 +112,31 @@ var _ = Describe("Config", func() {
 			})
 		})
 
+	})
+
+	Describe("Static Functions", func() {
+
 		Context("Validate", func() {
+
+			It("Should pass on good values", func() {
+				myPassword := "1234asdf!@#$"
+				u := config.NewUser()
+				u.Email = "test@test.com"
+				u.Name = "First Last"
+				u.HashPassword(myPassword)
+				u.Role = "USER"
+				u.Phone = "012345678901234"
+				errs := config.ValidateStruct(u)
+
+				if len(errs) > 0 { // output to help debug
+					fmt.Printf("%+v", errs)
+				}
+				Expect(len(errs)).Should(Equal(0))
+			})
+
 			It("Should fail on bad values", func() {
 				u := config.NewUser()
-				errs := u.Validate()
-				fmt.Printf("%+v", errs)
+				errs := config.ValidateStruct(u)
 
 				Expect(len(errs)).Should(Equal(4))
 				Expect(errs).Should(HaveKey("User.Email"))
@@ -126,8 +145,8 @@ var _ = Describe("Config", func() {
 				Expect(errs["User.Name"]).Should(Equal("required"))
 				Expect(errs).Should(HaveKey("User.PasswordHash"))
 				Expect(errs["User.PasswordHash"]).Should(Equal("required"))
-				Expect(errs).Should(HaveKey("User.PhoneNumber"))
-				Expect(errs["User.PhoneNumber"]).Should(Equal("phone"))
+				Expect(errs).Should(HaveKey("User.Phone"))
+				Expect(errs["User.Phone"]).Should(Equal("phone"))
 			})
 		})
 	})

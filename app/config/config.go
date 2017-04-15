@@ -45,9 +45,9 @@ type User struct {
 	Id           string `validate:"uuid4"`
 	Email        string `validate:"required,email"`
 	Name         string `validate:"required,printascii"` // TODO: plan on escaping and handling all printable ASCII
-	PasswordHash string `validate:"required,base64"`     // Hashed and Salted by the bcrypt library
+	PasswordHash string `validate:"required"`            // Hashed and Salted by the bcrypt library
 	Role         string `validate:"eq=USER|eq=ADMIN"`
-	PhoneNumber  string `validate:"phone,min=7"`
+	Phone        string `validate:"phone,min=7"`
 }
 
 func (u *User) HashPassword(password string) error {
@@ -121,18 +121,17 @@ func (ac *AppConfig) Dump() (string, error) {
 	return string(d), err
 }
 
-func (u *User) Validate() map[string]string {
+func ValidateStruct(s interface{}) map[string]string {
+	// returns nil if no errors
+	//   or a map with key=namespace, value=validation_tag_that_failed
 
-	err := validate.Struct(u)
+	err := validate.Struct(s)
 	if err != nil {
-		// translate all error at once
-		// returns a map with key = namespace & value = translated error
-		// ValidationErrors is type alias to "[]FieldError"
 		fieldErrors := err.(validator.ValidationErrors)
 
-		// map[fieldname] = "validation tag that failed"
+		// translate the fieldErrors above from odd types to
+		// map[string]string
 		m := make(map[string]string)
-
 		for i := 0; i < len(fieldErrors); i++ {
 			fe := fieldErrors[i]
 			m[fe.Namespace()] = fe.Tag()
