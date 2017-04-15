@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/go-playground/validator.v9"
@@ -10,9 +9,25 @@ import (
 	"regexp"
 )
 
+var validate = validator.New()
+
+func init() {
+	// Register an additional validator called "phone"
+	// A phone number contains no dashes, spaces, and parens. Valid keys
+	// all keypad [0-9#*] as well as "+" to designate country code, and "w"
+	// to signify a .5 second wait.
+	var phoneRegexString = "^+?[0-9#*w]+$"
+	var phoneRegex = regexp.MustCompile(phoneRegexString)
+	var isPhone = func(fl validator.FieldLevel) bool {
+		return phoneRegex.MatchString(fl.Field().String())
+	}
+
+	validate.RegisterValidation("phone", isPhone)
+}
+
 const (
-	defaultAdminUser = "admin"
-	defaultAdminPass = "password"
+	DefaultAdminUser = "admin"
+	DefaultAdminPass = "password"
 )
 
 type AppConfig struct {
@@ -35,12 +50,16 @@ type User struct {
 	PhoneNumber  string `validate:"phone,min=7"`
 }
 
-func (u *User) ValidatePassword(password string) (bool, error) {
-	err := bcrypt.CompareHashAndPassword([]byte(u.PasswordHash), []byte(password))
-	if err != nil {
-		return false, err
+func (u *User) HashPassword(password string) error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err == nil {
+		u.PasswordHash = string(hash)
 	}
-	return true, nil
+	return err
+}
+
+func (u *User) ValidatePassword(password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.PasswordHash), []byte(password))
 }
 
 func NewUser() *User {
@@ -52,14 +71,14 @@ func NewUser() *User {
 
 func NewAppConfig() *AppConfig {
 
-	// If no current AppConfig exists, start from scratch and initialize
-	// with a default admin login user/password.  Some fields will be set
-	// to default, but most things will be set to zero values and thus this
-	// AppConfig will not validate.  It will be up to the UI to get field
-	// values from the first (admin) user, after which Validate will be
-	// enforced
+	// Only use if no current AppConfig exists.  Start from scratch and
+	// initialize with a default admin login user/password.  Some fields
+	// will be set to default, but most things will be set to zero values
+	// and thus this AppConfig will not validate.  It will be up to the UI
+	// to get field values from the first (admin) user, after which
+	// Validate will be enforced
 
-	adminPass, _ := bcrypt.GenerateFromPassword([]byte(defaultAdminPass), bcrypt.DefaultCost)
+	adminPass, _ := bcrypt.GenerateFromPassword([]byte(DefaultAdminPass), bcrypt.DefaultCost)
 
 	return &AppConfig{
 		&Settings{
@@ -69,6 +88,7 @@ func NewAppConfig() *AppConfig {
 			&User{ // default admin user
 				Id:           uuid.NewV4().String(),
 				Role:         "ADMIN",
+				Name:         DefaultAdminUser,
 				PasswordHash: string(adminPass),
 			},
 		},
@@ -82,9 +102,15 @@ func ParseAppConfig(yamlString string) (*AppConfig, error) {
 	err := yaml.Unmarshal([]byte(yamlString), ac)
 	if err != nil {
 		log.Fatalf("error: %v", err)
+		return nil, err
 	}
 	return ac, err
 
+}
+
+func (ac *AppConfig) AddUser(user *User) {
+	ac.Users = append(ac.Users, user)
+	return
 }
 
 func (ac *AppConfig) Dump() (string, error) {
@@ -95,42 +121,23 @@ func (ac *AppConfig) Dump() (string, error) {
 	return string(d), err
 }
 
-func main() {
+func (u *User) Validate() map[string]string {
 
-	ac := NewAppConfig()
-	ac.Users = append(ac.Users, NewUser())
-
-	ac.Users[0].Email = "user1@gmail.com"
-	ac.Users[1].Email = "asdf"
-
-	validate := validator.New()
-
-	// A phone number contains no dashes, spaces, and parens. Valid keys
-	// all keypad [0-9#*] as well as "+" to designate country code, and "w"
-	// to signify a .5 second wait.
-	var phoneRegexString = "^+?[0-9#*w]+$"
-	var phoneRegex = regexp.MustCompile(phoneRegexString)
-	var isPhone = func(fl validator.FieldLevel) bool {
-		return phoneRegex.MatchString(fl.Field().String())
-	}
-	validate.RegisterValidation("phone", isPhone)
-
-	err := validate.Struct(ac)
+	err := validate.Struct(u)
 	if err != nil {
-
 		// translate all error at once
-		errs := err.(validator.ValidationErrors)
-
 		// returns a map with key = namespace & value = translated error
-		// NOTICE: 2 errors are returned and you'll see something surprising
-		// translations are i18n aware!!!!
-		// eg. '10 characters' vs '1 character'
-		fmt.Println(errs)
-	}
+		// ValidationErrors is type alias to "[]FieldError"
+		fieldErrors := err.(validator.ValidationErrors)
 
-	ac1Str, err := ac.Dump()
-	ac2, err := ParseAppConfig(ac1Str)
-	ac2Str, err := ac2.Dump()
-	fmt.Println(ac1Str)
-	fmt.Println(ac2Str)
+		// map[fieldname] = "validation tag that failed"
+		m := make(map[string]string)
+
+		for i := 0; i < len(fieldErrors); i++ {
+			fe := fieldErrors[i]
+			m[fe.Namespace()] = fe.Tag()
+		}
+		return m
+	}
+	return nil
 }
