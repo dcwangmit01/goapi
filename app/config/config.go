@@ -5,11 +5,21 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/go-playground/validator.v9"
 	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"log"
+	"os"
 	"regexp"
 )
 
 var validate = validator.New()
+
+const (
+	DefaultAdminUser  = "admin"
+	DefaultAdminPass  = "password"
+	DefaultConfigFile = "app.yaml"
+)
+
+var SingletonAppConfig *AppConfig
 
 func init() {
 	// Register an additional validator called "phone"
@@ -23,12 +33,21 @@ func init() {
 	}
 
 	validate.RegisterValidation("phone", isPhone)
-}
 
-const (
-	DefaultAdminUser = "admin"
-	DefaultAdminPass = "password"
-)
+	// Create the global AppConfig
+	if _, err := os.Stat(DefaultConfigFile); err == nil {
+		// the file exists
+		bytes, err := ioutil.ReadFile(DefaultConfigFile)
+		if err != nil {
+			panic("DefaultConfigFile exists but is not readable")
+		}
+		// parse
+		SingletonAppConfig, _ = ParseAppConfig(string(bytes))
+	} else {
+		// Create a NewAppConfig
+		SingletonAppConfig = NewAppConfig()
+	}
+}
 
 type AppConfig struct {
 	Settings *Settings `validate:"dive"`
@@ -42,8 +61,10 @@ type Settings struct {
 }
 
 type User struct {
-	Id           string `validate:"uuid4"`
-	Email        string `validate:"required,email"`
+	Id string `validate:"uuid4"`
+	// Email is globally unique from the user's perspective (either
+	// email OR 'admin')
+	Email        string `validate:"required,email|eq=admin"`
 	Name         string `validate:"required,printascii"` // TODO: plan on escaping and handling all printable ASCII
 	PasswordHash string `validate:"required"`            // Hashed and Salted by the bcrypt library
 	Role         string `validate:"eq=USER|eq=ADMIN"`
@@ -87,6 +108,7 @@ func NewAppConfig() *AppConfig {
 		[]*User{
 			&User{ // default admin user
 				Id:           uuid.NewV4().String(),
+				Email:        "admin",
 				Role:         "ADMIN",
 				Name:         DefaultAdminUser,
 				PasswordHash: string(adminPass),
@@ -106,6 +128,15 @@ func ParseAppConfig(yamlString string) (*AppConfig, error) {
 	}
 	return ac, err
 
+}
+
+func (ac *AppConfig) GetUserWithEmail(email string) *User {
+	for _, user := range ac.Users {
+		if user.Email == email {
+			return user
+		}
+	}
+	return nil
 }
 
 func (ac *AppConfig) AddUser(user *User) {

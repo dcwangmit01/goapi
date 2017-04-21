@@ -49,6 +49,26 @@ var _ = Describe("Config", func() {
 			})
 		})
 
+		Context("GetUserWithEmail", func() {
+			ac := config.NewAppConfig()
+			ac.Users = append(ac.Users, config.NewUser())
+			ac.Users[1].Email = "user@domain.com"
+
+			It("Should return an admin user", func() {
+				u := ac.GetUserWithEmail("admin")
+				Expect(u).ShouldNot(BeNil())
+			})
+			It("Should return a user, user", func() {
+				u := ac.GetUserWithEmail("user@domain.com")
+				Expect(u).ShouldNot(BeNil())
+			})
+			It("Should return nil when a user does not exist", func() {
+				u := ac.GetUserWithEmail("nonexistant@domain.com")
+				Expect(u).Should(BeNil())
+			})
+
+		})
+
 		Context("Dump and Parse", func() {
 
 			var err error
@@ -57,7 +77,7 @@ var _ = Describe("Config", func() {
 
 			ac1 = config.NewAppConfig()
 			ac1.Users = append(ac1.Users, config.NewUser())
-			ac1.Users[0].Email = "user1@gmail.com"
+			ac1.Users[0].Email = "user1@domain.com"
 			ac1.Users[1].Email = "asdf"
 
 			It("Should both match", func() {
@@ -121,7 +141,7 @@ var _ = Describe("Config", func() {
 			It("Should pass on good values", func() {
 				myPassword := "1234asdf!@#$"
 				u := config.NewUser()
-				u.Email = "test@test.com"
+				u.Email = "user@domain.com"
 				u.Name = "First Last"
 				u.HashPassword(myPassword)
 				u.Role = "USER"
@@ -147,6 +167,22 @@ var _ = Describe("Config", func() {
 				Expect(errs["User.PasswordHash"]).Should(Equal("required"))
 				Expect(errs).Should(HaveKey("User.Phone"))
 				Expect(errs["User.Phone"]).Should(Equal("phone"))
+			})
+
+			It("User.email should pass on special email value of 'admin'", func() {
+				myPassword := "1234asdf!@#$"
+				u := config.NewUser()
+				u.Email = "admin" // <- special value
+				u.Name = "First Last"
+				u.HashPassword(myPassword)
+				u.Role = "USER"
+				u.Phone = "012345678901234"
+				errs := config.ValidateStruct(u)
+
+				if len(errs) > 0 { // output to help debug
+					fmt.Printf("%+v", errs)
+				}
+				Expect(len(errs)).Should(Equal(0))
 			})
 		})
 	})
