@@ -130,7 +130,7 @@ func ParseAppConfig(yamlString string) (*AppConfig, error) {
 
 }
 
-func (ac *AppConfig) GetUserWithEmail(email string) *User {
+func (ac *AppConfig) GetUserByEmail(email string) *User {
 	for _, user := range ac.Users {
 		if user.Email == email {
 			return user

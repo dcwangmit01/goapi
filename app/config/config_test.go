@@ -49,21 +49,21 @@ var _ = Describe("Config", func() {
 			})
 		})
 
-		Context("GetUserWithEmail", func() {
+		Context("GetUserByEmail", func() {
 			ac := config.NewAppConfig()
 			ac.Users = append(ac.Users, config.NewUser())
 			ac.Users[1].Email = "user@domain.com"
 
 			It("Should return an admin user", func() {
-				u := ac.GetUserWithEmail("admin")
+				u := ac.GetUserByEmail("admin")
 				Expect(u).ShouldNot(BeNil())
 			})
 			It("Should return a user, user", func() {
-				u := ac.GetUserWithEmail("user@domain.com")
+				u := ac.GetUserByEmail("user@domain.com")
 				Expect(u).ShouldNot(BeNil())
 			})
 			It("Should return nil when a user does not exist", func() {
-				u := ac.GetUserWithEmail("nonexistant@domain.com")
+				u := ac.GetUserByEmail("nonexistant@domain.com")
 				Expect(u).Should(BeNil())
 			})
 
