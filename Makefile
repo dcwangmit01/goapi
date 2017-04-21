@@ -121,7 +121,7 @@ $(RESOURCE_DIR)/certs/certs.go: cfssl/certs/insecure-key.pem
 	cd $(CERTS_DIR) && \
 	  go-bindata-assetfs -o $(RESOURCE_DIR)/certs/certs.go -pkg certs ./... 2>/dev/null || true
 
-.PHONY: compile format
+.PHONY: compile
 compile: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) $(BIN_DIR)/linux_arm/$(BIN_NAME)  ## build the binaries
 
 $(BIN_DIR)/linux_amd64/$(BIN_NAME): check $(GOSOURCES)

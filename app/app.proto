@@ -6,14 +6,43 @@ import "google/api/annotations.proto";
 // Syntax defined in
 //   https://github.com/googleapis/googleapis/blob/master/google/api/http.proto
 
+message EmptyMessage{}
+
+message AuthRequestMessage {
+	string email = 1;
+	string password = 2;
+}
+message AuthResponseMessage {
+	string token = 1;
+}
+
 message KeyValMessage {
   string key = 1;
   string value = 2;
 }
 
-message EmptyMessage{}
+message SettingsMessage {
+	bool initialized = 1;
+	bool debug = 2;
+	string logLevel = 3;
+}
+message UserMessage {
+	string id = 1;
+	string email = 2;
+	string name = 3;
+	string password = 4;
+	string role = 5;
+	string phone = 6;
+}
+
 
 service App {
+  rpc Auth(AuthRequestMessage) returns (AuthResponseMessage) {
+  option (google.api.http) = {
+      post: "/v1/auth"
+      body: "*"
+    };
+  }
   rpc KeyValCreate(KeyValMessage) returns (EmptyMessage) {
     option (google.api.http) = {
       put: "/v1/keyval/{key}"

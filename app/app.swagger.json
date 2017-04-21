@@ -15,6 +15,32 @@
     "application/json"
   ],
   "paths": {
+    "/v1/auth": {
+      "post": {
+        "operationId": "Auth",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/appAuthResponseMessage"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/appAuthRequestMessage"
+            }
+          }
+        ],
+        "tags": [
+          "App"
+        ]
+      }
+    },
     "/v1/keyval/{key}": {
       "get": {
         "operationId": "KeyValRead",
@@ -127,6 +153,28 @@
     }
   },
   "definitions": {
+    "appAuthRequestMessage": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "string"
+        },
+        "password": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "appAuthResponseMessage": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
     "appEmptyMessage": {
       "type": "object"
     },

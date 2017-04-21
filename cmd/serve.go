@@ -3,7 +3,6 @@ package cmd
 import (
 	"bytes"
 	"crypto/tls"
-	"errors"
 	"fmt"
 	"io"
 	"mime"
@@ -11,18 +10,18 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/elazarl/go-bindata-assetfs"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/elazarl/go-bindata-assetfs"
-
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
 
 	pb "github.com/dcwangmit01/grpc-gw-poc/app"
+	svc "github.com/dcwangmit01/grpc-gw-poc/app/service"
 	kv "github.com/dcwangmit01/grpc-gw-poc/app/sqlitekv"
 	swf "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/files"
 	sw "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/ui"
@@ -41,58 +40,14 @@ func init() {
 	RootCmd.AddCommand(serveCmd)
 }
 
-type myService struct{}
-
-func (s *myService) KeyValCreate(c context.Context, m *pb.KeyValMessage) (*pb.EmptyMessage, error) {
-	logutil.AddCtx(log.WithFields(log.Fields{
-		"message": m,
-	})).Info("Received RPC Request")
-
-	if kv.SqlKV.HasKey(m.Key) {
-		return &pb.EmptyMessage{}, errors.New("Cannot create existing Key")
-	}
-
-	kv.SqlKV.SetString(m.Key, m.Value)
-	return &pb.EmptyMessage{}, nil
-}
-
-func (s *myService) KeyValRead(c context.Context, m *pb.KeyValMessage) (*pb.KeyValMessage, error) {
-	logutil.AddCtx(log.WithFields(log.Fields{
-		"message": m,
-	})).Info("Received RPC Request")
-	m.Value = kv.SqlKV.String(m.Key)
-	return m, nil
-}
-
-func (s *myService) KeyValUpdate(c context.Context, m *pb.KeyValMessage) (*pb.EmptyMessage, error) {
-	logutil.AddCtx(log.WithFields(log.Fields{
-		"message": m,
-	})).Info("Received RPC Request")
-	kv.SqlKV.SetString(m.Key, m.Value)
-	return &pb.EmptyMessage{}, nil
-}
-
-func (s *myService) KeyValDelete(c context.Context, m *pb.KeyValMessage) (*pb.EmptyMessage, error) {
-	logutil.AddCtx(log.WithFields(log.Fields{
-		"message": m,
-	})).Info("Received RPC Request")
-	if !kv.SqlKV.HasKey(m.Key) {
-		return &pb.EmptyMessage{}, errors.New("Cannot delete non-existent Key")
-	}
-	kv.SqlKV.Del(m.Key)
-	return &pb.EmptyMessage{}, nil
-}
-
-func newServer() *myService {
-	return new(myService)
-}
-
 // grpcHandlerFunc returns an http.Handler that delegates to grpcServer on incoming gRPC
 // connections or otherHandler otherwise. Copied from cockroachdb.
 func grpcHandlerFunc(grpcServer *grpc.Server, otherHandler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// TODO(tamird): point to merged gRPC code rather than a PR.
-		// This is a partial recreation of gRPC's internal checks https://github.com/grpc/grpc-go/pull/514/files#diff-95e9a25b738459a2d3030e1e6fa2a718R61
+		// This is a partial recreation of gRPC's internal checks
+		// https://github.com/grpc/grpc-go/pull/514/files#diff-95e9a25b738459a2d3030e1e6fa2a718R61
+
 		if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
 			grpcServer.ServeHTTP(w, r)
 		} else {
@@ -121,7 +76,7 @@ func serve() {
 		grpc.Creds(credentials.NewClientTLSFromCert(certPool, serverAddress))}
 
 	grpcServer := grpc.NewServer(opts...)
-	pb.RegisterAppServer(grpcServer, newServer())
+	pb.RegisterAppServer(grpcServer, svc.NewServer())
 	ctx := context.Background()
 
 	// client credentials
