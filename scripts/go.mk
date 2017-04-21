@@ -32,7 +32,7 @@ _deps:
 	fi
 
 .PHONY: _check
-_check: 
+_check: _deps
 	@# This is a check to make sure you run this makefile from within the GOPATH
 	@#  Go requires building to be be run within GOPATH
 	@if ! pwd | grep "$$GOPATH" > /dev/null; then \

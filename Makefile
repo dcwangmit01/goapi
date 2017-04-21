@@ -28,7 +28,7 @@ deps: _deps  ## install host dependencies
 	fi
 
 .PHONY: check
-check: _check deps  ## checks
+check: _check  ## checks
 
 .PHONY: vendor
 vendor: check glide.lock  ## install/build all 3rd party vendor libs and bins
