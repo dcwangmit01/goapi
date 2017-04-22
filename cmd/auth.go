@@ -10,6 +10,7 @@ import (
 	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
 
 	pb "github.com/dcwangmit01/grpc-gw-poc/app"
+	jwt "github.com/dcwangmit01/grpc-gw-poc/app/jwt"
 )
 
 var authCmd = &cobra.Command{
@@ -36,6 +37,15 @@ func authAndPrint(client pb.AppClient) {
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": rsp,
 	})).Info("Received RPC Reply")
+
+	tokenStr := rsp.GetToken()
+	token, customClaims, err := jwt.ParseJwt(tokenStr)
+
+	logutil.AddCtx(log.WithFields(log.Fields{
+		"valid":  token.Valid,
+		"claims": customClaims,
+		"error":  err,
+	})).Info("Parsed JWT")
 }
 
 func init() {

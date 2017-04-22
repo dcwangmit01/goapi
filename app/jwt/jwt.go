@@ -19,8 +19,8 @@ type CustomClaims struct {
 func CreateJwtWithIdRole(id string, role string) (string, error) {
 	now := time.Now()
 	claims := CustomClaims{
-		"id",
-		"role",
+		id,
+		role,
 		jwtgo.StandardClaims{
 			Issuer:    "apiservice",
 			Audience:  "apiservice",
@@ -34,4 +34,19 @@ func CreateJwtWithIdRole(id string, role string) (string, error) {
 	fmt.Printf("%v %v", ss, err)
 
 	return ss, err
+}
+
+func keyLookupFunction(token *jwtgo.Token) (interface{}, error) {
+	// Always return the same SigningKey
+	return SigningKey, nil
+}
+
+func ParseJwt(tokenStr string) (*jwtgo.Token, *CustomClaims, error) {
+	token, err := jwtgo.ParseWithClaims(tokenStr, &CustomClaims{}, keyLookupFunction)
+
+	claims, ok := token.Claims.(*CustomClaims)
+	if !ok {
+		panic("Type Assertion failed")
+	}
+	return token, claims, err
 }
