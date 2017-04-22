@@ -63,7 +63,6 @@ func (s *myService) KeyValCreate(c context.Context, m *pb.KeyValMessage) (*pb.Em
 	if kv.SqlKV.HasKey(m.Key) {
 		return &pb.EmptyMessage{}, errors.New("Cannot create existing Key")
 	}
-
 	kv.SqlKV.SetString(m.Key, m.Value)
 	return &pb.EmptyMessage{}, nil
 }
@@ -72,6 +71,9 @@ func (s *myService) KeyValRead(c context.Context, m *pb.KeyValMessage) (*pb.KeyV
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": m,
 	})).Info("Received RPC Request")
+	if !kv.SqlKV.HasKey(m.Key) {
+		return m, errors.New("Cannot read non-existent Key")
+	}
 	m.Value = kv.SqlKV.String(m.Key)
 	return m, nil
 }
@@ -80,6 +82,9 @@ func (s *myService) KeyValUpdate(c context.Context, m *pb.KeyValMessage) (*pb.Em
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": m,
 	})).Info("Received RPC Request")
+	if !kv.SqlKV.HasKey(m.Key) {
+		return &pb.EmptyMessage{}, errors.New("Cannot update non-existent Key")
+	}
 	kv.SqlKV.SetString(m.Key, m.Value)
 	return &pb.EmptyMessage{}, nil
 }
