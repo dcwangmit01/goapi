@@ -122,7 +122,10 @@ $(RESOURCE_DIR)/certs/certs.go: cfssl/certs/insecure-key.pem
 	  go-bindata-assetfs -o $(RESOURCE_DIR)/certs/certs.go -pkg certs ./... 2>/dev/null || true
 
 .PHONY: compile
-compile: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) $(BIN_DIR)/linux_arm/$(BIN_NAME)  ## build the binaries
+compile: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) ## build the binaries for amd64
+
+.PHONY: compilex
+compilex: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) $(BIN_DIR)/linux_arm/$(BIN_NAME)  ## build the binaries for all platforms
 
 $(BIN_DIR)/linux_amd64/$(BIN_NAME): check $(GOSOURCES)
 	@echo "## Building AMD64 Binary"

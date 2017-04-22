@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/go-playground/validator.v9"
@@ -9,6 +10,10 @@ import (
 	"log"
 	"os"
 	"regexp"
+
+	jwt "github.com/dcwangmit01/grpc-gw-poc/app/jwt"
+	rbac "github.com/dcwangmit01/grpc-gw-poc/app/rbac"
+	gorbac "github.com/mikespook/gorbac"
 )
 
 var validate = validator.New()
@@ -57,7 +62,7 @@ type AppConfig struct {
 type Settings struct {
 	Initialized bool
 	Debug       bool
-	LogLevel    string `validate:"eq=DEBUG|eq=INFO|eq=WARNING|eq=ERROR|eq=FATAL|eq=PANIC"`
+	LogLevel    string `validate:"eq=debug|eq=info|eq=warning|eq=error|eq=fatal|eq=panic"`
 }
 
 type User struct {
@@ -67,8 +72,17 @@ type User struct {
 	Email        string `validate:"required,email|eq=admin"`
 	Name         string `validate:"required,printascii"` // TODO: plan on escaping and handling all printable ASCII
 	PasswordHash string `validate:"required"`            // Hashed and Salted by the bcrypt library
-	Role         string `validate:"eq=USER|eq=ADMIN"`
+	Role         string `validate:"eq=user|eq=admin"`
 	Phone        string `validate:"phone,min=7"`
+}
+
+func (u *User) GenerateJwt() (string, error) {
+	return jwt.CreateJwtWithIdRole(u.Id, u.Role)
+}
+
+func (u *User) GetRole() (gorbac.Role, error) {
+	role, _, err := rbac.Rbac.Get(u.Role)
+	return role, err
 }
 
 func (u *User) HashPassword(password string) error {
@@ -86,7 +100,7 @@ func (u *User) ValidatePassword(password string) error {
 func NewUser() *User {
 	return &User{
 		Id:   uuid.NewV4().String(),
-		Role: "USER",
+		Role: "user",
 	}
 }
 
@@ -103,13 +117,13 @@ func NewAppConfig() *AppConfig {
 
 	return &AppConfig{
 		&Settings{
-			LogLevel: "DEBUG",
+			LogLevel: "debug",
 		},
 		[]*User{
 			&User{ // default admin user
 				Id:           uuid.NewV4().String(),
 				Email:        "admin",
-				Role:         "ADMIN",
+				Role:         "admin",
 				Name:         DefaultAdminUser,
 				PasswordHash: string(adminPass),
 			},
@@ -130,13 +144,20 @@ func ParseAppConfig(yamlString string) (*AppConfig, error) {
 
 }
 
-func (ac *AppConfig) GetUserByEmail(email string) *User {
-	for _, user := range ac.Users {
-		if user.Email == email {
-			return user
+func (ac *AppConfig) GetUserByEmail(email string) (*User, error) {
+	var user *User = nil
+	for _, u := range ac.Users {
+		if u.Email == email {
+			if user != nil {
+				return nil, errors.New("More than one user with same email")
+			}
+			user = u
 		}
 	}
-	return nil
+	if user == nil {
+		return nil, errors.New("Unable to find user by email")
+	}
+	return user, nil
 }
 
 func (ac *AppConfig) AddUser(user *User) {

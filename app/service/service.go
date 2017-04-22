@@ -21,17 +21,38 @@ func (s *myService) Auth(ctx context.Context, in *pb.AuthRequestMessage) (*pb.Au
 	})).Info("Received RPC Request")
 
 	ac := cnf.SingletonAppConfig
-	u := ac.GetUserByEmail(in.GetEmail())
-	if u == nil {
-		return &pb.AuthResponseMessage{}, errors.New("User Not Found")
-	}
 
-	err := u.ValidatePassword(in.GetPassword())
+	// find the user
+	u, err := ac.GetUserByEmail(in.GetEmail())
 	if err != nil {
-		return &pb.AuthResponseMessage{}, errors.New("Invalid Password")
+		logutil.AddCtx(log.WithFields(log.Fields{
+			"message": in,
+			"error":   err,
+		})).Warn("Auth RPC Failed")
+		return &pb.AuthResponseMessage{}, err
 	}
 
-	return &pb.AuthResponseMessage{Token: "a new JWT token"}, nil
+	// validate the user password
+	err = u.ValidatePassword(in.GetPassword())
+	if err != nil {
+		logutil.AddCtx(log.WithFields(log.Fields{
+			"message": in,
+			"error":   err,
+		})).Warn("Auth RPC Failed")
+		return &pb.AuthResponseMessage{}, err
+	}
+
+	// create the JWT token, which contains claims
+	jwtStr, err := u.GenerateJwt()
+	if err != nil {
+		logutil.AddCtx(log.WithFields(log.Fields{
+			"message": in,
+			"error":   err,
+		})).Warn("Auth RPC Failed")
+		return &pb.AuthResponseMessage{}, err
+	}
+
+	return &pb.AuthResponseMessage{Token: jwtStr}, nil
 }
 
 func (s *myService) KeyValCreate(c context.Context, m *pb.KeyValMessage) (*pb.EmptyMessage, error) {

@@ -6,7 +6,7 @@ import (
 
 var Rbac *gorbac.RBAC
 
-const (
+var (
 	// roles
 	RoleAdmin = gorbac.NewStdRole("admin")
 	RoleUser  = gorbac.NewStdRole("user")

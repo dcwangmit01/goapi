@@ -16,14 +16,14 @@ var _ = Describe("Config", func() {
 			ac := config.NewAppConfig()
 
 			It("Should have default settings", func() {
-				Expect(ac.Settings.LogLevel).Should(Equal("DEBUG"))
+				Expect(ac.Settings.LogLevel).Should(Equal("debug"))
 			})
 
 			It("Should have a default admin user", func() {
 				Expect(len(ac.Users)).Should(Equal(1))
 				Expect(ac.Users[0].Name).Should(Equal(config.DefaultAdminUser))
 				Expect(len(ac.Users[0].Id)).Should(BeNumerically(">", 0))
-				Expect(ac.Users[0].Role).Should(Equal("ADMIN"))
+				Expect(ac.Users[0].Role).Should(Equal("admin"))
 			})
 
 			It("Should have a valid admin password hash", func() {
@@ -55,16 +55,19 @@ var _ = Describe("Config", func() {
 			ac.Users[1].Email = "user@domain.com"
 
 			It("Should return an admin user", func() {
-				u := ac.GetUserByEmail("admin")
+				u, err := ac.GetUserByEmail("admin")
 				Expect(u).ShouldNot(BeNil())
+				Expect(err).Should(BeNil())
 			})
 			It("Should return a user, user", func() {
-				u := ac.GetUserByEmail("user@domain.com")
+				u, err := ac.GetUserByEmail("user@domain.com")
 				Expect(u).ShouldNot(BeNil())
+				Expect(err).Should(BeNil())
 			})
 			It("Should return nil when a user does not exist", func() {
-				u := ac.GetUserByEmail("nonexistant@domain.com")
+				u, err := ac.GetUserByEmail("nonexistant@domain.com")
 				Expect(u).Should(BeNil())
+				Expect(err).ShouldNot(BeNil())
 			})
 
 		})
@@ -105,7 +108,7 @@ var _ = Describe("Config", func() {
 			})
 
 			It("Should have a Role", func() {
-				Expect(u.Role).Should(Equal("USER"))
+				Expect(u.Role).Should(Equal("user"))
 			})
 
 			It("Should have an Empty Password", func() {
@@ -144,7 +147,7 @@ var _ = Describe("Config", func() {
 				u.Email = "user@domain.com"
 				u.Name = "First Last"
 				u.HashPassword(myPassword)
-				u.Role = "USER"
+				u.Role = "user"
 				u.Phone = "012345678901234"
 				errs := config.ValidateStruct(u)
 
@@ -175,7 +178,7 @@ var _ = Describe("Config", func() {
 				u.Email = "admin" // <- special value
 				u.Name = "First Last"
 				u.HashPassword(myPassword)
-				u.Role = "USER"
+				u.Role = "user"
 				u.Phone = "012345678901234"
 				errs := config.ValidateStruct(u)
 
