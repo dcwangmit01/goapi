@@ -6,52 +6,49 @@ import (
 
 var Rbac *gorbac.RBAC
 
+const (
+	// roles
+	RoleAdmin = gorbac.NewStdRole("admin")
+	RoleUser  = gorbac.NewStdRole("user")
+
+	// Being on the box (localhost) automatically enables
+	// permissions and access to some endpoints
+	RoleLocal = gorbac.NewStdRole("local")
+
+	// regarding system settings
+	PermRSettings = gorbac.NewStdPermission("r-settings") // read
+	PermWSettings = gorbac.NewStdPermission("w-settings") // write
+
+	// regarding configuring other admin users
+	PermRAdmins = gorbac.NewStdPermission("r-admins") // read
+	PermWAdmins = gorbac.NewStdPermission("w-admins") // write
+	PermLAdmins = gorbac.NewStdPermission("l-admins") // list
+
+	// regarding configuring other users
+	PermRUsers = gorbac.NewStdPermission("r-users")
+	PermWUsers = gorbac.NewStdPermission("w-users")
+	PermLUsers = gorbac.NewStdPermission("l-users")
+)
+
 func init() {
 	Rbac = gorbac.New()
 
-	// roles
-	rAdmin := gorbac.NewStdRole("admin")
-	rUser := gorbac.NewStdRole("user")
-
-	// Being on the box automatically enables permissions and access to
-	// some endpoints
-	rLocal := gorbac.NewStdRole("localhost")
-
-	// regarding system settings
-	prSettings := gorbac.NewStdPermission("r-settings") // read
-	pwSettings := gorbac.NewStdPermission("w-settings") // write
-
-	// regarding configuring other admin users
-	prAdmins := gorbac.NewStdPermission("r-admins") // read
-	pwAdmins := gorbac.NewStdPermission("w-admins") // write
-	plAdmins := gorbac.NewStdPermission("l-admins") // list
-
-	// regarding configuring other users
-	prUsers := gorbac.NewStdPermission("r-users")
-	pwUsers := gorbac.NewStdPermission("w-users")
-	plUsers := gorbac.NewStdPermission("l-users")
-
-	// regarding self
-	pSelf := gorbac.NewStdPermission("self")
-
 	// assigning permissions to roles
-	rAdmin.Assign(prSettings)
-	rAdmin.Assign(pwSettings)
-	rAdmin.Assign(prAdmins)
-	rAdmin.Assign(pwAdmins)
-	rAdmin.Assign(plAdmins)
-	rAdmin.Assign(prUsers)
-	rAdmin.Assign(pwUsers)
-	rAdmin.Assign(plUsers)
-	rAdmin.Assign(pSelf)
+	RoleAdmin.Assign(PermRSettings)
+	RoleAdmin.Assign(PermWSettings)
+	RoleAdmin.Assign(PermRAdmins)
+	RoleAdmin.Assign(PermWAdmins)
+	RoleAdmin.Assign(PermLAdmins)
+	RoleAdmin.Assign(PermRUsers)
+	RoleAdmin.Assign(PermWUsers)
+	RoleAdmin.Assign(PermLUsers)
 
-	rUser.Assign(plUsers)
-	rUser.Assign(pSelf)
+	RoleUser.Assign(PermLUsers)
 
-	rLocal.Assign(plUsers)
+	RoleLocal.Assign(PermLUsers)
 
 	// add roles to rbac object
-	Rbac.Add(rAdmin)
-	Rbac.Add(rUser)
-	rbac.Add(rLocalp)
+	Rbac.Add(RoleAdmin)
+	Rbac.Add(RoleUser)
+	Rbac.Add(RoleLocal)
 }
