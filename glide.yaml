@@ -6,6 +6,8 @@ owners:
 import:
 - package: google.golang.org/grpc
   version: ^1.0.5
+  subpackages:
+  - metadata
 - package: github.com/golang/protobuf
   subpackages:
   - proto

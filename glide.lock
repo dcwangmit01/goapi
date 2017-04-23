@@ -1,8 +1,10 @@
-hash: b9f6205d944dbd9a0bb6593d31440a5b22216cc4cb36035c1a0caf04367d7a51
-updated: 2017-04-16T17:21:57.460106567Z
+hash: ec8871c9064677a21d05a3562067189918aad24e93bd1becd4de15b080730eed
+updated: 2017-04-23T05:05:05.804549803Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
+- name: github.com/dghubble/sling
+  version: bbfb8293bd33a6baad33d718aacf66ef73a29f30
 - name: github.com/dgrijalva/jwt-go
   version: d2709f9f1f31ebcda9651b03077758c1f3a0018c
 - name: github.com/elazarl/go-bindata-assetfs
@@ -24,17 +26,41 @@ imports:
   - proto
   - protoc-gen-go
   - protoc-gen-go/descriptor
+  - protoc-gen-go/generator
+  - protoc-gen-go/plugin
+  - ptypes
+  - ptypes/any
+  - ptypes/duration
+  - ptypes/empty
+  - ptypes/struct
+  - ptypes/timestamp
+  - ptypes/wrappers
+- name: github.com/google/go-querystring
+  version: 53e6ce116135b80d037921a7fdd5138cf32d7a8a
+  subpackages:
+  - query
 - name: github.com/grpc-ecosystem/grpc-gateway
   version: a8f25bd1ab549f8b87afd48aa9181221e9d439bb
   subpackages:
+  - examples/clients/abe
+  - examples/clients/echo
+  - examples/examplepb
+  - examples/server
+  - examples/sub
+  - examples/sub2
   - protoc-gen-grpc-gateway
+  - protoc-gen-grpc-gateway/descriptor
+  - protoc-gen-grpc-gateway/generator
+  - protoc-gen-grpc-gateway/gengateway
+  - protoc-gen-grpc-gateway/httprule
   - protoc-gen-swagger
+  - protoc-gen-swagger/genswagger
   - runtime
   - runtime/internal
   - third_party/googleapis/google/api
   - utilities
 - name: github.com/hashicorp/hcl
-  version: 630949a3c5fa3c613328e1b8256052cbc2327c9b
+  version: 7fa7fff964d035e8a162cce3a164b3ad02ad651b
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -61,7 +87,7 @@ imports:
 - name: github.com/mitchellh/iochan
   version: 87b45ffd0e9581375c491fef3d32130bb15c5bd7
 - name: github.com/mitchellh/mapstructure
-  version: 53818660ed4955e899c0bcafa97299a388bd7c8e
+  version: cc8532a8e9a55ea36402aa21efdf403a60d34096
 - name: github.com/onsi/ginkgo
   version: 77a8c1e5c40d6bb6c5eb4dd4bdce9763564f6298
   subpackages:
@@ -99,7 +125,9 @@ imports:
 - name: github.com/pelletier/go-buffruneio
   version: c37440a7cf42ac63b919c752ca73a85067e05992
 - name: github.com/pelletier/go-toml
-  version: e32a2e04744250647a72bf17da1b09befc03b6b1
+  version: fe206efb84b2bc8e8cfafe6b4c1826622be969e3
+- name: github.com/rogpeppe/fastuuid
+  version: 6724a57986aff9bff1a1770e9347036def7c89f6
 - name: github.com/satori/go.uuid
   version: 879c5887cd475cd7864858769793b2ceb0d44feb
 - name: github.com/Sirupsen/logrus
@@ -109,24 +137,24 @@ imports:
   subpackages:
   - mem
 - name: github.com/spf13/cast
-  version: ce135a4ebeee6cfe9a26c93ee0d37825f26113c7
+  version: acbeb36b902d72a7a4c18e8f3241075e7ab763e4
 - name: github.com/spf13/cobra
-  version: 6421115516beea57a41a46555c21899eb83f6387
+  version: 10f6b9d7e1631a54ad07c5c0fb71c28a1abfd3c2
   subpackages:
   - cobra
 - name: github.com/spf13/jwalterweatherman
   version: fa7ca7e836cf3a8bb4ebf799f472c12d7e903d66
 - name: github.com/spf13/pflag
-  version: d16db1e50e33dff1b6cdf37596cef36742128670
+  version: 2300d0f8576fe575f71aaa5b9bbe4e1b0dc2eb51
 - name: github.com/spf13/viper
-  version: 84f94806c67f59dd7ae87bc5351f7a9c94a4558d
+  version: 0967fc9aceab2ce9da34061253ac10fb99bba5b2
 - name: golang.org/x/crypto
-  version: 3cb07270c9455e8ad27956a70891c962d121a228
+  version: 96846453c37f0876340a66a47f3f75b1f3a6cd2d
   subpackages:
   - bcrypt
   - blowfish
 - name: golang.org/x/net
-  version: ffcf1bedda3b04ebb15a168a59800a73d6dc0f4d
+  version: d212a1ef2de2f5d441c327b8f26cf3ea3ea9f265
   subpackages:
   - context
   - http2
@@ -136,16 +164,20 @@ imports:
   - lex/httplex
   - trace
 - name: golang.org/x/sys
-  version: 9a7256cb28ed514b4e1e5f68959914c4c28a92e0
+  version: ea9bcade75cb975a0b9738936568ab388b845617
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: f4b4367115ec2de254587813edaa901bc1c723a8
+  version: a9a820217f98f7c8a207ec1e45a874e1fe12c478
   subpackages:
   - secure/bidirule
   - transform
   - unicode/bidi
   - unicode/norm
+- name: google.golang.org/genproto
+  version: 411e09b969b1170a9f0c467558eb4c4c110d9c77
+  subpackages:
+  - googleapis/api/annotations
 - name: google.golang.org/grpc
   version: 8050b9cbc271307e5a716a9d782803d09b0d6f2d
   subpackages:
@@ -163,5 +195,5 @@ imports:
 - name: gopkg.in/go-playground/validator.v9
   version: 6d8c18553ea1ac493d049edd6f102f52e618f085
 - name: gopkg.in/yaml.v2
-  version: a3f3340b5840cee44f372bddb5880fcbc419b46a
+  version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
 testImports: []
