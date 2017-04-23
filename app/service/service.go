@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	context "golang.org/x/net/context"
+	metadata "google.golang.org/grpc/metadata"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
@@ -68,8 +69,13 @@ func (s *myService) KeyValCreate(c context.Context, m *pb.KeyValMessage) (*pb.Em
 }
 
 func (s *myService) KeyValRead(c context.Context, m *pb.KeyValMessage) (*pb.KeyValMessage, error) {
+	md, ok := metadata.FromContext(c)
+	if !ok {
+		return m, errors.New("Cannot decode metadata")
+	}
 	logutil.AddCtx(log.WithFields(log.Fields{
-		"message": m,
+		"message":  m,
+		"metadata": md,
 	})).Info("Received RPC Request")
 	if !kv.SqlKV.HasKey(m.Key) {
 		return m, errors.New("Cannot read non-existent Key")

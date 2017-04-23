@@ -3,9 +3,13 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	context "golang.org/x/net/context"
+	metadata "google.golang.org/grpc/metadata"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -74,7 +78,12 @@ func initConfig() {
 
 // Helper method used by many commands to dial to the GRPC server, and
 // then run a callback function immediately after connection.
-func grpcDialAndRun(callback_func func(pb.AppClient)) {
+func grpcDialAndRun(callback_func func(pb.AppClient, context.Context)) {
+
+	// todo: send a token instead of a test header
+	md := metadata.Pairs("timestamp", time.Now().Format(time.RFC3339))
+	ctx := metadata.NewContext(context.Background(), md)
+
 	var opts []grpc.DialOption
 	creds := credentials.NewClientTLSFromCert(certPool, "localhost:10080")
 	opts = append(opts, grpc.WithTransportCredentials(creds))
@@ -85,6 +94,9 @@ func grpcDialAndRun(callback_func func(pb.AppClient)) {
 		})).Info("Failed to Dial")
 	}
 	defer conn.Close()
+
+	//grpc.SendHeader(ctx, header)
 	client := pb.NewAppClient(conn)
-	callback_func(client)
+
+	callback_func(client, ctx)
 }

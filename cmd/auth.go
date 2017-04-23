@@ -25,14 +25,14 @@ Auth:
 	},
 }
 
-func authAndPrint(client pb.AppClient) {
+func authAndPrint(client pb.AppClient, ctx context.Context) {
 	req := &pb.AuthRequestMessage{os.Args[2], os.Args[3]}
 
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": req,
 	})).Info("Sent RPC Request")
 
-	rsp, _ := client.Auth(context.Background(), req)
+	rsp, _ := client.Auth(ctx, req)
 
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": rsp,

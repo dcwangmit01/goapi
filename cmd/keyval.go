@@ -38,8 +38,8 @@ var keyvalCreateCmd = &cobra.Command{
 	},
 }
 
-func keyvalCreate(client pb.AppClient) {
-	msg, _ := client.KeyValCreate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
+func keyvalCreate(client pb.AppClient, ctx context.Context) {
+	msg, _ := client.KeyValCreate(ctx, &pb.KeyValMessage{os.Args[3], os.Args[4]})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
 	})).Info("Sent RPC Request")
@@ -53,8 +53,8 @@ var keyvalReadCmd = &cobra.Command{
 	},
 }
 
-func keyvalRead(client pb.AppClient) {
-	msg, _ := client.KeyValRead(context.Background(), &pb.KeyValMessage{os.Args[3], ""})
+func keyvalRead(client pb.AppClient, ctx context.Context) {
+	msg, _ := client.KeyValRead(ctx, &pb.KeyValMessage{os.Args[3], ""})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
 	})).Info("Sent RPC Request")
@@ -68,8 +68,8 @@ var keyvalUpdateCmd = &cobra.Command{
 	},
 }
 
-func keyvalUpdate(client pb.AppClient) {
-	msg, _ := client.KeyValUpdate(context.Background(), &pb.KeyValMessage{os.Args[3], os.Args[4]})
+func keyvalUpdate(client pb.AppClient, ctx context.Context) {
+	msg, _ := client.KeyValUpdate(ctx, &pb.KeyValMessage{os.Args[3], os.Args[4]})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
 	})).Info("Sent RPC Request")
@@ -83,8 +83,8 @@ var keyvalDeleteCmd = &cobra.Command{
 	},
 }
 
-func keyvalDelete(client pb.AppClient) {
-	msg, _ := client.KeyValDelete(context.Background(), &pb.KeyValMessage{os.Args[3], ""})
+func keyvalDelete(client pb.AppClient, ctx context.Context) {
+	msg, _ := client.KeyValDelete(ctx, &pb.KeyValMessage{os.Args[3], ""})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
 	})).Info("Sent RPC Request")
