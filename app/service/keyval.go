@@ -7,10 +7,10 @@ import (
 	metadata "google.golang.org/grpc/metadata"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
+	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/grpc-gw-poc/app"
-	kv "github.com/dcwangmit01/grpc-gw-poc/app/sqlitekv"
+	pb "github.com/dcwangmit01/goapi/app"
+	kv "github.com/dcwangmit01/goapi/app/sqlitekv"
 )
 
 type kvService struct{}

@@ -1,7 +1,7 @@
 package cmd_test
 
 import (
-	"github.com/dcwangmit01/grpc-gw-poc/cmd"
+	"github.com/dcwangmit01/goapi/cmd"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -58,7 +58,7 @@ var _ = Describe("Cmd", func() {
 
 				// process the output
 				//  (?s): allows for "." to represent "\n"
-				Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*help.*keyval"))
+				Expect(out).Should(MatchRegexp("(?s)goapi.*help.*keyval"))
 				Expect(err).Should(BeNil())
 			})
 		})
@@ -79,7 +79,7 @@ var _ = Describe("Cmd", func() {
 
 				// process the output
 				//  (?s): allows for "." to represent "\n"
-				Expect(out).Should(MatchRegexp("(?s)grpc-gw-poc.*keyval.*create.*read.*update.*delete"))
+				Expect(out).Should(MatchRegexp("(?s)goapi.*keyval.*create.*read.*update.*delete"))
 				Expect(err).Should(BeNil())
 			})
 		})

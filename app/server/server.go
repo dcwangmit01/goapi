@@ -10,22 +10,22 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/elazarl/go-bindata-assetfs"
+	assetfs "github.com/elazarl/go-bindata-assetfs"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
+	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/grpc-gw-poc/app"
-	config "github.com/dcwangmit01/grpc-gw-poc/app/config"
-	svc "github.com/dcwangmit01/grpc-gw-poc/app/service"
-	kv "github.com/dcwangmit01/grpc-gw-poc/app/sqlitekv"
-	certs "github.com/dcwangmit01/grpc-gw-poc/resources/certs"
-	swf "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/files"
-	sw "github.com/dcwangmit01/grpc-gw-poc/resources/swagger/ui"
+	pb "github.com/dcwangmit01/goapi/app"
+	config "github.com/dcwangmit01/goapi/app/config"
+	svc "github.com/dcwangmit01/goapi/app/service"
+	kv "github.com/dcwangmit01/goapi/app/sqlitekv"
+	certs "github.com/dcwangmit01/goapi/resources/certs"
+	swf "github.com/dcwangmit01/goapi/resources/swagger/files"
+	sw "github.com/dcwangmit01/goapi/resources/swagger/ui"
 )
 
 /* Overview

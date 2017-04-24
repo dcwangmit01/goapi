@@ -4,10 +4,10 @@ import (
 	context "golang.org/x/net/context"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
+	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/grpc-gw-poc/app"
-	cnf "github.com/dcwangmit01/grpc-gw-poc/app/config"
+	pb "github.com/dcwangmit01/goapi/app"
+	cnf "github.com/dcwangmit01/goapi/app/config"
 )
 
 type authService struct{}

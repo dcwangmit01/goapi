@@ -1,4 +1,4 @@
-package: github.com/dcwangmit01/grpc-gw-poc
+package: github.com/dcwangmit01/goapi
 owners:
 - name: David Wang
   email: dcwangmit01@gmail.com

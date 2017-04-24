@@ -7,9 +7,9 @@ import (
 	"golang.org/x/net/context"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
+	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/grpc-gw-poc/app"
+	pb "github.com/dcwangmit01/goapi/app"
 )
 
 var keyvalRootCmd = &cobra.Command{
@@ -17,16 +17,16 @@ var keyvalRootCmd = &cobra.Command{
 	Short: "Client used to set Key/Value on gRPC service",
 	Long: `
 Create a key;
-    grpc-gw-poc keyval create <key> <value>
+    goapi keyval create <key> <value>
 
 Read a key:
-    grpc-gw-poc keyval read <key>
+    goapi keyval read <key>
 
 Update a key:
-    grpc-gw-poc keyval update <key> <value>
+    goapi keyval update <key> <value>
 
 Delete a key:
-    grpc-gw-poc keyval delete <key>
+    goapi keyval delete <key>
 `,
 }
 

@@ -7,10 +7,10 @@ import (
 	"golang.org/x/net/context"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
+	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/grpc-gw-poc/app"
-	jwt "github.com/dcwangmit01/grpc-gw-poc/app/jwt"
+	pb "github.com/dcwangmit01/goapi/app"
+	jwt "github.com/dcwangmit01/goapi/app/jwt"
 )
 
 var authCmd = &cobra.Command{
@@ -18,7 +18,7 @@ var authCmd = &cobra.Command{
 	Short: "Obtain JWT token and print it out",
 	Long: `
 Auth:
-    grpc-gw-poc auth <email> <password>
+    goapi auth <email> <password>
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		grpcDialAndRunAuth(authAndPrint)

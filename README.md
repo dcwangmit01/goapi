@@ -1,4 +1,4 @@
-# grpc-gw-poc
+# goapi
 
 This project is a means to learn golang and play with GRPC, JWT, etc.
 
@@ -21,27 +21,27 @@ make
 
 ```
 # Show Usage
-./bin/linux_amd64/grpc-gw-poc
+./bin/linux_amd64/goapi
 
 # Start the GRPC+JSON server on port 10080
-./bin/linux_amd64/grpc-gw-poc serve
+./bin/linux_amd64/goapi serve
 
 ### Use the GRPC CLI Client
 
 # Obtain an Auth Token
-./bin/linux_amd64/grpc-gw-poc auth admin password
+./bin/linux_amd64/goapi auth admin password
 
 # Create a Key
-./bin/linux_amd64/grpc-gw-poc keyval create mykey myval
+./bin/linux_amd64/goapi keyval create mykey myval
 
 # Read a Key
-./bin/linux_amd64/grpc-gw-poc keyval read mykey
+./bin/linux_amd64/goapi keyval read mykey
 
 # Update a Key
-./bin/linux_amd64/grpc-gw-poc keyval create mykey myval2
+./bin/linux_amd64/goapi keyval create mykey myval2
 
 # Delete a Key
-./bin/linux_amd64/grpc-gw-poc keyval delete mykey
+./bin/linux_amd64/goapi keyval delete mykey
 
 ### Use Curl
 

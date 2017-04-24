@@ -13,27 +13,27 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
+	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/grpc-gw-poc/app"
-	config "github.com/dcwangmit01/grpc-gw-poc/app/config"
-	certs "github.com/dcwangmit01/grpc-gw-poc/resources/certs"
+	pb "github.com/dcwangmit01/goapi/app"
+	config "github.com/dcwangmit01/goapi/app/config"
+	certs "github.com/dcwangmit01/goapi/resources/certs"
 )
 
 var cfgFile string
 
 // This represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "grpc-gw-poc",
+	Use:   "goapi",
 	Short: "All-in-one command for running GRPC server, gw, and client",
 	Long: `
 Run the combined GRPC server and gateway
 
-    grpc-gw-poc serve
+    goapi serve
 
 Run the GRPC client
 
-    grpc-gw-poc client <strings to be echo'd ...>
+    goapi client <strings to be echo'd ...>
 `,
 }
 
@@ -52,7 +52,7 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports Persistent Flags, which, if defined here,
 	// will be global for your application.
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.grpc-gw-poc.yaml)")
+	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.goapi.yaml)")
 
 	// Cobra also supports local flags, which will only run when
 	// this action is called directly.  Any flags ending with "P"
@@ -66,9 +66,9 @@ func initConfig() {
 		viper.SetConfigFile(cfgFile)
 	}
 
-	viper.SetConfigName(".grpc-gw-poc") // name of config file (without extension)
-	viper.AddConfigPath("$HOME")        // adding home directory as first search path
-	viper.AutomaticEnv()                // read in environment variables that match
+	viper.SetConfigName(".goapi") // name of config file (without extension)
+	viper.AddConfigPath("$HOME")  // adding home directory as first search path
+	viper.AutomaticEnv()          // read in environment variables that match
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
