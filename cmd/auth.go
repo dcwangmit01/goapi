@@ -9,8 +9,8 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/goapi/app/pb"
 	jwt "github.com/dcwangmit01/goapi/app/jwt"
+	pb "github.com/dcwangmit01/goapi/app/pb"
 )
 
 var authCmd = &cobra.Command{
