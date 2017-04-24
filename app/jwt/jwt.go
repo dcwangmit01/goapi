@@ -2,8 +2,9 @@ package jwt
 
 import (
 	"fmt"
-	jwtgo "github.com/dgrijalva/jwt-go"
 	"time"
+
+	jwtgo "github.com/dgrijalva/jwt-go"
 )
 
 var SigningKey = []byte("todo: randomize this key")

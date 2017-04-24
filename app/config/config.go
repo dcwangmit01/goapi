@@ -2,14 +2,15 @@ package config
 
 import (
 	"errors"
-	"github.com/satori/go.uuid"
-	"golang.org/x/crypto/bcrypt"
-	"gopkg.in/go-playground/validator.v9"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
+
+	"github.com/satori/go.uuid"
+	"golang.org/x/crypto/bcrypt"
+	"gopkg.in/go-playground/validator.v9"
+	"gopkg.in/yaml.v2"
 
 	jwt "github.com/dcwangmit01/grpc-gw-poc/app/jwt"
 	rbac "github.com/dcwangmit01/grpc-gw-poc/app/rbac"

@@ -1,9 +1,10 @@
 package logutil
 
 import (
-	"github.com/Sirupsen/logrus"
 	"path"
 	"runtime"
+
+	"github.com/Sirupsen/logrus"
 )
 
 // Appends line, file and function context to the logger
