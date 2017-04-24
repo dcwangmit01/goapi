@@ -51,3 +51,6 @@ import:
   version: ^3.0.0
 - package: github.com/mikespook/gorbac
   version: ^2.0.0
+- package: golang.org/x/tools
+  subpackages:
+  - cmd/goimports

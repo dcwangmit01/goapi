@@ -48,6 +48,7 @@ vendor: check glide.lock  ## install/build all 3rd party vendor libs and bins
 	go build -o vendor/bin/cfssl vendor/github.com/cloudflare/cfssl/cmd/cfssl/*.go
 	go build -o vendor/bin/cfssljson vendor/github.com/cloudflare/cfssl/cmd/cfssljson/*.go
 	go build -o vendor/bin/ginkgo vendor/github.com/onsi/ginkgo/ginkgo/*.go
+	go build -o vendor/bin/goimports `ls vendor/golang.org/x/tools/cmd/goimports/* | grep -v goimports_not_gc.go` # exclude a file
 
 .PHONY: code_gen
 code_gen: check app/app.pb.go app/app.pb.gw.go app/app.swagger.json  ## generate grpc go files from proto spec

@@ -1,10 +1,8 @@
-hash: ec8871c9064677a21d05a3562067189918aad24e93bd1becd4de15b080730eed
-updated: 2017-04-23T05:05:05.804549803Z
+hash: 3d593ab6f9c7d8c0fe5e94aa34cad088a34d13008c80aaab8d93149db1dfd2fc
+updated: 2017-04-24T06:05:59.379479418Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
-- name: github.com/dghubble/sling
-  version: bbfb8293bd33a6baad33d718aacf66ef73a29f30
 - name: github.com/dgrijalva/jwt-go
   version: d2709f9f1f31ebcda9651b03077758c1f3a0018c
 - name: github.com/elazarl/go-bindata-assetfs
@@ -26,35 +24,11 @@ imports:
   - proto
   - protoc-gen-go
   - protoc-gen-go/descriptor
-  - protoc-gen-go/generator
-  - protoc-gen-go/plugin
-  - ptypes
-  - ptypes/any
-  - ptypes/duration
-  - ptypes/empty
-  - ptypes/struct
-  - ptypes/timestamp
-  - ptypes/wrappers
-- name: github.com/google/go-querystring
-  version: 53e6ce116135b80d037921a7fdd5138cf32d7a8a
-  subpackages:
-  - query
 - name: github.com/grpc-ecosystem/grpc-gateway
   version: a8f25bd1ab549f8b87afd48aa9181221e9d439bb
   subpackages:
-  - examples/clients/abe
-  - examples/clients/echo
-  - examples/examplepb
-  - examples/server
-  - examples/sub
-  - examples/sub2
   - protoc-gen-grpc-gateway
-  - protoc-gen-grpc-gateway/descriptor
-  - protoc-gen-grpc-gateway/generator
-  - protoc-gen-grpc-gateway/gengateway
-  - protoc-gen-grpc-gateway/httprule
   - protoc-gen-swagger
-  - protoc-gen-swagger/genswagger
   - runtime
   - runtime/internal
   - third_party/googleapis/google/api
@@ -126,8 +100,6 @@ imports:
   version: c37440a7cf42ac63b919c752ca73a85067e05992
 - name: github.com/pelletier/go-toml
   version: fe206efb84b2bc8e8cfafe6b4c1826622be969e3
-- name: github.com/rogpeppe/fastuuid
-  version: 6724a57986aff9bff1a1770e9347036def7c89f6
 - name: github.com/satori/go.uuid
   version: 879c5887cd475cd7864858769793b2ceb0d44feb
 - name: github.com/Sirupsen/logrus
@@ -174,10 +146,10 @@ imports:
   - transform
   - unicode/bidi
   - unicode/norm
-- name: google.golang.org/genproto
-  version: 411e09b969b1170a9f0c467558eb4c4c110d9c77
+- name: golang.org/x/tools
+  version: c853fd576988aeebd3665f6224972f1379960013
   subpackages:
-  - googleapis/api/annotations
+  - cmd/goimports
 - name: google.golang.org/grpc
   version: 8050b9cbc271307e5a716a9d782803d09b0d6f2d
   subpackages:
