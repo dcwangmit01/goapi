@@ -19,8 +19,8 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/goapi/app"
 	config "github.com/dcwangmit01/goapi/app/config"
+	pb "github.com/dcwangmit01/goapi/app/pb"
 	svc "github.com/dcwangmit01/goapi/app/service"
 	kv "github.com/dcwangmit01/goapi/app/sqlitekv"
 	certs "github.com/dcwangmit01/goapi/resources/certs"

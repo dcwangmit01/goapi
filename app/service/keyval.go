@@ -9,7 +9,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/goapi/app"
+	pb "github.com/dcwangmit01/goapi/app/pb"
 	kv "github.com/dcwangmit01/goapi/app/sqlitekv"
 )
 

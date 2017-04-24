@@ -15,7 +15,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/goapi/app"
+	pb "github.com/dcwangmit01/goapi/app/pb"
 	config "github.com/dcwangmit01/goapi/app/config"
 	certs "github.com/dcwangmit01/goapi/resources/certs"
 )

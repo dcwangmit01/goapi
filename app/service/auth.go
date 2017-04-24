@@ -6,8 +6,8 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/goapi/app/logutil"
 
-	pb "github.com/dcwangmit01/goapi/app"
 	cnf "github.com/dcwangmit01/goapi/app/config"
+	pb "github.com/dcwangmit01/goapi/app/pb"
 )
 
 type authService struct{}

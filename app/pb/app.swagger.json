@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "app/app.proto",
+    "title": "app/pb/app.proto",
     "version": "version not set"
   },
   "schemes": [
@@ -37,7 +37,7 @@
           }
         ],
         "tags": [
-          "App"
+          "Auth"
         ]
       }
     },
@@ -62,7 +62,7 @@
           }
         ],
         "tags": [
-          "App"
+          "KeyVal"
         ]
       },
       "delete": {
@@ -85,7 +85,7 @@
           }
         ],
         "tags": [
-          "App"
+          "KeyVal"
         ]
       },
       "post": {
@@ -116,7 +116,7 @@
           }
         ],
         "tags": [
-          "App"
+          "KeyVal"
         ]
       },
       "put": {
@@ -147,7 +147,7 @@
           }
         ],
         "tags": [
-          "App"
+          "KeyVal"
         ]
       }
     }
