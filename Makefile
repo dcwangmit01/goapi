@@ -2,13 +2,12 @@ include scripts/go.mk
 
 BIN_NAME     := $(shell basename $(GOPKG))
 BIN_DIR      := $(shell readlink -f ./bin)
-PKG_DIR      := $(shell readlink -f ./pkg)
 BUILD_DIR    := $(shell readlink -f ./.build)
 CACHE_DIR    := $(shell readlink -f ./.cache)
 CERTS_DIR    := $(shell readlink -f ./cfssl/certs)
 RESOURCE_DIR := $(shell readlink -f ./resources)
 # Ensure the dirs above exist on a clean checkout
-$(shell mkdir -p $(BIN_DIR) $(PKG_DIR) $(BUILD_DIR) $(CACHE_DIR) $(CERTS_DIR) $(RESOURCE_DIR))
+$(shell mkdir -p $(BIN_DIR) $(BUILD_DIR) $(CACHE_DIR) $(CERTS_DIR) $(RESOURCE_DIR))
 
 # Swagger version to package and deploy
 SWAGGER_UI_VERSION := 2.2.8
@@ -162,7 +161,7 @@ testrandom: _test format
 
 .PHONY: clean
 clean:  ## delete all non-repo files
-	rm -rf bin pkg .build vendor
+	rm -rf bin .build vendor
 
 .PHONY: notes
 notes:
