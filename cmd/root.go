@@ -7,17 +7,17 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-
-	context "golang.org/x/net/context"
-	metadata "google.golang.org/grpc/metadata"
-
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/metadata"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/grpc-gw-poc/app/logutil"
 
 	pb "github.com/dcwangmit01/grpc-gw-poc/app"
+	config "github.com/dcwangmit01/grpc-gw-poc/app/config"
+	certs "github.com/dcwangmit01/grpc-gw-poc/resources/certs"
 )
 
 var cfgFile string
@@ -85,9 +85,9 @@ func grpcDialAndRun(callback_func func(pb.AppClient, context.Context)) {
 	ctx := metadata.NewContext(context.Background(), md)
 
 	var opts []grpc.DialOption
-	creds := credentials.NewClientTLSFromCert(certPool, "localhost:10080")
+	creds := credentials.NewClientTLSFromCert(certs.CertPool, config.ServerAddress)
 	opts = append(opts, grpc.WithTransportCredentials(creds))
-	conn, err := grpc.Dial(serverAddress, opts...)
+	conn, err := grpc.Dial(config.ServerAddress, opts...)
 	if err != nil {
 		logutil.AddCtx(log.WithFields(log.Fields{
 			"error": err,
