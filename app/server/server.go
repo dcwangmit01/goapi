@@ -46,6 +46,9 @@ handler, and all other URI paths "/" are passed to the grpc-gw mux.  The
 grpc-gw mux is a handler that matches incoming JSON REST requests, and proxies
 them to the grpcServer handler.
 
+Interesting reads:
+http://www.alexedwards.net/blog/a-recap-of-request-handling
+http://www.alexedwards.net/blog/making-and-using-middleware
 */
 
 func triageHandlerFunc(grpcHandler http.Handler, webHandler http.Handler) http.Handler {
@@ -58,14 +61,14 @@ func triageHandlerFunc(grpcHandler http.Handler, webHandler http.Handler) http.H
 	})
 }
 
-func registerSwaggerFileServer(mux *http.ServeMux) {
+func registerSwaggerFileHandler(mux *http.ServeMux) {
 	data, _ := swf.Asset("swagger.json")
 	mux.HandleFunc("/swagger.json", func(w http.ResponseWriter, req *http.Request) {
 		io.Copy(w, bytes.NewReader(data))
 	})
 }
 
-func registerSwaggerUiServer(mux *http.ServeMux) {
+func registerSwaggerUiHandler(mux *http.ServeMux) {
 	mime.AddExtensionType(".svg", "image/svg+xml")
 
 	// Expose swagger-ui files on <host>/swagger-ui
@@ -77,7 +80,7 @@ func registerSwaggerUiServer(mux *http.ServeMux) {
 	mux.Handle(prefix, http.StripPrefix(prefix, fileServer))
 }
 
-func registerGrpcGatewayServers(mux *http.ServeMux) {
+func registerGrpcGatewayHandlers(mux *http.ServeMux) {
 	var err error
 
 	gwmux := grpc_gw_runtime.NewServeMux()
@@ -118,9 +121,9 @@ func StartServer() {
 	   Create the web handler
 	*/
 	mux := http.NewServeMux()
-	registerSwaggerFileServer(mux)
-	registerSwaggerUiServer(mux)
-	registerGrpcGatewayServers(mux)
+	registerSwaggerFileHandler(mux)
+	registerSwaggerUiHandler(mux)
+	registerGrpcGatewayHandlers(mux)
 
 	/*
 	   Start the server
