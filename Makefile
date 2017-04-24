@@ -152,11 +152,11 @@ imports: $(GOSOURCES)
 	find app cmd resources -type f -name '*.go' | xargs goimports -w
 
 .PHONY: test
-test: _test format
+test: _test format imports
 	ginkgo -v -cover ./app/... ./cmd/... ./resources/...
 
 .PHONY: testrandom
-testrandom: _test format
+testrandom: _test format imports
 	ginkgo -v -cover --randomizeSuites --randomizeAllSpecs ./app/... ./cmd/... ./resources/...
 
 .PHONY: clean
