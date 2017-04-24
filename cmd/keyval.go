@@ -34,11 +34,11 @@ var keyvalCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create new Key/Value on gRPC service",
 	Run: func(cmd *cobra.Command, args []string) {
-		grpcDialAndRun(keyvalCreate)
+		grpcDialAndRunKeyVal(keyvalCreate)
 	},
 }
 
-func keyvalCreate(client pb.AppClient, ctx context.Context) {
+func keyvalCreate(client pb.KeyValClient, ctx context.Context) {
 	msg, _ := client.KeyValCreate(ctx, &pb.KeyValMessage{os.Args[3], os.Args[4]})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
@@ -49,11 +49,11 @@ var keyvalReadCmd = &cobra.Command{
 	Use:   "read",
 	Short: "Read new Key/Value on gRPC service",
 	Run: func(cmd *cobra.Command, args []string) {
-		grpcDialAndRun(keyvalRead)
+		grpcDialAndRunKeyVal(keyvalRead)
 	},
 }
 
-func keyvalRead(client pb.AppClient, ctx context.Context) {
+func keyvalRead(client pb.KeyValClient, ctx context.Context) {
 	msg, _ := client.KeyValRead(ctx, &pb.KeyValMessage{os.Args[3], ""})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
@@ -64,11 +64,11 @@ var keyvalUpdateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "Update new Key/Value on gRPC service",
 	Run: func(cmd *cobra.Command, args []string) {
-		grpcDialAndRun(keyvalUpdate)
+		grpcDialAndRunKeyVal(keyvalUpdate)
 	},
 }
 
-func keyvalUpdate(client pb.AppClient, ctx context.Context) {
+func keyvalUpdate(client pb.KeyValClient, ctx context.Context) {
 	msg, _ := client.KeyValUpdate(ctx, &pb.KeyValMessage{os.Args[3], os.Args[4]})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
@@ -79,11 +79,11 @@ var keyvalDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete new Key/Value on gRPC service",
 	Run: func(cmd *cobra.Command, args []string) {
-		grpcDialAndRun(keyvalDelete)
+		grpcDialAndRunKeyVal(keyvalDelete)
 	},
 }
 
-func keyvalDelete(client pb.AppClient, ctx context.Context) {
+func keyvalDelete(client pb.KeyValClient, ctx context.Context) {
 	msg, _ := client.KeyValDelete(ctx, &pb.KeyValMessage{os.Args[3], ""})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,

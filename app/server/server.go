@@ -84,7 +84,8 @@ func StartServer() {
 		grpc.Creds(credentials.NewClientTLSFromCert(certs.CertPool, config.ServerAddress))}
 
 	grpcServer := grpc.NewServer(opts...)
-	pb.RegisterAppServer(grpcServer, svc.NewServer()) // grpc
+	pb.RegisterAuthServer(grpcServer, svc.NewAuthService())     // grpc
+	pb.RegisterKeyValServer(grpcServer, svc.NewKeyValService()) // grpc
 	ctx := context.Background()
 
 	// client credentials
@@ -106,7 +107,13 @@ func StartServer() {
 	gwmux := runtime.NewServeMux()
 	// Registers function handlers for each uri pattern defined by grpc-gw
 	//   matches http requests to patterns and invokes the corresponding handler
-	err := pb.RegisterAppHandlerFromEndpoint(ctx, gwmux, config.ServerAddress, copts)
+	var err error
+	err = pb.RegisterAuthHandlerFromEndpoint(ctx, gwmux, config.ServerAddress, copts)
+	if err != nil {
+		fmt.Printf("serve: %v\n", err)
+		return
+	}
+	err = pb.RegisterKeyValHandlerFromEndpoint(ctx, gwmux, config.ServerAddress, copts)
 	if err != nil {
 		fmt.Printf("serve: %v\n", err)
 		return

@@ -36,13 +36,16 @@ message UserMessage {
 }
 
 
-service App {
+service Auth {
   rpc Auth(AuthRequestMessage) returns (AuthResponseMessage) {
   option (google.api.http) = {
       post: "/v1/auth"
       body: "*"
     };
   }
+}
+
+service KeyVal {
   rpc KeyValCreate(KeyValMessage) returns (EmptyMessage) {
     option (google.api.http) = {
       put: "/v1/keyval/{key}"

@@ -78,7 +78,7 @@ func initConfig() {
 
 // Helper method used by many commands to dial to the GRPC server, and
 // then run a callback function immediately after connection.
-func grpcDialAndRun(callback_func func(pb.AppClient, context.Context)) {
+func grpcDialAndRunAuth(callback_func func(pb.AuthClient, context.Context)) {
 
 	// todo: send a token instead of a test header
 	md := metadata.Pairs("timestamp", time.Now().Format(time.RFC3339))
@@ -96,7 +96,32 @@ func grpcDialAndRun(callback_func func(pb.AppClient, context.Context)) {
 	defer conn.Close()
 
 	//grpc.SendHeader(ctx, header)
-	client := pb.NewAppClient(conn)
+	client := pb.NewAuthClient(conn)
+
+	callback_func(client, ctx)
+}
+
+// Helper method used by many commands to dial to the GRPC server, and
+// then run a callback function immediately after connection.
+func grpcDialAndRunKeyVal(callback_func func(pb.KeyValClient, context.Context)) {
+
+	// todo: send a token instead of a test header
+	md := metadata.Pairs("timestamp", time.Now().Format(time.RFC3339))
+	ctx := metadata.NewContext(context.Background(), md)
+
+	var opts []grpc.DialOption
+	creds := credentials.NewClientTLSFromCert(certs.CertPool, config.ServerAddress)
+	opts = append(opts, grpc.WithTransportCredentials(creds))
+	conn, err := grpc.Dial(config.ServerAddress, opts...)
+	if err != nil {
+		logutil.AddCtx(log.WithFields(log.Fields{
+			"error": err,
+		})).Info("Failed to Dial")
+	}
+	defer conn.Close()
+
+	//grpc.SendHeader(ctx, header)
+	client := pb.NewKeyValClient(conn)
 
 	callback_func(client, ctx)
 }

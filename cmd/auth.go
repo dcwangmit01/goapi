@@ -21,11 +21,11 @@ Auth:
     grpc-gw-poc auth <email> <password>
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		grpcDialAndRun(authAndPrint)
+		grpcDialAndRunAuth(authAndPrint)
 	},
 }
 
-func authAndPrint(client pb.AppClient, ctx context.Context) {
+func authAndPrint(client pb.AuthClient, ctx context.Context) {
 	req := &pb.AuthRequestMessage{os.Args[2], os.Args[3]}
 
 	logutil.AddCtx(log.WithFields(log.Fields{
