@@ -1,5 +1,5 @@
-hash: 3d593ab6f9c7d8c0fe5e94aa34cad088a34d13008c80aaab8d93149db1dfd2fc
-updated: 2017-04-24T06:05:59.379479418Z
+hash: eb0fca83f3946006a55e16e67ab60e413af82b8d7ea77c3895eca5b1e9dbb0ab
+updated: 2017-04-24T20:54:13.729851845Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
@@ -48,6 +48,8 @@ imports:
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/jteeuwen/go-bindata
   version: bbd0c6e271208dce66d8fda4bc536453cd27fc4a
+- name: github.com/justinas/alice
+  version: 052b8b6c18edb9db317af86806d8e00ebaa94160
 - name: github.com/laurent22/go-sqlkv
   version: db1022af2c66c36268b346d203ceaa78579673d2
 - name: github.com/magiconair/properties

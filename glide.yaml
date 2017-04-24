@@ -54,3 +54,5 @@ import:
 - package: golang.org/x/tools
   subpackages:
   - cmd/goimports
+- package: github.com/justinas/alice
+  version: ^1.0.0
