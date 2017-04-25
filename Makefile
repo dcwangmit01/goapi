@@ -122,10 +122,10 @@ $(RESOURCE_DIR)/certs/certs.go: cfssl/certs/insecure-key.pem
 	  go-bindata-assetfs -o $(RESOURCE_DIR)/certs/certs.go -pkg certs ./... 2>/dev/null || true
 
 .PHONY: compile
-compile: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) ## build the binaries for amd64
+compile: check format $(BIN_DIR)/linux_amd64/$(BIN_NAME) ## build the binaries for amd64
 
 .PHONY: compilex
-compilex: check $(BIN_DIR)/linux_amd64/$(BIN_NAME) $(BIN_DIR)/linux_arm/$(BIN_NAME)  ## build the binaries for all platforms
+compilex: check format $(BIN_DIR)/linux_amd64/$(BIN_NAME) $(BIN_DIR)/linux_arm/$(BIN_NAME)  ## build the binaries for all platforms
 
 $(BIN_DIR)/linux_amd64/$(BIN_NAME): check $(GOSOURCES)
 	@echo "## Building AMD64 Binary"
@@ -144,7 +144,7 @@ $(BIN_DIR)/linux_arm/$(BIN_NAME): check $(GOSOURCES)
 	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/$(BIN_NAME)"
 
 .PHONY: format  ## run gofmt on all go sources
-format: $(GOSOURCES)
+format: $(GOSOURCES) imports
 	find app cmd resources -type f -name '*.go' | xargs gofmt -w
 
 .PHONY: imports  ## run goimports on all go sources
@@ -152,11 +152,11 @@ imports: $(GOSOURCES)
 	find app cmd resources -type f -name '*.go' | xargs goimports -w
 
 .PHONY: test
-test: _test format imports
+test: _test format
 	ginkgo -v -cover ./app/... ./cmd/... ./resources/...
 
 .PHONY: testrandom
-testrandom: _test format imports
+testrandom: _test format
 	ginkgo -v -cover --randomizeSuites --randomizeAllSpecs ./app/... ./cmd/... ./resources/...
 
 .PHONY: clean

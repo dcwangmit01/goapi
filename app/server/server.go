@@ -95,6 +95,7 @@ func registerGrpcGatewayHandlers(mux *http.ServeMux) {
 		fmt.Printf("serve: %v\n", err)
 		return
 	}
+
 	err = pb.RegisterKeyValHandlerFromEndpoint(ctx, gwmux, config.ServerAddress, copts)
 	if err != nil {
 		fmt.Printf("serve: %v\n", err)
@@ -135,7 +136,7 @@ func StartServer() {
 
 	srv := &http.Server{
 		Addr:    config.ServerAddress,
-		Handler: triageHandlerFunc(grpcServer, mux),
+		Handler: triageHandlerFunc(CommonMiddleware.Then(grpcServer), CommonMiddleware.Then(mux)),
 		TLSConfig: &tls.Config{
 			Certificates: []tls.Certificate{*certs.KeyPair},
 			NextProtos:   []string{"h2"},

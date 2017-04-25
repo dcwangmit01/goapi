@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -44,6 +45,15 @@ func keyLookupFunction(token *jwtgo.Token) (interface{}, error) {
 
 func ParseJwt(tokenStr string) (*jwtgo.Token, *CustomClaims, error) {
 	token, err := jwtgo.ParseWithClaims(tokenStr, &CustomClaims{}, keyLookupFunction)
+	if err != nil {
+		return nil, nil, err
+	}
+	if token == nil {
+		return nil, nil, errors.New("Unable to parse token")
+	}
+	if token.Claims == nil {
+		return nil, nil, errors.New("Unable to parse token claims")
+	}
 
 	claims, ok := token.Claims.(*CustomClaims)
 	if !ok {

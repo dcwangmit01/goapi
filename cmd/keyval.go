@@ -3,6 +3,8 @@ package cmd
 import (
 	"os"
 
+	"google.golang.org/grpc/metadata"
+
 	"github.com/spf13/cobra"
 	"golang.org/x/net/context"
 
@@ -54,6 +56,13 @@ var keyvalReadCmd = &cobra.Command{
 }
 
 func keyvalRead(client pb.KeyValClient, ctx context.Context) {
+
+	// add metadata to context
+	md := metadata.Pairs(
+		"myauth", "myauthtoken",
+	)
+	ctx = metadata.NewContext(ctx, md)
+
 	msg, _ := client.KeyValRead(ctx, &pb.KeyValMessage{os.Args[3], ""})
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": msg,
