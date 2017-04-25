@@ -26,7 +26,10 @@ Auth:
 }
 
 func authAndPrint(client pb.AuthClient, ctx context.Context) {
-	req := &pb.AuthRequestMessage{os.Args[2], os.Args[3]}
+	req := &pb.AuthRequestMessage{
+		"password",
+		os.Args[2],
+		os.Args[3]}
 
 	logutil.AddCtx(log.WithFields(log.Fields{
 		"message": req,
@@ -38,7 +41,7 @@ func authAndPrint(client pb.AuthClient, ctx context.Context) {
 		"message": rsp,
 	})).Info("Received RPC Reply")
 
-	tokenStr := rsp.GetToken()
+	tokenStr := rsp.GetAccessToken()
 	token, customClaims, err := jwt.ParseJwt(tokenStr)
 
 	logutil.AddCtx(log.WithFields(log.Fields{

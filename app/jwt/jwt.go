@@ -18,7 +18,7 @@ type CustomClaims struct {
 
 // Create the Claims
 
-func CreateJwtWithIdRole(id string, role string) (string, error) {
+func CreateJwtWithIdRole(id string, role string, secondsToExpiration int64) (string, error) {
 	now := time.Now()
 	claims := CustomClaims{
 		id,
@@ -27,7 +27,7 @@ func CreateJwtWithIdRole(id string, role string) (string, error) {
 			Issuer:    "apiservice",
 			Audience:  "apiservice",
 			IssuedAt:  now.Unix(),
-			ExpiresAt: now.Add(time.Minute * 60).Unix(),
+			ExpiresAt: now.Add(time.Second * time.Duration(secondsToExpiration)).Unix(),
 		},
 	}
 

@@ -21,13 +21,13 @@ var _ = Describe("Config", func() {
 
 			It("Should have a default admin user", func() {
 				Expect(len(ac.Users)).Should(Equal(1))
-				Expect(ac.Users[0].Name).Should(Equal(config.DefaultAdminUser))
+				Expect(ac.Users[0].Name).Should(Equal(config.DefaultAdminUsername))
 				Expect(len(ac.Users[0].Id)).Should(BeNumerically(">", 0))
 				Expect(ac.Users[0].Role).Should(Equal("admin"))
 			})
 
 			It("Should have a valid admin password hash", func() {
-				err := ac.Users[0].ValidatePassword(config.DefaultAdminPass)
+				err := ac.Users[0].ValidatePassword(config.DefaultAdminPassword)
 				Expect(err).Should(BeNil())
 
 				err = ac.Users[0].ValidatePassword("not the right password")
@@ -49,23 +49,23 @@ var _ = Describe("Config", func() {
 			})
 		})
 
-		Context("GetUserByEmail", func() {
+		Context("GetUserByUsername", func() {
 			ac := config.NewAppConfig()
 			ac.Users = append(ac.Users, config.NewUser())
-			ac.Users[1].Email = "user@domain.com"
+			ac.Users[1].Username = "user@domain.com"
 
 			It("Should return an admin user", func() {
-				u, err := ac.GetUserByEmail("admin")
+				u, err := ac.GetUserByUsername("admin")
 				Expect(u).ShouldNot(BeNil())
 				Expect(err).Should(BeNil())
 			})
 			It("Should return a user, user", func() {
-				u, err := ac.GetUserByEmail("user@domain.com")
+				u, err := ac.GetUserByUsername("user@domain.com")
 				Expect(u).ShouldNot(BeNil())
 				Expect(err).Should(BeNil())
 			})
 			It("Should return nil when a user does not exist", func() {
-				u, err := ac.GetUserByEmail("nonexistant@domain.com")
+				u, err := ac.GetUserByUsername("nonexistant@domain.com")
 				Expect(u).Should(BeNil())
 				Expect(err).ShouldNot(BeNil())
 			})
@@ -80,8 +80,8 @@ var _ = Describe("Config", func() {
 
 			ac1 = config.NewAppConfig()
 			ac1.Users = append(ac1.Users, config.NewUser())
-			ac1.Users[0].Email = "user1@domain.com"
-			ac1.Users[1].Email = "asdf"
+			ac1.Users[0].Username = "user1@domain.com"
+			ac1.Users[1].Username = "asdf"
 
 			It("Should both match", func() {
 				ac1Str, err = ac1.Dump()
@@ -144,7 +144,7 @@ var _ = Describe("Config", func() {
 			It("Should pass on good values", func() {
 				myPassword := "1234asdf!@#$"
 				u := config.NewUser()
-				u.Email = "user@domain.com"
+				u.Username = "user@domain.com"
 				u.Name = "First Last"
 				u.HashPassword(myPassword)
 				u.Role = "user"
@@ -162,8 +162,8 @@ var _ = Describe("Config", func() {
 				errs := config.ValidateStruct(u)
 
 				Expect(len(errs)).Should(Equal(4))
-				Expect(errs).Should(HaveKey("User.Email"))
-				Expect(errs["User.Email"]).Should(Equal("required"))
+				Expect(errs).Should(HaveKey("User.Username"))
+				Expect(errs["User.Username"]).Should(Equal("required"))
 				Expect(errs).Should(HaveKey("User.Name"))
 				Expect(errs["User.Name"]).Should(Equal("required"))
 				Expect(errs).Should(HaveKey("User.PasswordHash"))
@@ -172,10 +172,10 @@ var _ = Describe("Config", func() {
 				Expect(errs["User.Phone"]).Should(Equal("phone"))
 			})
 
-			It("User.email should pass on special email value of 'admin'", func() {
+			It("User.username should pass on special username value of 'admin'", func() {
 				myPassword := "1234asdf!@#$"
 				u := config.NewUser()
-				u.Email = "admin" // <- special value
+				u.Username = "admin" // <- special value
 				u.Name = "First Last"
 				u.HashPassword(myPassword)
 				u.Role = "user"

@@ -91,13 +91,14 @@ make
 ### Use Curl
 
 # Obtain an Auth Token
-curl -vvv -X POST -k https://localhost:10080/v1/auth -H "Content-Type: text/plain" -d '{"email": "admin", "password": "password"}'
+curl -vvv -X POST -k https://localhost:10080/v1/auth -H "Content-Type: text/plain" -d '{"grant_type": "password", "username": "admin", "password": "password"}'
 
 # Create a Key
 curl -vvv -X PUT -k https://localhost:10080/v1/keyval/mykey -H "Content-Type: text/plain" -d '{"value": "myval1"}'
 
 # Read a Key
-curl -vvv -X GET -k https://localhost:10080/v1/keyval/mykey -H "Content-Type: text/plain"
+export TOKEN=<your token>
+curl -vvv -X GET -k https://localhost:10080/v1/keyval/mykey -H "Content-Type: text/plain" -H "Authorization: Bearer $TOKEN"
 
 # Update a Key
 curl -vvv -X POST -k https://localhost:10080/v1/keyval/mykey -H "Content-Type: text/plain" -d '{"value": "myval2"}'

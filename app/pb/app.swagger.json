@@ -156,20 +156,33 @@
     "appAuthRequestMessage": {
       "type": "object",
       "properties": {
-        "email": {
+        "grant_type": {
           "type": "string",
           "format": "string"
         },
         "password": {
           "type": "string",
           "format": "string"
+        },
+        "username": {
+          "type": "string",
+          "format": "string"
         }
-      }
+      },
+      "description": "Follow oAuth2 standards, even though no 3rd party access is required.\nCurrently using simplified Client Credentials Grant:\n(https://tools.ietf.org/html/rfc6749#section-4.4). Eventually may use\nAuthorization Code Grant when 3rd party access is required:\n(https://tools.ietf.org/html/rfc6749#section-4.1)."
     },
     "appAuthResponseMessage": {
       "type": "object",
       "properties": {
-        "token": {
+        "access_token": {
+          "type": "string",
+          "format": "string"
+        },
+        "expires_in": {
+          "type": "string",
+          "format": "int64"
+        },
+        "token_type": {
           "type": "string",
           "format": "string"
         }

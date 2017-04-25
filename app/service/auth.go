@@ -1,6 +1,8 @@
 package service
 
 import (
+	"errors"
+
 	context "golang.org/x/net/context"
 
 	log "github.com/Sirupsen/logrus"
@@ -19,8 +21,14 @@ func (s *authService) Auth(ctx context.Context, in *pb.AuthRequestMessage) (*pb.
 
 	ac := cnf.SingletonAppConfig
 
+	// check the grant type is "password".
+	//   required per oauth2 spec Client Credentials Grant Type
+	if in.GetGrantType() != "password" {
+		return &pb.AuthResponseMessage{}, errors.New("Grant type must be 'password'")
+	}
+
 	// find the user
-	u, err := ac.GetUserByEmail(in.GetEmail())
+	u, err := ac.GetUserByUsername(in.GetUsername())
 	if err != nil {
 		logutil.AddCtx(log.WithFields(log.Fields{
 			"message": in,
@@ -40,7 +48,8 @@ func (s *authService) Auth(ctx context.Context, in *pb.AuthRequestMessage) (*pb.
 	}
 
 	// create the JWT token, which contains claims
-	jwtStr, err := u.GenerateJwt()
+	duration := int64(3600) // 1 hour
+	jwtStr, err := u.GenerateJwt(duration)
 	if err != nil {
 		logutil.AddCtx(log.WithFields(log.Fields{
 			"message": in,
@@ -49,7 +58,11 @@ func (s *authService) Auth(ctx context.Context, in *pb.AuthRequestMessage) (*pb.
 		return &pb.AuthResponseMessage{}, err
 	}
 
-	return &pb.AuthResponseMessage{Token: jwtStr}, nil
+	return &pb.AuthResponseMessage{
+		AccessToken: jwtStr,
+		TokenType:   "JWT",
+		ExpiresIn:   duration,
+	}, nil
 }
 
 func NewAuthService() *authService {

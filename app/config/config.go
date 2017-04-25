@@ -21,9 +21,9 @@ import (
 var validate = validator.New()
 
 const (
-	DefaultAdminUser  = "admin"
-	DefaultAdminPass  = "password"
-	DefaultConfigFile = "app.yaml"
+	DefaultAdminUsername = "admin"
+	DefaultAdminPassword = "password"
+	DefaultConfigFile    = "app.yaml"
 )
 
 var SingletonAppConfig *AppConfig
@@ -69,17 +69,17 @@ type Settings struct {
 
 type User struct {
 	Id string `validate:"uuid4"`
-	// Email is globally unique from the user's perspective (either
-	// email OR 'admin')
-	Email        string `validate:"required,email|eq=admin"`
+	// Username is globally unique from the user's perspective.  It must
+	// either be in email address format, or the special case 'admin'
+	Username     string `validate:"required,email|eq=admin"`
 	Name         string `validate:"required,printascii"` // TODO: plan on escaping and handling all printable ASCII
 	PasswordHash string `validate:"required"`            // Hashed and Salted by the bcrypt library
 	Role         string `validate:"eq=user|eq=admin"`
 	Phone        string `validate:"phone,min=7"`
 }
 
-func (u *User) GenerateJwt() (string, error) {
-	return jwt.CreateJwtWithIdRole(u.Id, u.Role)
+func (u *User) GenerateJwt(secondsToExpiration int64) (string, error) {
+	return jwt.CreateJwtWithIdRole(u.Id, u.Role, secondsToExpiration)
 }
 
 func (u *User) GetRole() (gorbac.Role, error) {
@@ -115,7 +115,7 @@ func NewAppConfig() *AppConfig {
 	// to get field values from the first (admin) user, after which
 	// Validate will be enforced
 
-	adminPass, _ := bcrypt.GenerateFromPassword([]byte(DefaultAdminPass), bcrypt.DefaultCost)
+	adminPass, _ := bcrypt.GenerateFromPassword([]byte(DefaultAdminPassword), bcrypt.DefaultCost)
 
 	return &AppConfig{
 		&Settings{
@@ -124,9 +124,9 @@ func NewAppConfig() *AppConfig {
 		[]*User{
 			&User{ // default admin user
 				Id:           uuid.NewV4().String(),
-				Email:        "admin",
+				Username:     "admin",
 				Role:         "admin",
-				Name:         DefaultAdminUser,
+				Name:         DefaultAdminUsername,
 				PasswordHash: string(adminPass),
 			},
 		},
@@ -146,18 +146,18 @@ func ParseAppConfig(yamlString string) (*AppConfig, error) {
 
 }
 
-func (ac *AppConfig) GetUserByEmail(email string) (*User, error) {
+func (ac *AppConfig) GetUserByUsername(username string) (*User, error) {
 	var user *User = nil
 	for _, u := range ac.Users {
-		if u.Email == email {
+		if u.Username == username {
 			if user != nil {
-				return nil, errors.New("More than one user with same email")
+				return nil, errors.New("More than one user with same username")
 			}
 			user = u
 		}
 	}
 	if user == nil {
-		return nil, errors.New("Unable to find user by email")
+		return nil, errors.New("Unable to find user by username")
 	}
 	return user, nil
 }

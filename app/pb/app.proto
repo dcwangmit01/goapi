@@ -8,12 +8,20 @@ import "google/api/annotations.proto";
 
 message EmptyMessage{}
 
+// Follow oAuth2 standards, even though no 3rd party access is required.
+// Currently using simplified Client Credentials Grant Type:
+// (https://tools.ietf.org/html/rfc6749#section-4.4). Eventually may use
+// Authorization Code Grant Type when 3rd party access is required:
+// (https://tools.ietf.org/html/rfc6749#section-4.1).
 message AuthRequestMessage {
-	string email = 1;
-	string password = 2;
+	string grant_type = 1; //must be set to "password" for Client Credentials Grant type
+	string username = 2;
+	string password = 3;
 }
 message AuthResponseMessage {
-	string token = 1;
+	string access_token = 1;
+	string token_type = 2;
+	int64 expires_in = 3;
 }
 
 message KeyValMessage {
