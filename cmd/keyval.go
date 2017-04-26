@@ -79,6 +79,23 @@ var keyvalDeleteCmd = &cobra.Command{
 	SilenceUsage: true, // mark true otherwise usage is printed on EVERY error
 }
 
+// TODO(dave): Figure out how to get rid of the redundancy below for each of
+// the 4 functions.  Problems are the lines involving pb.NewKeyValClient (Would
+// be great to genericize it for any client), as well as the followowing line
+// that calls the explicit GRPC request.
+//    keyvalCreate
+//       client := pb.NewKeyValClient(conn)
+//      rsp, err := client.KeyValCreate(ctx, req)
+//    keyvalRead
+//      client := pb.NewKeyValClient(conn)
+//      rsp, err := client.KeyValRead(ctx, req)
+//    keyvalUpdate
+//      client := pb.NewKeyValClient(conn)
+//      rsp, err := client.KeyValUpdate(ctx, req)
+//    keyvalDelete
+//      client := pb.NewKeyValClient(conn)
+//      rsp, err := client.KeyValDelete(ctx, req)
+
 func keyvalCreate(cmd *cobra.Command, args []string) error {
 
 	// validate args
@@ -109,6 +126,9 @@ func keyvalCreate(cmd *cobra.Command, args []string) error {
 	// create the client and send the request
 	client := pb.NewKeyValClient(conn)
 	rsp, err := client.KeyValCreate(ctx, req)
+	if err != nil {
+		return err
+	}
 
 	// print the response to stdout
 	dump, err := clt.StructToYamlStr(rsp)
@@ -150,6 +170,9 @@ func keyvalRead(cmd *cobra.Command, args []string) error {
 	// create the client and send the request
 	client := pb.NewKeyValClient(conn)
 	rsp, err := client.KeyValRead(ctx, req)
+	if err != nil {
+		return err
+	}
 
 	// print the response to stdout
 	dump, err := clt.StructToYamlStr(rsp)
@@ -191,6 +214,9 @@ func keyvalUpdate(cmd *cobra.Command, args []string) error {
 	// create the client and send the request
 	client := pb.NewKeyValClient(conn)
 	rsp, err := client.KeyValUpdate(ctx, req)
+	if err != nil {
+		return err
+	}
 
 	// print the response to stdout
 	dump, err := clt.StructToYamlStr(rsp)
@@ -232,6 +258,9 @@ func keyvalDelete(cmd *cobra.Command, args []string) error {
 	// create the client and send the request
 	client := pb.NewKeyValClient(conn)
 	rsp, err := client.KeyValDelete(ctx, req)
+	if err != nil {
+		return err
+	}
 
 	// print the response to stdout
 	dump, err := clt.StructToYamlStr(rsp)
