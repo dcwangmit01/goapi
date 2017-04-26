@@ -16,33 +16,25 @@ This project provides:
   REST.  All JSON REST requests are proxied over
   [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) to the GRPC
   server.
-
 * A [cobra](https://github.com/spf13/cobra) CLI tool with subcommands that can
   launch the API server as well as drive the API as a CLI client.  The CLI tool
   stores its settings in [viper](https://github.com/spf13/viper)
   configuration.
-
 * A Makefile which generates code resources including:
     * GRPC code files including protobuf, grpc, grpc-gateway, swagger
     * SSL certs using [cfssl](https://github.com/cloudflare/cfssl)
     * Swagger asset files with embedded swagger-ui, to serve the swagger file
     * Cross-compiling statically linked Linux binaries for amd64 and armv7.
-
 * A test framework using [ginkgo](https://github.com/onsi/ginkgo) and [gomega
   matchers](https://github.com/onsi/gomega)
-
 * A semantic version-based vendoring system using
   [glide](https://github.com/Masterminds/glide)
-
 * Using a vendored golang package management framework (glide)
-
 * Provides an `/auth` endpoint which returns a JWT token when presented with
   valid credentials.  This authentication system is based on
   [JWT](github.com/dgrijalva/jwt-go)
-
 * An [Role Based Access Control](https://github.com/mikespook/gorbac)
-  authorization system based on
-
+  authorization system.
 * A structured logging system using
   [logrus](https://github.com/sirupsen/logrus)
 
