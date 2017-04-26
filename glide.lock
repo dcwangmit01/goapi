@@ -1,5 +1,5 @@
-hash: fe00818a7f61056bbdf3cd12d8c8a87e8d6af642804a282595ed4062f9d319f7
-updated: 2017-04-25T21:15:31.277367347Z
+hash: decd111787dd2792a675e14ff07e5b0886b7556b306031228e774cfccc3f9aa5
+updated: 2017-04-26T21:28:22.036498919Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
@@ -24,6 +24,8 @@ imports:
   - proto
   - protoc-gen-go
   - protoc-gen-go/descriptor
+- name: github.com/grpc-ecosystem/go-grpc-middleware
+  version: 164c5fae744b141cd3e4a182b40d66fd4655c822
 - name: github.com/grpc-ecosystem/grpc-gateway
   version: a8f25bd1ab549f8b87afd48aa9181221e9d439bb
   subpackages:
