@@ -8,6 +8,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/metadata"
 	yaml "gopkg.in/yaml.v2"
 
 	log "github.com/Sirupsen/logrus"
@@ -73,6 +74,23 @@ func Authenticate(username string, password string) (string, error) {
 		return "", errors.New("Recevied empty token string")
 	}
 	return rsp.GetAccessToken(), nil
+}
+
+func ConnectWithToken(host string, port int, authToken string, certPool *x509.CertPool) (*grpc.ClientConn, context.Context, error) {
+
+	// add an auth metadata header with the JWT token
+	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %v", authToken))
+	ctx := metadata.NewContext(context.Background(), md)
+
+	// connect to the grpc server
+	conn, err := GrpcTlsConnect(host, port, ctx, certPool)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// return the connection and error directly, relying on the
+	// caller to close the connection
+	return conn, ctx, err
 }
 
 func StructToYamlStr(s interface{}) (string, error) {

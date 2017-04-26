@@ -66,27 +66,27 @@ make
 
 ```
 # Show Usage
-./bin/linux_amd64/goapi
+goapi
 
 # Start the GRPC+JSON server on port 10080
-./bin/linux_amd64/goapi serve
+goapi serve
 
 ### Use the GRPC CLI Client
 
 # Obtain an Auth Token
-./bin/linux_amd64/goapi auth admin password
+goapi auth admin password
 
 # Create a Key
-./bin/linux_amd64/goapi keyval create mykey myval
+goapi keyval create -u admin -p password mykey myval
 
 # Read a Key
-./bin/linux_amd64/goapi keyval read mykey
+goapi keyval read -u admin -p password mykey
 
 # Update a Key
-./bin/linux_amd64/goapi keyval create mykey myval2
+goapi keyval create -u admin -p password mykey myval2
 
 # Delete a Key
-./bin/linux_amd64/goapi keyval delete mykey
+goapi keyval delete -u admin -p password mykey
 
 ### Use Curl
 
