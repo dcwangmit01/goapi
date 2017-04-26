@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	KeyPair  *tls.Certificate
-	CertPool *x509.CertPool
+	KeyPair  *tls.Certificate // contains private key and public cert
+	CertPool *x509.CertPool   // a certpool is a set of certificates.  Only contains public cert
 )
 
 func init() {

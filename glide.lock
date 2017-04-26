@@ -1,5 +1,5 @@
-hash: eb0fca83f3946006a55e16e67ab60e413af82b8d7ea77c3895eca5b1e9dbb0ab
-updated: 2017-04-24T20:54:13.729851845Z
+hash: fe00818a7f61056bbdf3cd12d8c8a87e8d6af642804a282595ed4062f9d319f7
+updated: 2017-04-25T21:15:31.277367347Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30

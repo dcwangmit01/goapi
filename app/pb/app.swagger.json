@@ -169,7 +169,7 @@
           "format": "string"
         }
       },
-      "description": "Follow oAuth2 standards, even though no 3rd party access is required.\nCurrently using simplified Client Credentials Grant:\n(https://tools.ietf.org/html/rfc6749#section-4.4). Eventually may use\nAuthorization Code Grant when 3rd party access is required:\n(https://tools.ietf.org/html/rfc6749#section-4.1)."
+      "description": "Follow oAuth2 standards, even though no 3rd party access is required.\nCurrently using simplified Client Credentials Grant Type:\n(https://tools.ietf.org/html/rfc6749#section-4.4). Eventually may use\nAuthorization Code Grant Type when 3rd party access is required:\n(https://tools.ietf.org/html/rfc6749#section-4.1)."
     },
     "appAuthResponseMessage": {
       "type": "object",

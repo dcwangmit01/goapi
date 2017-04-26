@@ -56,3 +56,4 @@ import:
   - cmd/goimports
 - package: github.com/justinas/alice
   version: ^1.0.0
+- package: github.com/spf13/pflag

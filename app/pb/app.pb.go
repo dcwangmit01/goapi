@@ -47,11 +47,6 @@ func (m *EmptyMessage) String() string            { return proto.CompactTextStri
 func (*EmptyMessage) ProtoMessage()               {}
 func (*EmptyMessage) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
-// Follow oAuth2 standards, even though no 3rd party access is required.
-// Currently using simplified Client Credentials Grant Type:
-// (https://tools.ietf.org/html/rfc6749#section-4.4). Eventually may use
-// Authorization Code Grant Type when 3rd party access is required:
-// (https://tools.ietf.org/html/rfc6749#section-4.1).
 type AuthRequestMessage struct {
 	GrantType string `protobuf:"bytes,1,opt,name=grant_type,json=grantType" json:"grant_type,omitempty"`
 	Username  string `protobuf:"bytes,2,opt,name=username" json:"username,omitempty"`

@@ -1,56 +1,78 @@
 package cmd
 
 import (
-	"os"
+	"fmt"
 
 	"github.com/spf13/cobra"
-	"golang.org/x/net/context"
 
-	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/goapi/app/logutil"
-
-	jwt "github.com/dcwangmit01/goapi/app/jwt"
-	pb "github.com/dcwangmit01/goapi/app/pb"
+	"github.com/dcwangmit01/goapi/app/client"
+	"github.com/dcwangmit01/goapi/app/jwt"
 )
 
-var authCmd = &cobra.Command{
-	Use:   "auth",
-	Short: "Obtain JWT token and print it out",
-	Long: `
-Auth:
-    goapi auth <email> <password>
-`,
-	Run: func(cmd *cobra.Command, args []string) {
-		grpcDialAndRunAuth(authAndPrint)
-	},
-}
-
-func authAndPrint(client pb.AuthClient, ctx context.Context) {
-	req := &pb.AuthRequestMessage{
-		"password",
-		os.Args[2],
-		os.Args[3]}
-
-	logutil.AddCtx(log.WithFields(log.Fields{
-		"message": req,
-	})).Info("Sent RPC Request")
-
-	rsp, _ := client.Auth(ctx, req)
-
-	logutil.AddCtx(log.WithFields(log.Fields{
-		"message": rsp,
-	})).Info("Received RPC Reply")
-
-	tokenStr := rsp.GetAccessToken()
-	token, customClaims, err := jwt.ParseJwt(tokenStr)
-
-	logutil.AddCtx(log.WithFields(log.Fields{
-		"valid":  token.Valid,
-		"claims": customClaims,
-		"error":  err,
-	})).Info("Parsed JWT")
-}
+var (
+	tokenOnly bool
+)
 
 func init() {
-	RootCmd.AddCommand(authCmd)
+	RootCmd.AddCommand(authRootCmd)
+	authRootCmd.AddCommand(loginCmd)
+	loginCmd.Flags().BoolVarP(&tokenOnly, "token-only", "t", false, "Output only the token")
+
+}
+
+var authRootCmd = &cobra.Command{
+	Use:   "auth",
+	Short: "Authenticate with goapi service",
+	Long:  ``,
+}
+
+var loginCmd = &cobra.Command{
+	Use:   "login USERNAME PASSWORD",
+	Short: "Auth and save the JWT token to config",
+	Long: `Authenticate against the API auth endpoint.
+  * With the provided USERNAME AND PASSWORD
+  * Hit the /auth endpoint
+  * Save the token in the config
+  * Print the token to the screen`,
+	Example: `asdf`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return appAuthLogin(cmd, args)
+	},
+	SilenceUsage: true, // mark true otherwise usage is printed on EVERY error
+}
+
+func appAuthLogin(cmd *cobra.Command, args []string) error {
+
+	// validate args
+	if len(args) != 2 {
+		cmd.Usage()
+		return invalidInputErr
+	}
+
+	// authenticate
+	tokenStr, err := client.Authenticate(
+		args[0], // username
+		args[1], // password
+	)
+	if err != nil {
+		return err
+	}
+
+	if tokenOnly == true {
+		// print the token
+		fmt.Println(tokenStr)
+	} else {
+		token, _, err := jwt.ParseJwt(tokenStr)
+		if err != nil {
+			return err
+		}
+
+		dump, err := client.StructToYamlStr(token)
+		if err != nil {
+			return err
+		}
+
+		fmt.Printf("%v\n", dump)
+	}
+	return nil
 }

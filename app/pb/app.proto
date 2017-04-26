@@ -13,6 +13,7 @@ message EmptyMessage{}
 // (https://tools.ietf.org/html/rfc6749#section-4.4). Eventually may use
 // Authorization Code Grant Type when 3rd party access is required:
 // (https://tools.ietf.org/html/rfc6749#section-4.1).
+
 message AuthRequestMessage {
 	string grant_type = 1; //must be set to "password" for Client Credentials Grant type
 	string username = 2;
