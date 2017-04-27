@@ -5,9 +5,6 @@ import (
 
 	context "golang.org/x/net/context"
 
-	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/goapi/app/logutil"
-
 	cnf "github.com/dcwangmit01/goapi/app/config"
 	pb "github.com/dcwangmit01/goapi/app/pb"
 )
@@ -15,9 +12,6 @@ import (
 type authService struct{}
 
 func (s *authService) Auth(ctx context.Context, in *pb.AuthRequestMessage) (*pb.AuthResponseMessage, error) {
-	logutil.AddCtx(log.WithFields(log.Fields{
-		"message": in,
-	})).Info("Received RPC Request")
 
 	ac := cnf.SingletonAppConfig
 
@@ -30,20 +24,12 @@ func (s *authService) Auth(ctx context.Context, in *pb.AuthRequestMessage) (*pb.
 	// find the user
 	u, err := ac.GetUserByUsername(in.GetUsername())
 	if err != nil {
-		logutil.AddCtx(log.WithFields(log.Fields{
-			"message": in,
-			"error":   err,
-		})).Warn("Auth RPC Failed")
 		return &pb.AuthResponseMessage{}, err
 	}
 
 	// validate the user password
 	err = u.ValidatePassword(in.GetPassword())
 	if err != nil {
-		logutil.AddCtx(log.WithFields(log.Fields{
-			"message": in,
-			"error":   err,
-		})).Warn("Auth RPC Failed")
 		return &pb.AuthResponseMessage{}, err
 	}
 
@@ -51,10 +37,6 @@ func (s *authService) Auth(ctx context.Context, in *pb.AuthRequestMessage) (*pb.
 	duration := int64(3600) // 1 hour
 	jwtStr, err := u.GenerateJwt(duration)
 	if err != nil {
-		logutil.AddCtx(log.WithFields(log.Fields{
-			"message": in,
-			"error":   err,
-		})).Warn("Auth RPC Failed")
 		return &pb.AuthResponseMessage{}, err
 	}
 

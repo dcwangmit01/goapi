@@ -10,14 +10,14 @@ import (
 	"net/http"
 	"strings"
 
+	log "github.com/Sirupsen/logrus"
+	"github.com/dcwangmit01/goapi/app/logutil"
 	assetfs "github.com/elazarl/go-bindata-assetfs"
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_gw_runtime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-
-	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/goapi/app/logutil"
 
 	config "github.com/dcwangmit01/goapi/app/config"
 	pb "github.com/dcwangmit01/goapi/app/pb"
@@ -113,7 +113,10 @@ func StartServer() {
 	   Create the grpc handler
 	*/
 	opts := []grpc.ServerOption{
-		grpc.Creds(credentials.NewClientTLSFromCert(certs.CertPool, config.ServerAddress))}
+		grpc.Creds(credentials.NewClientTLSFromCert(certs.CertPool, config.ServerAddress)),
+		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+			grpc_logrus.UnaryServerInterceptor(logger))),
+	}
 	grpcServer := grpc.NewServer(opts...)
 	pb.RegisterAuthServer(grpcServer, svc.NewAuthService())
 	pb.RegisterKeyValServer(grpcServer, svc.NewKeyValService())

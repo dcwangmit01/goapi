@@ -2,7 +2,6 @@ package jwt
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
 	jwtgo "github.com/dgrijalva/jwt-go"
@@ -33,7 +32,6 @@ func CreateJwtWithIdRole(id string, role string, secondsToExpiration int64) (str
 
 	token := jwtgo.NewWithClaims(jwtgo.SigningMethodHS256, claims)
 	ss, err := token.SignedString(SigningKey)
-	fmt.Printf("%v %v", ss, err)
 
 	return ss, err
 }
