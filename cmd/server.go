@@ -8,7 +8,7 @@ import (
 
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
-	Use:   "serve",
+	Use:   "server",
 	Short: "Launches the example webserver on https://localhost:10080",
 	Run: func(cmd *cobra.Command, args []string) {
 		svr.StartServer()
