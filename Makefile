@@ -57,7 +57,7 @@ app/pb/app.pb.go: app/pb/app.proto
 	protoc \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-	  --go_out=Mgoogle/api/annotations.proto=github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api,plugins=grpc:. \
+	  --go_out=plugins=grpc:. \
 	  app/pb/app.proto
 
 app/pb/app.pb.gw.go: app/pb/app.proto

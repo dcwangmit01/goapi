@@ -1,5 +1,5 @@
-hash: decd111787dd2792a675e14ff07e5b0886b7556b306031228e774cfccc3f9aa5
-updated: 2017-04-26T21:28:22.036498919Z
+hash: 2d764a14f94480949da60abb306344cb49d54d9a16d11b94a539362aea4c8c19
+updated: 2017-04-27T05:06:13.333207161Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
@@ -24,16 +24,22 @@ imports:
   - proto
   - protoc-gen-go
   - protoc-gen-go/descriptor
+  - ptypes/any
 - name: github.com/grpc-ecosystem/go-grpc-middleware
   version: 164c5fae744b141cd3e4a182b40d66fd4655c822
+  subpackages:
+  - auth
+  - logging
+  - logging/logrus
+  - tags
+  - util/metautils
 - name: github.com/grpc-ecosystem/grpc-gateway
-  version: a8f25bd1ab549f8b87afd48aa9181221e9d439bb
+  version: 589b126116b5fc961939b3e156c29e4d9d58222f
   subpackages:
   - protoc-gen-grpc-gateway
   - protoc-gen-swagger
   - runtime
   - runtime/internal
-  - third_party/googleapis/google/api
   - utilities
 - name: github.com/hashicorp/hcl
   version: 7fa7fff964d035e8a162cce3a164b3ad02ad651b
@@ -115,22 +121,22 @@ imports:
 - name: github.com/spf13/cast
   version: acbeb36b902d72a7a4c18e8f3241075e7ab763e4
 - name: github.com/spf13/cobra
-  version: 10f6b9d7e1631a54ad07c5c0fb71c28a1abfd3c2
+  version: 6dd90846ba124894ee1206c89021e90e8179f1a4
   subpackages:
   - cobra
 - name: github.com/spf13/jwalterweatherman
   version: fa7ca7e836cf3a8bb4ebf799f472c12d7e903d66
 - name: github.com/spf13/pflag
-  version: 2300d0f8576fe575f71aaa5b9bbe4e1b0dc2eb51
+  version: 314c91c3e94238576bab29cbcdd44b57ab8e0d39
 - name: github.com/spf13/viper
   version: 0967fc9aceab2ce9da34061253ac10fb99bba5b2
 - name: golang.org/x/crypto
-  version: 96846453c37f0876340a66a47f3f75b1f3a6cd2d
+  version: c7af5bf2638a1164f2eb5467c39c6cffbd13a02e
   subpackages:
   - bcrypt
   - blowfish
 - name: golang.org/x/net
-  version: d212a1ef2de2f5d441c327b8f26cf3ea3ea9f265
+  version: da118f7b8e5954f39d0d2130ab35d4bf0e3cb344
   subpackages:
   - context
   - http2
@@ -140,7 +146,7 @@ imports:
   - lex/httplex
   - trace
 - name: golang.org/x/sys
-  version: ea9bcade75cb975a0b9738936568ab388b845617
+  version: 9ccfe848b9db8435a24c424abbc07a921adf1df5
   subpackages:
   - unix
 - name: golang.org/x/text
@@ -151,14 +157,20 @@ imports:
   - unicode/bidi
   - unicode/norm
 - name: golang.org/x/tools
-  version: c853fd576988aeebd3665f6224972f1379960013
+  version: 3aa1caa08a9813c4635689965b58bd050828f0bf
   subpackages:
   - cmd/goimports
+- name: google.golang.org/genproto
+  version: 411e09b969b1170a9f0c467558eb4c4c110d9c77
+  subpackages:
+  - googleapis/api/annotations
+  - googleapis/rpc/status
 - name: google.golang.org/grpc
-  version: 8050b9cbc271307e5a716a9d782803d09b0d6f2d
+  version: c73e0165df8e5495c523feb93a8a6c19b9452817
   subpackages:
   - codes
   - credentials
+  - grpclb/grpc_lb_v1
   - grpclog
   - internal
   - keepalive
@@ -166,6 +178,7 @@ imports:
   - naming
   - peer
   - stats
+  - status
   - tap
   - transport
 - name: gopkg.in/go-playground/validator.v9

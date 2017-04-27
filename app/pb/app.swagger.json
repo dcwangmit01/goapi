@@ -57,8 +57,13 @@
             "name": "key",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "string"
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -80,8 +85,7 @@
             "name": "key",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "string"
+            "type": "string"
           }
         ],
         "tags": [
@@ -103,8 +107,7 @@
             "name": "key",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "string"
+            "type": "string"
           },
           {
             "name": "body",
@@ -134,8 +137,7 @@
             "name": "key",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "string"
+            "type": "string"
           },
           {
             "name": "body",
@@ -157,16 +159,13 @@
       "type": "object",
       "properties": {
         "grant_type": {
-          "type": "string",
-          "format": "string"
-        },
-        "password": {
-          "type": "string",
-          "format": "string"
+          "type": "string"
         },
         "username": {
-          "type": "string",
-          "format": "string"
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
         }
       }
     },
@@ -174,16 +173,14 @@
       "type": "object",
       "properties": {
         "access_token": {
-          "type": "string",
-          "format": "string"
+          "type": "string"
+        },
+        "token_type": {
+          "type": "string"
         },
         "expires_in": {
           "type": "string",
           "format": "int64"
-        },
-        "token_type": {
-          "type": "string",
-          "format": "string"
         }
       }
     },
@@ -191,12 +188,10 @@
       "type": "object",
       "properties": {
         "key": {
-          "type": "string",
-          "format": "string"
+          "type": "string"
         },
         "value": {
-          "type": "string",
-          "format": "string"
+          "type": "string"
         }
       }
     }
