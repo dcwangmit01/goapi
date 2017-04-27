@@ -17,6 +17,7 @@ import (
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	grpc_logrus "github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
+	grpc_tags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -39,6 +40,9 @@ func init() {
 		// order matters
 		grpc_logrus.UnaryServerInterceptor(logger),
 		AuthInterceptor(),
+		// grpc_tags will take http headers and place into tags struct
+		//   grpc_tags.Extract(ctx) returns *Tags which is "map[string]interface"
+		grpc_tags.UnaryServerInterceptor(),
 	))
 }
 

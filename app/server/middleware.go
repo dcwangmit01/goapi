@@ -12,9 +12,10 @@ import (
 )
 
 /*
-  We may not use http.Handler middleware functions.  We may use grpc
-    interceptors (middleware) instead.  GRCP interceptors are one level down
-    where we can work with context objects.  Leaving this code here for now.
+  We may not use http.Handler middleware functions for auth or logging.  We may
+    use grpc interceptors (middleware) instead.  GRCP interceptors are one
+    level down where we can work with context objects.  Leaving this code here
+    for now.
 
   # Instructions
   srv := &http.Server{

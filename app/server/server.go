@@ -137,7 +137,7 @@ func StartServer() {
 
 	srv := &http.Server{
 		Addr:    config.ServerAddress,
-		Handler: triageHandlerFunc(CommonMiddleware.Then(grpcServer), CommonMiddleware.Then(mux)),
+		Handler: triageHandlerFunc(grpcServer, mux),
 		TLSConfig: &tls.Config{
 			Certificates: []tls.Certificate{*certs.KeyPair},
 			NextProtos:   []string{"h2"},
