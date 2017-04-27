@@ -2,9 +2,12 @@ package service
 
 import (
 	"errors"
+	"fmt"
 
 	context "golang.org/x/net/context"
 
+	"github.com/dcwangmit01/goapi/app/client"
+	"github.com/dcwangmit01/goapi/app/config"
 	pb "github.com/dcwangmit01/goapi/app/pb"
 	kv "github.com/dcwangmit01/goapi/app/sqlitekv"
 )
@@ -20,6 +23,17 @@ func (s *kvService) KeyValCreate(c context.Context, m *pb.KeyValMessage) (*pb.Ke
 }
 
 func (s *kvService) KeyValRead(c context.Context, m *pb.KeyValMessage) (*pb.KeyValMessage, error) {
+
+	// Example code on accessing user
+	/////////////////////////////////////////////////////////////////////
+	user, ok := config.UserFromContext(c)
+	if !ok {
+		return m, errors.New("Unable to locate user")
+	}
+	dump, _ := client.StructToYamlStr(user)
+	fmt.Println(dump)
+	/////////////////////////////////////////////////////////////////////
+
 	if !kv.SqlKV.HasKey(m.Key) {
 		return m, errors.New("Cannot read non-existent Key")
 	}

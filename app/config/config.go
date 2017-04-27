@@ -1,6 +1,7 @@
 package config
 
 import (
+	"context"
 	"errors"
 	"io/ioutil"
 	"log"
@@ -147,19 +148,21 @@ func ParseAppConfig(yamlString string) (*AppConfig, error) {
 }
 
 func (ac *AppConfig) GetUserByUsername(username string) (*User, error) {
-	var user *User = nil
 	for _, u := range ac.Users {
 		if u.Username == username {
-			if user != nil {
-				return nil, errors.New("More than one user with same username")
-			}
-			user = u
+			return u, nil
 		}
 	}
-	if user == nil {
-		return nil, errors.New("Unable to find user by username")
+	return nil, errors.New("Unable to find user by username")
+}
+
+func (ac *AppConfig) GetUserById(id string) (*User, error) {
+	for _, u := range ac.Users {
+		if u.Id == id {
+			return u, nil
+		}
 	}
-	return user, nil
+	return nil, errors.New("Unable to find user by id")
 }
 
 func (ac *AppConfig) AddUser(user *User) {
@@ -193,4 +196,16 @@ func ValidateStruct(s interface{}) map[string]string {
 		return m
 	}
 	return nil
+}
+
+const userContextKey = "user"
+
+func UserNewContext(ctx context.Context, u *User) context.Context {
+	return context.WithValue(ctx, userContextKey, u)
+}
+
+// FromContext returns the User value stored in ctx, if any.
+func UserFromContext(ctx context.Context) (*User, bool) {
+	u, ok := ctx.Value(userContextKey).(*User)
+	return u, ok
 }

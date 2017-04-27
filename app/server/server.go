@@ -13,7 +13,6 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/goapi/app/logutil"
 	assetfs "github.com/elazarl/go-bindata-assetfs"
-	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_gw_runtime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -114,8 +113,7 @@ func StartServer() {
 	*/
 	opts := []grpc.ServerOption{
 		grpc.Creds(credentials.NewClientTLSFromCert(certs.CertPool, config.ServerAddress)),
-		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
-			grpc_logrus.UnaryServerInterceptor(logger))),
+		CommonInterceptors,
 	}
 	grpcServer := grpc.NewServer(opts...)
 	pb.RegisterAuthServer(grpcServer, svc.NewAuthService())

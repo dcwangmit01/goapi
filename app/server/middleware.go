@@ -26,9 +26,9 @@ import (
 */
 
 var (
-	CommonMiddleware = alice.New(loggingHandler, authHandler)
-	authUriRegex     = regexp.MustCompile(`^.*/[Aa]uth$`)
-	authBodyRegex    = regexp.MustCompile(`^Bearer (?P<jwt>\S+)$`)
+	CommonMiddleware        = alice.New(loggingHandler, authHandler)
+	middlewareAuthUriRegex  = regexp.MustCompile(`^.*/[Aa]uth$`)
+	middlewareAuthBodyRegex = regexp.MustCompile(`^Bearer (?P<jwt>\S+)$`)
 )
 
 const (
@@ -42,7 +42,7 @@ func loggingHandler(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 		t2 := time.Now()
 
-		log.Printf("[%s] %q %v %v\n", r.Method, r.URL.String(), t2.Sub(t1), r.Header)
+		log.Printf("REST [%s] %q %v %v\n", r.Method, r.URL.String(), t2.Sub(t1), r.Header)
 	}
 	return http.HandlerFunc(fn)
 }
@@ -58,7 +58,7 @@ func authHandler(next http.Handler) http.Handler {
 
 		// If the request is for the /auth endpoint, then let the
 		// request through without checking for auth.
-		if authUriRegex.MatchString(r.URL.String()) {
+		if middlewareAuthUriRegex.MatchString(r.URL.String()) {
 			next.ServeHTTP(w, r)
 			return
 		}
@@ -71,7 +71,7 @@ func authHandler(next http.Handler) http.Handler {
 			return
 		}
 
-		matches := authBodyRegex.FindStringSubmatch(authString[0])
+		matches := middlewareAuthBodyRegex.FindStringSubmatch(authString[0])
 		if len(matches) != 2 {
 			http.Error(w, "Authorization Header Invalid: Bearer Token Not Found", http.StatusUnauthorized)
 			return
