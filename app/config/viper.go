@@ -8,6 +8,7 @@ var (
 	ServerAddress string
 	Host          = "localhost"
 	Port          = 10080
+	AppName       = "goapi"
 )
 
 func init() {

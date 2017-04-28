@@ -7,19 +7,17 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var (
-	dbName    = "app.db"
+const (
 	tableName = "keyval"
-
-	SqlKV *sqlkv.SqlKv
 )
 
-func Init() {
-	db, err := sql.Open("sqlite3", dbName)
+func New(dbPath string) *sqlkv.SqlKv {
+
+	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		panic(err)
 	}
 
 	// Will create table if not exists
-	SqlKV = sqlkv.New(db, tableName)
+	return sqlkv.New(db, tableName)
 }

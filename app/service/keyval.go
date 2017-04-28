@@ -8,17 +8,19 @@ import (
 
 	"github.com/dcwangmit01/goapi/app/config"
 	pb "github.com/dcwangmit01/goapi/app/pb"
-	kv "github.com/dcwangmit01/goapi/app/sqlitekv"
+	"github.com/dcwangmit01/goapi/app/sqlitekv"
 	"github.com/dcwangmit01/goapi/app/util"
 )
+
+var skv = sqlitekv.New(config.AppName + ".db")
 
 type kvService struct{}
 
 func (s *kvService) KeyValCreate(c context.Context, m *pb.KeyValMessage) (*pb.KeyValMessage, error) {
-	if kv.SqlKV.HasKey(m.Key) {
+	if skv.HasKey(m.Key) {
 		return &pb.KeyValMessage{}, errors.New("Cannot create existing Key")
 	}
-	kv.SqlKV.SetString(m.Key, m.Value)
+	skv.SetString(m.Key, m.Value)
 	return m, nil
 }
 
@@ -34,27 +36,27 @@ func (s *kvService) KeyValRead(c context.Context, m *pb.KeyValMessage) (*pb.KeyV
 	fmt.Println(dump)
 	/////////////////////////////////////////////////////////////////////
 
-	if !kv.SqlKV.HasKey(m.Key) {
+	if !skv.HasKey(m.Key) {
 		return m, errors.New("Cannot read non-existent Key")
 	}
-	m.Value = kv.SqlKV.String(m.Key)
+	m.Value = skv.String(m.Key)
 	return m, nil
 }
 
 func (s *kvService) KeyValUpdate(c context.Context, m *pb.KeyValMessage) (*pb.KeyValMessage, error) {
-	if !kv.SqlKV.HasKey(m.Key) {
+	if !skv.HasKey(m.Key) {
 		return &pb.KeyValMessage{}, errors.New("Cannot update non-existent Key")
 	}
-	kv.SqlKV.SetString(m.Key, m.Value)
+	skv.SetString(m.Key, m.Value)
 	return m, nil
 }
 
 func (s *kvService) KeyValDelete(c context.Context, m *pb.KeyValMessage) (*pb.KeyValMessage, error) {
-	if !kv.SqlKV.HasKey(m.Key) {
+	if !skv.HasKey(m.Key) {
 		return &pb.KeyValMessage{}, errors.New("Cannot delete non-existent Key")
 	}
-	m.Value = kv.SqlKV.String(m.Key)
-	kv.SqlKV.Del(m.Key)
+	m.Value = skv.String(m.Key)
+	skv.Del(m.Key)
 	return m, nil
 }
 

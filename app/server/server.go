@@ -21,7 +21,6 @@ import (
 	config "github.com/dcwangmit01/goapi/app/config"
 	pb "github.com/dcwangmit01/goapi/app/pb"
 	svc "github.com/dcwangmit01/goapi/app/service"
-	kv "github.com/dcwangmit01/goapi/app/sqlitekv"
 	certs "github.com/dcwangmit01/goapi/resources/certs"
 	swf "github.com/dcwangmit01/goapi/resources/swagger/files"
 	sw "github.com/dcwangmit01/goapi/resources/swagger/ui"
@@ -105,8 +104,6 @@ func registerGrpcGatewayHandlers(mux *http.ServeMux) {
 }
 
 func StartServer() {
-
-	kv.Init() // initialize the sql key/value database
 
 	/*
 	   Create the grpc handler
