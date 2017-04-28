@@ -5,8 +5,6 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-
-	"fmt"
 )
 
 var _ = Describe("Config", func() {
@@ -72,7 +70,7 @@ var _ = Describe("Config", func() {
 
 		})
 
-		Context("Dump and Parse", func() {
+		Context("ToYaml and FromYaml", func() {
 
 			var err error
 			var ac1, ac2 *config.AppConfig
@@ -84,13 +82,13 @@ var _ = Describe("Config", func() {
 			ac1.Users[1].Username = "asdf"
 
 			It("Should both match", func() {
-				ac1Str, err = ac1.Dump()
+				ac1Str, err = ac1.ToYaml()
 				Expect(err).Should(BeNil())
 
-				ac2, err = config.ParseAppConfig(ac1Str)
+				ac2, err = config.AppConfigFromYaml(ac1Str)
 				Expect(err).Should(BeNil())
 
-				ac2Str, err = ac2.Dump()
+				ac2Str, err = ac2.ToYaml()
 				Expect(err).Should(BeNil())
 
 				Expect(ac1Str).Should(Equal(ac2Str))
@@ -132,60 +130,6 @@ var _ = Describe("Config", func() {
 
 				err = u.ValidatePassword("not the right password")
 				Expect(err).ShouldNot(BeNil())
-			})
-		})
-
-	})
-
-	Describe("Static Functions", func() {
-
-		Context("Validate", func() {
-
-			It("Should pass on good values", func() {
-				myPassword := "1234asdf!@#$"
-				u := config.NewUser()
-				u.Username = "user@domain.com"
-				u.Name = "First Last"
-				u.HashPassword(myPassword)
-				u.Role = "user"
-				u.Phone = "012345678901234"
-				errs := config.ValidateStruct(u)
-
-				if len(errs) > 0 { // output to help debug
-					fmt.Printf("%+v", errs)
-				}
-				Expect(len(errs)).Should(Equal(0))
-			})
-
-			It("Should fail on bad values", func() {
-				u := config.NewUser()
-				errs := config.ValidateStruct(u)
-
-				Expect(len(errs)).Should(Equal(4))
-				Expect(errs).Should(HaveKey("User.Username"))
-				Expect(errs["User.Username"]).Should(Equal("required"))
-				Expect(errs).Should(HaveKey("User.Name"))
-				Expect(errs["User.Name"]).Should(Equal("required"))
-				Expect(errs).Should(HaveKey("User.PasswordHash"))
-				Expect(errs["User.PasswordHash"]).Should(Equal("required"))
-				Expect(errs).Should(HaveKey("User.Phone"))
-				Expect(errs["User.Phone"]).Should(Equal("phone"))
-			})
-
-			It("User.username should pass on special username value of 'admin'", func() {
-				myPassword := "1234asdf!@#$"
-				u := config.NewUser()
-				u.Username = "admin" // <- special value
-				u.Name = "First Last"
-				u.HashPassword(myPassword)
-				u.Role = "user"
-				u.Phone = "012345678901234"
-				errs := config.ValidateStruct(u)
-
-				if len(errs) > 0 { // output to help debug
-					fmt.Printf("%+v", errs)
-				}
-				Expect(len(errs)).Should(Equal(0))
 			})
 		})
 	})

@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/dcwangmit01/goapi/app/config"
+	"github.com/dcwangmit01/goapi/app/util"
 	"github.com/dcwangmit01/goapi/resources/certs"
 
 	clt "github.com/dcwangmit01/goapi/app/client"
@@ -161,7 +162,7 @@ func keyvalHelper(cmd *cobra.Command, args []string,
 	}
 
 	// print the response to stdout
-	dump, err := clt.StructToYamlStr(rsp)
+	dump, err := util.StructToYamlStr(rsp)
 	if err != nil {
 		return err
 	}

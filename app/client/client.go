@@ -9,7 +9,6 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
-	yaml "gopkg.in/yaml.v2"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/dcwangmit01/goapi/app/logutil"
@@ -91,13 +90,4 @@ func ConnectWithToken(host string, port int, authToken string, certPool *x509.Ce
 	// return the connection and error directly, relying on the
 	// caller to close the connection
 	return conn, ctx, err
-}
-
-func StructToYamlStr(s interface{}) (string, error) {
-
-	dump, err := yaml.Marshal(s)
-	if err != nil {
-		return "", err
-	}
-	return string(dump), err
 }

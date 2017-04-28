@@ -7,6 +7,7 @@ import (
 
 	clt "github.com/dcwangmit01/goapi/app/client"
 	"github.com/dcwangmit01/goapi/app/jwt"
+	"github.com/dcwangmit01/goapi/app/util"
 )
 
 var (
@@ -64,7 +65,7 @@ func appAuthLogin(cmd *cobra.Command, args []string) error {
 			return err
 		}
 
-		dump, err := clt.StructToYamlStr(token)
+		dump, err := util.StructToYamlStr(token)
 		if err != nil {
 			return err
 		}
