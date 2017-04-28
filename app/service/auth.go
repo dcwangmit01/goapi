@@ -3,9 +3,9 @@ package service
 import (
 	"errors"
 
-	context "golang.org/x/net/context"
+	"golang.org/x/net/context"
 
-	cnf "github.com/dcwangmit01/goapi/app/config"
+	"github.com/dcwangmit01/goapi/app/config"
 	pb "github.com/dcwangmit01/goapi/app/pb"
 )
 
@@ -13,7 +13,7 @@ type authService struct{}
 
 func (s *authService) Auth(ctx context.Context, in *pb.AuthRequestMessage) (*pb.AuthResponseMessage, error) {
 
-	ac := cnf.SingletonAppConfig
+	ac := config.SingletonAppConfig
 
 	// check the grant type is "password".
 	//   required per oauth2 spec Client Credentials Grant Type

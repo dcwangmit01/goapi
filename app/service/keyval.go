@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	context "golang.org/x/net/context"
+	"golang.org/x/net/context"
 
 	"github.com/dcwangmit01/goapi/app/config"
 	pb "github.com/dcwangmit01/goapi/app/pb"

@@ -18,12 +18,12 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	config "github.com/dcwangmit01/goapi/app/config"
+	"github.com/dcwangmit01/goapi/app/config"
 	pb "github.com/dcwangmit01/goapi/app/pb"
-	svc "github.com/dcwangmit01/goapi/app/service"
-	certs "github.com/dcwangmit01/goapi/resources/certs"
+	"github.com/dcwangmit01/goapi/app/service"
+	"github.com/dcwangmit01/goapi/resources/certs"
 	swf "github.com/dcwangmit01/goapi/resources/swagger/files"
-	sw "github.com/dcwangmit01/goapi/resources/swagger/ui"
+	swui "github.com/dcwangmit01/goapi/resources/swagger/ui"
 )
 
 /* Overview
@@ -71,8 +71,8 @@ func registerSwaggerUiHandler(mux *http.ServeMux) {
 
 	// Expose swagger-ui files on <host>/swagger-ui
 	fileServer := http.FileServer(&assetfs.AssetFS{
-		Asset:    sw.Asset,
-		AssetDir: sw.AssetDir,
+		Asset:    swui.Asset,
+		AssetDir: swui.AssetDir,
 	})
 	prefix := "/swagger-ui/"
 	mux.Handle(prefix, http.StripPrefix(prefix, fileServer))
@@ -113,8 +113,8 @@ func StartServer() {
 		CommonInterceptors,
 	}
 	grpcServer := grpc.NewServer(opts...)
-	pb.RegisterAuthServer(grpcServer, svc.NewAuthService())
-	pb.RegisterKeyValServer(grpcServer, svc.NewKeyValService())
+	pb.RegisterAuthServer(grpcServer, service.NewAuthService())
+	pb.RegisterKeyValServer(grpcServer, service.NewKeyValService())
 
 	/*
 	   Create the web handler
