@@ -1,7 +1,7 @@
 package cmd_test
 
 import (
-	"github.com/dcwangmit01/goapi/cmd"
+	"github.com/dcwangmit01/goapi/example/cmd"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

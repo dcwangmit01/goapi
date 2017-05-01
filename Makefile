@@ -145,11 +145,11 @@ $(BIN_DIR)/linux_arm/$(BIN_NAME): check $(GOSOURCES)
 
 .PHONY: format  ## run gofmt on all go sources
 format: $(GOSOURCES) imports
-	find app cmd resources -type f -name '*.go' | xargs gofmt -w
+	find main.go app example resources -type f -name '*.go' | xargs gofmt -w
 
 .PHONY: imports  ## run goimports on all go sources
 imports: $(GOSOURCES)
-	find app cmd resources -type f -name '*.go' | xargs goimports -w
+	find main.go app example resources -type f -name '*.go' | xargs goimports -w
 
 .PHONY: test
 test: _test format
