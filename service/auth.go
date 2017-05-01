@@ -22,7 +22,7 @@ type authService struct{}
 
 func (s *authService) Auth(ctx context.Context, in *pb.AuthRequestMessage) (*pb.AuthResponseMessage, error) {
 
-	ac := config.SingletonAppConfig
+	ac := config.AppConfig
 
 	// check the grant type is "password".
 	//   required per oauth2 spec Client Credentials Grant Type

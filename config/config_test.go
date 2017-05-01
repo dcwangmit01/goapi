@@ -73,10 +73,9 @@ var _ = Describe("Config", func() {
 		Context("ToYaml and FromYaml", func() {
 
 			var err error
-			var ac1, ac2 *config.AppConfig
 			var ac1Str, ac2Str string
 
-			ac1 = config.NewAppConfig()
+			ac1 := config.NewAppConfig()
 			ac1.Users = append(ac1.Users, config.NewUser())
 			ac1.Users[0].Username = "user1@domain.com"
 			ac1.Users[1].Username = "asdf"
@@ -85,7 +84,7 @@ var _ = Describe("Config", func() {
 				ac1Str, err = ac1.ToYaml()
 				Expect(err).Should(BeNil())
 
-				ac2, err = config.AppConfigFromYaml(ac1Str)
+				ac2, err := config.AppConfigFromYaml(ac1Str)
 				Expect(err).Should(BeNil())
 
 				ac2Str, err = ac2.ToYaml()

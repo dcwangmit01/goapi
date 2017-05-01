@@ -72,7 +72,7 @@ func AuthInterceptor() grpc.UnaryServerInterceptor {
 		}
 
 		// Find the user
-		user, err := config.SingletonAppConfig.GetUserById(claims.Id)
+		user, err := config.AppConfig.GetUserById(claims.Id)
 		if err != nil {
 			return req, grpc.Errorf(codes.Unauthenticated, "Invalid User Id")
 		}

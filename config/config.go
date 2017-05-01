@@ -11,7 +11,7 @@ const (
 	DefaultConfigFile    = "app.yaml"
 )
 
-var SingletonAppConfig *AppConfig
+var AppConfig *appConfig
 
 func init() {
 	// Create the global AppConfig
@@ -22,9 +22,9 @@ func init() {
 			panic("DefaultConfigFile exists but is not readable")
 		}
 		// parse
-		SingletonAppConfig, _ = AppConfigFromYaml(string(bytes))
+		AppConfig, _ = AppConfigFromYaml(string(bytes))
 	} else {
 		// Create a NewAppConfig
-		SingletonAppConfig = NewAppConfig()
+		AppConfig = NewAppConfig()
 	}
 }
