@@ -19,7 +19,6 @@ import (
 	"google.golang.org/grpc/credentials"
 
 	"github.com/dcwangmit01/goapi/app/config"
-	pb "github.com/dcwangmit01/goapi/app/pb"
 	"github.com/dcwangmit01/goapi/app/service"
 	"github.com/dcwangmit01/goapi/resources/certs"
 	swf "github.com/dcwangmit01/goapi/resources/swagger/files"
@@ -88,16 +87,12 @@ func registerGrpcGatewayHandlers(mux *http.ServeMux) {
 		RootCAs:    certs.CertPool,
 	})
 	copts := []grpc.DialOption{grpc.WithTransportCredentials(ccreds)}
-	err = pb.RegisterAuthHandlerFromEndpoint(ctx, gwmux, config.ServerAddress, copts)
-	if err != nil {
-		fmt.Printf("serve: %v\n", err)
-		return
-	}
 
-	err = pb.RegisterKeyValHandlerFromEndpoint(ctx, gwmux, config.ServerAddress, copts)
-	if err != nil {
-		fmt.Printf("serve: %v\n", err)
-		return
+	for _, grpcgwfunc := range service.Registry.GrpcGatewayHandlers {
+		err = grpcgwfunc(ctx, gwmux, config.ServerAddress, copts)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	mux.Handle("/", gwmux)
@@ -113,8 +108,9 @@ func StartServer() {
 		CommonInterceptors,
 	}
 	grpcServer := grpc.NewServer(opts...)
-	pb.RegisterAuthServer(grpcServer, service.NewAuthService())
-	pb.RegisterKeyValServer(grpcServer, service.NewKeyValService())
+	for _, grpcfunc := range service.Registry.GrpcServiceHandlers {
+		grpcfunc(grpcServer)
+	}
 
 	/*
 	   Create the web handler

@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 
+	"google.golang.org/grpc"
+
 	"golang.org/x/net/context"
 
 	"github.com/dcwangmit01/goapi/app/config"
@@ -11,6 +13,13 @@ import (
 	"github.com/dcwangmit01/goapi/app/sqlitekv"
 	"github.com/dcwangmit01/goapi/app/util"
 )
+
+func init() {
+	Registry.AddGrpcGatewayHandler(pb.RegisterKeyValHandlerFromEndpoint)
+	Registry.AddGrpcServiceHandler(func(grpcServer *grpc.Server) {
+		pb.RegisterKeyValServer(grpcServer, NewKeyValService())
+	})
+}
 
 var skv = sqlitekv.New(config.AppName + ".db")
 
