@@ -50,31 +50,31 @@ vendor: check glide.lock  ## install/build all 3rd party vendor libs and bins
 	go build -o vendor/bin/goimports `ls vendor/golang.org/x/tools/cmd/goimports/* | grep -v goimports_not_gc.go` # exclude a file
 
 .PHONY: code_gen
-code_gen: check app/pb/app.pb.go app/pb/app.pb.gw.go app/pb/app.swagger.json  ## generate grpc go files from proto spec
+code_gen: check example/pb/app.pb.go example/pb/app.pb.gw.go example/pb/app.swagger.json  ## generate grpc go files from proto spec
 
-app/pb/app.pb.go: app/pb/app.proto
+example/pb/app.pb.go: example/pb/app.proto
 	@# Generate the GRPC definitons from the .proto file
 	protoc \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --go_out=plugins=grpc:. \
-	  app/pb/app.proto
+	  example/pb/app.proto
 
-app/pb/app.pb.gw.go: app/pb/app.proto
+example/pb/app.pb.gw.go: example/pb/app.proto
 	@# Generate the GRPC Gateway which proxies to JSON from the .proto file
 	protoc \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --grpc-gateway_out=logtostderr=true:. \
-	  app/pb/app.proto
+	  example/pb/app.proto
 
-app/pb/app.swagger.json: app/pb/app.proto
+example/pb/app.swagger.json: example/pb/app.proto
 	@# Generate the swagger definition from the .proto file
 	protoc -I/usr/local/include -I. \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --swagger_out=logtostderr=true:. \
-	  app/pb/app.proto
+	  example/pb/app.proto
 
 .PHONY: resource_gen
 resource_gen: check $(RESOURCE_DIR)/swagger/ui/ui.go $(RESOURCE_DIR)/swagger/files/files.go  ## generate go-bindata swagger files
@@ -103,7 +103,7 @@ $(RESOURCE_DIR)/swagger/files/files.go: $(BUILD_DIR)/swagger-ui-$(SWAGGER_UI_VER
 	@# Generate the swagger.json file as a golang file
 	mkdir -p $(RESOURCE_DIR)/swagger/files
 	mkdir -p $(BUILD_DIR)/swagger/files
-	cp -f $(CURDIR)/app/pb/app.swagger.json $(BUILD_DIR)/swagger/files/swagger.json
+	cp -f $(CURDIR)/example/pb/app.swagger.json $(BUILD_DIR)/swagger/files/swagger.json
 	cd $(BUILD_DIR)/swagger/files && \
 	  go-bindata-assetfs -o $(RESOURCE_DIR)/swagger/files/files.go -pkg files 2>/dev/null ./... || true
 
@@ -143,10 +143,6 @@ $(BIN_DIR)/linux_arm/$(BIN_NAME): check $(GOSOURCES)
 	CGO_ENABLED=1 go build $(GO_BUILD_FLAGS) \
 	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/$(BIN_NAME)"
 
-list:
-	@echo $(GOSOURCES) \
-	  | xargs -n 1 sed -i 's@dcwangmit01/goapi/service@dcwangmit01/goapi/example/service@'
-
 .PHONY: format  ## run gofmt on all go sources
 format: $(GOSOURCES) imports
 	gofmt -w $(GOSOURCES)
@@ -166,6 +162,7 @@ testrandom: _test format
 .PHONY: clean
 clean:  ## delete all non-repo files
 	rm -rf bin .ginkgo .build vendor
+	find ./ -type f -name '*.coverprofile' | xargs rm -f
 
 .PHONY: notes
 notes:
