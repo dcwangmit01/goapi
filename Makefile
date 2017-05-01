@@ -54,7 +54,37 @@ vendor: check glide.lock  ## install/build all 3rd party vendor libs and bins
 	go build -o vendor/bin/goimports `ls vendor/golang.org/x/tools/cmd/goimports/* | grep -v goimports_not_gc.go` # exclude a file
 
 .PHONY: code_gen
-code_gen: check example/pb/app.pb.go example/pb/app.pb.gw.go example/pb/app.swagger.json  ## generate grpc go files from proto spec
+code_gen: check code_gen_helper  ## generate grpc go files from proto spec
+	@# Helper only exists to make the default target doc work with line continuation
+
+.PHONY: code_gen_helper
+code_gen_helper: \
+	pb/goapi.pb.go pb/goapi.pb.gw.go pb/goapi.swagger.json \
+	example/pb/app.pb.go example/pb/app.pb.gw.go example/pb/app.swagger.json
+
+pb/goapi.pb.go: pb/goapi.proto
+	@# Generate the GRPC definitons from the .proto file
+	protoc \
+	  -I . \
+	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	  --go_out=plugins=grpc:. \
+	  pb/goapi.proto
+
+pb/goapi.pb.gw.go: pb/goapi.proto
+	@# Generate the GRPC Gateway which proxies to JSON from the .proto file
+	protoc \
+	  -I . \
+	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	  --grpc-gateway_out=logtostderr=true:. \
+	  pb/goapi.proto
+
+pb/goapi.swagger.json: pb/goapi.proto
+	@# Generate the swagger definition from the .proto file
+	protoc -I/usr/local/include -I. \
+	  -I . \
+	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	  --swagger_out=logtostderr=true:. \
+	  pb/goapi.proto
 
 example/pb/app.pb.go: example/pb/app.proto
 	@# Generate the GRPC definitons from the .proto file
@@ -157,7 +187,7 @@ imports: $(GOSOURCES)
 
 .PHONY: test
 test: _test format
-	ginkgo -v -cover ./app/... ./cmd/... ./resources/...
+	ginkgo -v -cover $(shell glide novendor | grep -v '^.$$')
 
 .PHONY: testrandom
 testrandom: _test format

@@ -15,32 +15,6 @@
     "application/json"
   ],
   "paths": {
-    "/v1/auth": {
-      "post": {
-        "operationId": "Auth",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/appAuthResponseMessage"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/appAuthRequestMessage"
-            }
-          }
-        ],
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
     "/v1/keyval/{key}": {
       "get": {
         "operationId": "KeyValRead",
@@ -48,7 +22,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/appKeyValMessage"
+              "$ref": "#/definitions/pbKeyValMessage"
             }
           }
         },
@@ -76,7 +50,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/appKeyValMessage"
+              "$ref": "#/definitions/pbKeyValMessage"
             }
           }
         },
@@ -98,7 +72,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/appKeyValMessage"
+              "$ref": "#/definitions/pbKeyValMessage"
             }
           }
         },
@@ -114,7 +88,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/appKeyValMessage"
+              "$ref": "#/definitions/pbKeyValMessage"
             }
           }
         ],
@@ -128,7 +102,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/appKeyValMessage"
+              "$ref": "#/definitions/pbKeyValMessage"
             }
           }
         },
@@ -144,7 +118,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/appKeyValMessage"
+              "$ref": "#/definitions/pbKeyValMessage"
             }
           }
         ],
@@ -155,36 +129,7 @@
     }
   },
   "definitions": {
-    "appAuthRequestMessage": {
-      "type": "object",
-      "properties": {
-        "grant_type": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      }
-    },
-    "appAuthResponseMessage": {
-      "type": "object",
-      "properties": {
-        "access_token": {
-          "type": "string"
-        },
-        "token_type": {
-          "type": "string"
-        },
-        "expires_in": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
-    "appKeyValMessage": {
+    "pbKeyValMessage": {
       "type": "object",
       "properties": {
         "key": {

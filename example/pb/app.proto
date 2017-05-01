@@ -1,55 +1,14 @@
 syntax = "proto3";
-package app;
+package pb;
 
 import "google/api/annotations.proto";
 
 // Syntax defined in
 //   https://github.com/googleapis/googleapis/blob/master/google/api/http.proto
 
-message EmptyMessage{}
-
-// Follow oAuth2 standards, even though no 3rd party access is required.
-// Currently using simplified Client Credentials Grant Type:
-// (https://tools.ietf.org/html/rfc6749#section-4.4). Eventually may use
-// Authorization Code Grant Type when 3rd party access is required:
-// (https://tools.ietf.org/html/rfc6749#section-4.1).
-
-message AuthRequestMessage {
-	string grant_type = 1; //must be set to "password" for Client Credentials Grant type
-	string username = 2;
-	string password = 3;
-}
-message AuthResponseMessage {
-	string access_token = 1;
-	string token_type = 2;
-	int64 expires_in = 3;
-}
-
 message KeyValMessage {
   string key = 1;
   string value = 2;
-}
-
-message SettingsMessage {
-	bool initialized = 1;
-	bool debug = 2;
-	string logLevel = 3;
-}
-message UserMessage {
-	string id = 1;
-	string username = 2;
-	string password = 3;
-	string name = 4;
-	string role = 5;
-}
-
-service Auth {
-  rpc Auth(AuthRequestMessage) returns (AuthResponseMessage) {
-  option (google.api.http) = {
-      post: "/v1/auth"
-      body: "*"
-    };
-  }
 }
 
 service KeyVal {

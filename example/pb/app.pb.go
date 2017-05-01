@@ -3,20 +3,15 @@
 // DO NOT EDIT!
 
 /*
-Package app is a generated protocol buffer package.
+Package pb is a generated protocol buffer package.
 
 It is generated from these files:
 	example/pb/app.proto
 
 It has these top-level messages:
-	EmptyMessage
-	AuthRequestMessage
-	AuthResponseMessage
 	KeyValMessage
-	SettingsMessage
-	UserMessage
 */
-package app
+package pb
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
@@ -39,78 +34,6 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type EmptyMessage struct {
-}
-
-func (m *EmptyMessage) Reset()                    { *m = EmptyMessage{} }
-func (m *EmptyMessage) String() string            { return proto.CompactTextString(m) }
-func (*EmptyMessage) ProtoMessage()               {}
-func (*EmptyMessage) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
-
-type AuthRequestMessage struct {
-	GrantType string `protobuf:"bytes,1,opt,name=grant_type,json=grantType" json:"grant_type,omitempty"`
-	Username  string `protobuf:"bytes,2,opt,name=username" json:"username,omitempty"`
-	Password  string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
-}
-
-func (m *AuthRequestMessage) Reset()                    { *m = AuthRequestMessage{} }
-func (m *AuthRequestMessage) String() string            { return proto.CompactTextString(m) }
-func (*AuthRequestMessage) ProtoMessage()               {}
-func (*AuthRequestMessage) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
-
-func (m *AuthRequestMessage) GetGrantType() string {
-	if m != nil {
-		return m.GrantType
-	}
-	return ""
-}
-
-func (m *AuthRequestMessage) GetUsername() string {
-	if m != nil {
-		return m.Username
-	}
-	return ""
-}
-
-func (m *AuthRequestMessage) GetPassword() string {
-	if m != nil {
-		return m.Password
-	}
-	return ""
-}
-
-type AuthResponseMessage struct {
-	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken" json:"access_token,omitempty"`
-	TokenType   string `protobuf:"bytes,2,opt,name=token_type,json=tokenType" json:"token_type,omitempty"`
-	ExpiresIn   int64  `protobuf:"varint,3,opt,name=expires_in,json=expiresIn" json:"expires_in,omitempty"`
-}
-
-func (m *AuthResponseMessage) Reset()                    { *m = AuthResponseMessage{} }
-func (m *AuthResponseMessage) String() string            { return proto.CompactTextString(m) }
-func (*AuthResponseMessage) ProtoMessage()               {}
-func (*AuthResponseMessage) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
-
-func (m *AuthResponseMessage) GetAccessToken() string {
-	if m != nil {
-		return m.AccessToken
-	}
-	return ""
-}
-
-func (m *AuthResponseMessage) GetTokenType() string {
-	if m != nil {
-		return m.TokenType
-	}
-	return ""
-}
-
-func (m *AuthResponseMessage) GetExpiresIn() int64 {
-	if m != nil {
-		return m.ExpiresIn
-	}
-	return 0
-}
-
 type KeyValMessage struct {
 	Key   string `protobuf:"bytes,1,opt,name=key" json:"key,omitempty"`
 	Value string `protobuf:"bytes,2,opt,name=value" json:"value,omitempty"`
@@ -119,7 +42,7 @@ type KeyValMessage struct {
 func (m *KeyValMessage) Reset()                    { *m = KeyValMessage{} }
 func (m *KeyValMessage) String() string            { return proto.CompactTextString(m) }
 func (*KeyValMessage) ProtoMessage()               {}
-func (*KeyValMessage) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+func (*KeyValMessage) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
 func (m *KeyValMessage) GetKey() string {
 	if m != nil {
@@ -135,93 +58,8 @@ func (m *KeyValMessage) GetValue() string {
 	return ""
 }
 
-type SettingsMessage struct {
-	Initialized bool   `protobuf:"varint,1,opt,name=initialized" json:"initialized,omitempty"`
-	Debug       bool   `protobuf:"varint,2,opt,name=debug" json:"debug,omitempty"`
-	LogLevel    string `protobuf:"bytes,3,opt,name=logLevel" json:"logLevel,omitempty"`
-}
-
-func (m *SettingsMessage) Reset()                    { *m = SettingsMessage{} }
-func (m *SettingsMessage) String() string            { return proto.CompactTextString(m) }
-func (*SettingsMessage) ProtoMessage()               {}
-func (*SettingsMessage) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
-
-func (m *SettingsMessage) GetInitialized() bool {
-	if m != nil {
-		return m.Initialized
-	}
-	return false
-}
-
-func (m *SettingsMessage) GetDebug() bool {
-	if m != nil {
-		return m.Debug
-	}
-	return false
-}
-
-func (m *SettingsMessage) GetLogLevel() string {
-	if m != nil {
-		return m.LogLevel
-	}
-	return ""
-}
-
-type UserMessage struct {
-	Id       string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Username string `protobuf:"bytes,2,opt,name=username" json:"username,omitempty"`
-	Password string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
-	Name     string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
-	Role     string `protobuf:"bytes,5,opt,name=role" json:"role,omitempty"`
-}
-
-func (m *UserMessage) Reset()                    { *m = UserMessage{} }
-func (m *UserMessage) String() string            { return proto.CompactTextString(m) }
-func (*UserMessage) ProtoMessage()               {}
-func (*UserMessage) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
-
-func (m *UserMessage) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *UserMessage) GetUsername() string {
-	if m != nil {
-		return m.Username
-	}
-	return ""
-}
-
-func (m *UserMessage) GetPassword() string {
-	if m != nil {
-		return m.Password
-	}
-	return ""
-}
-
-func (m *UserMessage) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *UserMessage) GetRole() string {
-	if m != nil {
-		return m.Role
-	}
-	return ""
-}
-
 func init() {
-	proto.RegisterType((*EmptyMessage)(nil), "app.EmptyMessage")
-	proto.RegisterType((*AuthRequestMessage)(nil), "app.AuthRequestMessage")
-	proto.RegisterType((*AuthResponseMessage)(nil), "app.AuthResponseMessage")
-	proto.RegisterType((*KeyValMessage)(nil), "app.KeyValMessage")
-	proto.RegisterType((*SettingsMessage)(nil), "app.SettingsMessage")
-	proto.RegisterType((*UserMessage)(nil), "app.UserMessage")
+	proto.RegisterType((*KeyValMessage)(nil), "pb.KeyValMessage")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -231,70 +69,6 @@ var _ grpc.ClientConn
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
-
-// Client API for Auth service
-
-type AuthClient interface {
-	Auth(ctx context.Context, in *AuthRequestMessage, opts ...grpc.CallOption) (*AuthResponseMessage, error)
-}
-
-type authClient struct {
-	cc *grpc.ClientConn
-}
-
-func NewAuthClient(cc *grpc.ClientConn) AuthClient {
-	return &authClient{cc}
-}
-
-func (c *authClient) Auth(ctx context.Context, in *AuthRequestMessage, opts ...grpc.CallOption) (*AuthResponseMessage, error) {
-	out := new(AuthResponseMessage)
-	err := grpc.Invoke(ctx, "/app.Auth/Auth", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Server API for Auth service
-
-type AuthServer interface {
-	Auth(context.Context, *AuthRequestMessage) (*AuthResponseMessage, error)
-}
-
-func RegisterAuthServer(s *grpc.Server, srv AuthServer) {
-	s.RegisterService(&_Auth_serviceDesc, srv)
-}
-
-func _Auth_Auth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AuthRequestMessage)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServer).Auth(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/app.Auth/Auth",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).Auth(ctx, req.(*AuthRequestMessage))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _Auth_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "app.Auth",
-	HandlerType: (*AuthServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Auth",
-			Handler:    _Auth_Auth_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "example/pb/app.proto",
-}
 
 // Client API for KeyVal service
 
@@ -315,7 +89,7 @@ func NewKeyValClient(cc *grpc.ClientConn) KeyValClient {
 
 func (c *keyValClient) KeyValCreate(ctx context.Context, in *KeyValMessage, opts ...grpc.CallOption) (*KeyValMessage, error) {
 	out := new(KeyValMessage)
-	err := grpc.Invoke(ctx, "/app.KeyVal/KeyValCreate", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/pb.KeyVal/KeyValCreate", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -324,7 +98,7 @@ func (c *keyValClient) KeyValCreate(ctx context.Context, in *KeyValMessage, opts
 
 func (c *keyValClient) KeyValRead(ctx context.Context, in *KeyValMessage, opts ...grpc.CallOption) (*KeyValMessage, error) {
 	out := new(KeyValMessage)
-	err := grpc.Invoke(ctx, "/app.KeyVal/KeyValRead", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/pb.KeyVal/KeyValRead", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -333,7 +107,7 @@ func (c *keyValClient) KeyValRead(ctx context.Context, in *KeyValMessage, opts .
 
 func (c *keyValClient) KeyValUpdate(ctx context.Context, in *KeyValMessage, opts ...grpc.CallOption) (*KeyValMessage, error) {
 	out := new(KeyValMessage)
-	err := grpc.Invoke(ctx, "/app.KeyVal/KeyValUpdate", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/pb.KeyVal/KeyValUpdate", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -342,7 +116,7 @@ func (c *keyValClient) KeyValUpdate(ctx context.Context, in *KeyValMessage, opts
 
 func (c *keyValClient) KeyValDelete(ctx context.Context, in *KeyValMessage, opts ...grpc.CallOption) (*KeyValMessage, error) {
 	out := new(KeyValMessage)
-	err := grpc.Invoke(ctx, "/app.KeyVal/KeyValDelete", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/pb.KeyVal/KeyValDelete", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -372,7 +146,7 @@ func _KeyVal_KeyValCreate_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/app.KeyVal/KeyValCreate",
+		FullMethod: "/pb.KeyVal/KeyValCreate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(KeyValServer).KeyValCreate(ctx, req.(*KeyValMessage))
@@ -390,7 +164,7 @@ func _KeyVal_KeyValRead_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/app.KeyVal/KeyValRead",
+		FullMethod: "/pb.KeyVal/KeyValRead",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(KeyValServer).KeyValRead(ctx, req.(*KeyValMessage))
@@ -408,7 +182,7 @@ func _KeyVal_KeyValUpdate_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/app.KeyVal/KeyValUpdate",
+		FullMethod: "/pb.KeyVal/KeyValUpdate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(KeyValServer).KeyValUpdate(ctx, req.(*KeyValMessage))
@@ -426,7 +200,7 @@ func _KeyVal_KeyValDelete_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/app.KeyVal/KeyValDelete",
+		FullMethod: "/pb.KeyVal/KeyValDelete",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(KeyValServer).KeyValDelete(ctx, req.(*KeyValMessage))
@@ -435,7 +209,7 @@ func _KeyVal_KeyValDelete_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 var _KeyVal_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "app.KeyVal",
+	ServiceName: "pb.KeyVal",
 	HandlerType: (*KeyValServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -462,36 +236,20 @@ var _KeyVal_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("example/pb/app.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 489 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x93, 0xcf, 0x6e, 0xd4, 0x30,
-	0x10, 0xc6, 0xb5, 0x7f, 0x5a, 0xed, 0xce, 0x6e, 0x4b, 0xe5, 0x16, 0x11, 0x05, 0x2a, 0x15, 0x9f,
-	0xd0, 0x1e, 0x1a, 0x51, 0x0e, 0x48, 0xbd, 0x21, 0xe0, 0x80, 0x80, 0x0a, 0xa5, 0x7f, 0xae, 0x2b,
-	0x6f, 0x33, 0x4a, 0xad, 0x78, 0x6d, 0x13, 0x3b, 0xa1, 0x01, 0xf5, 0xc2, 0x2b, 0xf0, 0x68, 0xf0,
-	0x08, 0x3c, 0x08, 0xb2, 0x9d, 0x40, 0xab, 0xed, 0x81, 0xf6, 0xb4, 0x33, 0xdf, 0xc4, 0xbf, 0xef,
-	0xd3, 0xd8, 0x0b, 0x3b, 0x78, 0xc9, 0x96, 0x5a, 0x60, 0xa2, 0x17, 0x09, 0xd3, 0x7a, 0x5f, 0x97,
-	0xca, 0x2a, 0x32, 0x60, 0x5a, 0xc7, 0x4f, 0x72, 0xa5, 0x72, 0x81, 0x09, 0xd3, 0x3c, 0x61, 0x52,
-	0x2a, 0xcb, 0x2c, 0x57, 0xd2, 0x84, 0x4f, 0xe8, 0x26, 0x4c, 0xdf, 0x2e, 0xb5, 0x6d, 0x3e, 0xa2,
-	0x31, 0x2c, 0x47, 0x5a, 0x00, 0x79, 0x55, 0xd9, 0x8b, 0x14, 0x3f, 0x57, 0x68, 0x6c, 0xab, 0x92,
-	0x5d, 0x80, 0xbc, 0x64, 0xd2, 0xce, 0x6d, 0xa3, 0x31, 0xea, 0xed, 0xf5, 0x9e, 0x8d, 0xd3, 0xb1,
-	0x57, 0x4e, 0x1a, 0x8d, 0x24, 0x86, 0x51, 0x65, 0xb0, 0x94, 0x6c, 0x89, 0x51, 0xdf, 0x0f, 0xff,
-	0xf6, 0x6e, 0xa6, 0x99, 0x31, 0x5f, 0x54, 0x99, 0x45, 0x83, 0x30, 0xeb, 0x7a, 0x5a, 0xc3, 0x76,
-	0x30, 0x33, 0x5a, 0x49, 0x83, 0x9d, 0xdb, 0x53, 0x98, 0xb2, 0xf3, 0x73, 0x34, 0x66, 0x6e, 0x55,
-	0x81, 0xb2, 0xf5, 0x9b, 0x04, 0xed, 0xc4, 0x49, 0x2e, 0x90, 0x9f, 0x85, 0x40, 0xc1, 0x73, 0xec,
-	0x15, 0x1f, 0x68, 0x17, 0x00, 0x2f, 0x35, 0x2f, 0xd1, 0xcc, 0xb9, 0xf4, 0xb6, 0x83, 0x74, 0xdc,
-	0x2a, 0xef, 0x24, 0x7d, 0x09, 0x1b, 0xef, 0xb1, 0x39, 0x63, 0xa2, 0x73, 0xdc, 0x82, 0x41, 0x81,
-	0x4d, 0x6b, 0xe4, 0x4a, 0xb2, 0x03, 0x6b, 0x35, 0x13, 0x55, 0xc7, 0x0e, 0x0d, 0x45, 0x78, 0x70,
-	0x8c, 0xd6, 0x72, 0x99, 0x9b, 0xee, 0xe8, 0x1e, 0x4c, 0xb8, 0xe4, 0x96, 0x33, 0xc1, 0xbf, 0x62,
-	0xe6, 0x11, 0xa3, 0xf4, 0xba, 0xe4, 0x50, 0x19, 0x2e, 0xaa, 0xdc, 0xa3, 0x46, 0x69, 0x68, 0xdc,
-	0x5e, 0x84, 0xca, 0x3f, 0x60, 0x8d, 0xa2, 0xdb, 0x4b, 0xd7, 0xd3, 0x2b, 0x98, 0x9c, 0x1a, 0x2c,
-	0x3b, 0x8b, 0x4d, 0xe8, 0xf3, 0xac, 0x0d, 0xd7, 0xe7, 0xd9, 0x7d, 0xd7, 0x4d, 0x08, 0x0c, 0xfd,
-	0x99, 0xa1, 0xd7, 0x7d, 0xed, 0xb4, 0x52, 0x09, 0x8c, 0xd6, 0x82, 0xe6, 0xea, 0x83, 0x33, 0x18,
-	0xba, 0x6b, 0x21, 0x47, 0xed, 0xef, 0xa3, 0x7d, 0xf7, 0xa4, 0x56, 0x9f, 0x45, 0x1c, 0x5d, 0x1b,
-	0xdc, 0xb8, 0x42, 0xba, 0xfd, 0xfd, 0xe7, 0xef, 0x1f, 0xfd, 0x0d, 0x3a, 0x4a, 0xea, 0xe7, 0x09,
-	0xab, 0xec, 0xc5, 0x61, 0x6f, 0x76, 0xf0, 0xab, 0x0f, 0xeb, 0x61, 0xef, 0xe4, 0x18, 0xa6, 0xa1,
-	0x7a, 0x5d, 0x22, 0xb3, 0x48, 0x88, 0x27, 0xdd, 0xb8, 0x94, 0xf8, 0x16, 0x8d, 0x3e, 0xf6, 0xdc,
-	0x87, 0xf1, 0x96, 0xe3, 0x16, 0xd8, 0xd4, 0x4c, 0x24, 0xdf, 0x0a, 0x6c, 0xae, 0x0e, 0x7b, 0x33,
-	0x72, 0x04, 0x10, 0xbe, 0x4e, 0x91, 0x65, 0xff, 0x8d, 0x8c, 0x3c, 0x92, 0x90, 0x15, 0xe4, 0xbf,
-	0x90, 0xa7, 0x3a, 0xbb, 0x47, 0x48, 0x7a, 0x6b, 0xc8, 0x4f, 0x1d, 0xf4, 0x0d, 0x0a, 0xbc, 0x03,
-	0xb4, 0x8d, 0x39, 0x5b, 0x81, 0x2e, 0xd6, 0xfd, 0x3f, 0xf9, 0xc5, 0x9f, 0x00, 0x00, 0x00, 0xff,
-	0xff, 0x83, 0xa6, 0x26, 0x65, 0x04, 0x04, 0x00, 0x00,
+	// 235 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x49, 0xad, 0x48, 0xcc,
+	0x2d, 0xc8, 0x49, 0xd5, 0x2f, 0x48, 0xd2, 0x4f, 0x2c, 0x28, 0xd0, 0x2b, 0x28, 0xca, 0x2f, 0xc9,
+	0x17, 0x62, 0x2a, 0x48, 0x92, 0x92, 0x49, 0xcf, 0xcf, 0x4f, 0xcf, 0x49, 0xd5, 0x4f, 0x2c, 0xc8,
+	0xd4, 0x4f, 0xcc, 0xcb, 0xcb, 0x2f, 0x49, 0x2c, 0xc9, 0xcc, 0xcf, 0x2b, 0x86, 0xa8, 0x50, 0x32,
+	0xe7, 0xe2, 0xf5, 0x4e, 0xad, 0x0c, 0x4b, 0xcc, 0xf1, 0x4d, 0x2d, 0x2e, 0x4e, 0x4c, 0x4f, 0x15,
+	0x12, 0xe0, 0x62, 0xce, 0x4e, 0xad, 0x94, 0x60, 0x54, 0x60, 0xd4, 0xe0, 0x0c, 0x02, 0x31, 0x85,
+	0x44, 0xb8, 0x58, 0xcb, 0x12, 0x73, 0x4a, 0x53, 0x25, 0x98, 0xc0, 0x62, 0x10, 0x8e, 0xd1, 0x19,
+	0x26, 0x2e, 0x36, 0x88, 0x4e, 0xa1, 0x40, 0x2e, 0x1e, 0x08, 0xcb, 0xb9, 0x28, 0x35, 0xb1, 0x24,
+	0x55, 0x48, 0x50, 0xaf, 0x20, 0x49, 0x0f, 0xc5, 0x54, 0x29, 0x4c, 0x21, 0x25, 0xe9, 0xa6, 0xcb,
+	0x4f, 0x26, 0x33, 0x89, 0x4a, 0x09, 0xe8, 0x97, 0x19, 0xea, 0x67, 0xa7, 0x56, 0x96, 0x25, 0xe6,
+	0xe8, 0x57, 0x67, 0xa7, 0x56, 0xd6, 0x5a, 0x31, 0x6a, 0x09, 0xf9, 0x70, 0x71, 0x41, 0x54, 0x07,
+	0xa5, 0x26, 0xa6, 0x10, 0x69, 0xa0, 0x04, 0xd8, 0x40, 0x21, 0x21, 0x0c, 0x03, 0x11, 0x0e, 0x0c,
+	0x2d, 0x48, 0x21, 0xd9, 0x81, 0x4a, 0x58, 0x1d, 0xe8, 0x07, 0x33, 0xd2, 0x25, 0x35, 0x27, 0x95,
+	0x68, 0x23, 0xa1, 0x4e, 0xd4, 0xc2, 0x30, 0x32, 0x89, 0x0d, 0x1c, 0x1d, 0xc6, 0x80, 0x00, 0x00,
+	0x00, 0xff, 0xff, 0xe4, 0x04, 0xf2, 0x70, 0xc8, 0x01, 0x00, 0x00,
 }

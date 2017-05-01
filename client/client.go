@@ -14,7 +14,7 @@ import (
 	"github.com/dcwangmit01/goapi/util"
 
 	"github.com/dcwangmit01/goapi/example/config"
-	pb "github.com/dcwangmit01/goapi/example/pb"
+	pb "github.com/dcwangmit01/goapi/pb"
 	"github.com/dcwangmit01/goapi/resources/certs"
 )
 
