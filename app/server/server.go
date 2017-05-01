@@ -11,7 +11,6 @@ import (
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/goapi/app/logutil"
 	assetfs "github.com/elazarl/go-bindata-assetfs"
 	grpc_gw_runtime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
@@ -20,6 +19,7 @@ import (
 
 	"github.com/dcwangmit01/goapi/app/config"
 	"github.com/dcwangmit01/goapi/app/service"
+	"github.com/dcwangmit01/goapi/app/util"
 	"github.com/dcwangmit01/goapi/resources/certs"
 	swf "github.com/dcwangmit01/goapi/resources/swagger/files"
 	swui "github.com/dcwangmit01/goapi/resources/swagger/ui"
@@ -141,7 +141,7 @@ func StartServer() {
 	err = srv.Serve(tls.NewListener(conn, srv.TLSConfig))
 
 	if err != nil {
-		logutil.AddCtx(log.WithFields(log.Fields{
+		util.LogFLF(log.WithFields(log.Fields{
 			"error": err,
 		})).Info("ListenAndServe")
 	}

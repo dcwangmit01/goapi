@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/dcwangmit01/goapi/app/logutil"
+	"github.com/dcwangmit01/goapi/app/util"
 
 	"github.com/dcwangmit01/goapi/app/config"
 	pb "github.com/dcwangmit01/goapi/app/pb"
@@ -62,7 +62,7 @@ func Authenticate(username string, password string) (string, error) {
 	}
 
 	// log the info
-	logutil.AddCtx(log.WithFields(log.Fields{
+	util.LogFLF(log.WithFields(log.Fields{
 		"request":  req,
 		"response": rsp,
 	})).Debug("RPC Request and Response")
