@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/dcwangmit01/goapi/app/util"
+	"github.com/dcwangmit01/goapi/util"
 	uuid "github.com/satori/go.uuid"
 )
 

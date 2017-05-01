@@ -22,8 +22,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 
-	"github.com/dcwangmit01/goapi/app/config"
-	"github.com/dcwangmit01/goapi/app/jwt"
+	"github.com/dcwangmit01/goapi/example/config"
+	"github.com/dcwangmit01/goapi/jwt"
 )
 
 var (

@@ -5,9 +5,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	clt "github.com/dcwangmit01/goapi/app/client"
-	"github.com/dcwangmit01/goapi/app/jwt"
-	"github.com/dcwangmit01/goapi/app/util"
+	clt "github.com/dcwangmit01/goapi/client"
+	"github.com/dcwangmit01/goapi/jwt"
+	"github.com/dcwangmit01/goapi/util"
 )
 
 var (

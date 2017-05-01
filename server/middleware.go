@@ -8,7 +8,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/justinas/alice"
 
-	"github.com/dcwangmit01/goapi/app/jwt"
+	"github.com/dcwangmit01/goapi/jwt"
 )
 
 /*

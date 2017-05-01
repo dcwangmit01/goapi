@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/dcwangmit01/goapi/app/sqlitekv"
+	"github.com/dcwangmit01/goapi/sqlitekv"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

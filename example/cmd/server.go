@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	svr "github.com/dcwangmit01/goapi/app/server"
+	svr "github.com/dcwangmit01/goapi/server"
 )
 
 // serveCmd represents the serve command

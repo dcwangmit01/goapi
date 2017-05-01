@@ -1,7 +1,7 @@
 package util_test
 
 import (
-	"github.com/dcwangmit01/goapi/app/util"
+	"github.com/dcwangmit01/goapi/util"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

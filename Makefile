@@ -143,13 +143,17 @@ $(BIN_DIR)/linux_arm/$(BIN_NAME): check $(GOSOURCES)
 	CGO_ENABLED=1 go build $(GO_BUILD_FLAGS) \
 	  -o "$(BIN_DIR)/$${GOOS}_$${GOARCH}/$(BIN_NAME)"
 
+list:
+	@echo $(GOSOURCES) \
+	  | xargs -n 1 sed -i 's@dcwangmit01/goapi/service@dcwangmit01/goapi/example/service@'
+
 .PHONY: format  ## run gofmt on all go sources
 format: $(GOSOURCES) imports
-	find main.go app example resources -type f -name '*.go' | xargs gofmt -w
+	gofmt -w $(GOSOURCES)
 
 .PHONY: imports  ## run goimports on all go sources
 imports: $(GOSOURCES)
-	find main.go app example resources -type f -name '*.go' | xargs goimports -w
+	goimports -w $(GOSOURCES)
 
 .PHONY: test
 test: _test format

@@ -5,8 +5,8 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	jwt "github.com/dcwangmit01/goapi/app/jwt"
-	rbac "github.com/dcwangmit01/goapi/app/rbac"
+	jwt "github.com/dcwangmit01/goapi/jwt"
+	rbac "github.com/dcwangmit01/goapi/rbac"
 	gorbac "github.com/mikespook/gorbac"
 	uuid "github.com/satori/go.uuid"
 )

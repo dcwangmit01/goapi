@@ -1,7 +1,7 @@
 package config_test
 
 import (
-	"github.com/dcwangmit01/goapi/app/config"
+	"github.com/dcwangmit01/goapi/example/config"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

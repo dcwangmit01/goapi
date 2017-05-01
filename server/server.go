@@ -17,12 +17,12 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/dcwangmit01/goapi/app/config"
-	"github.com/dcwangmit01/goapi/app/service"
-	"github.com/dcwangmit01/goapi/app/util"
+	"github.com/dcwangmit01/goapi/example/config"
+	"github.com/dcwangmit01/goapi/example/service"
 	"github.com/dcwangmit01/goapi/resources/certs"
 	swf "github.com/dcwangmit01/goapi/resources/swagger/files"
 	swui "github.com/dcwangmit01/goapi/resources/swagger/ui"
+	"github.com/dcwangmit01/goapi/util"
 )
 
 /* Overview

@@ -5,12 +5,12 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/dcwangmit01/goapi/app/config"
-	"github.com/dcwangmit01/goapi/app/util"
+	"github.com/dcwangmit01/goapi/example/config"
 	"github.com/dcwangmit01/goapi/resources/certs"
+	"github.com/dcwangmit01/goapi/util"
 
-	clt "github.com/dcwangmit01/goapi/app/client"
-	pb "github.com/dcwangmit01/goapi/app/pb"
+	clt "github.com/dcwangmit01/goapi/client"
+	pb "github.com/dcwangmit01/goapi/example/pb"
 )
 
 var (
