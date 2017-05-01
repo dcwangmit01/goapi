@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/dcwangmit01/goapi/example/config"
+	"github.com/dcwangmit01/goapi/config"
 	"github.com/dcwangmit01/goapi/resources/certs"
 	"github.com/dcwangmit01/goapi/util"
 

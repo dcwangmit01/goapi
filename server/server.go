@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/dcwangmit01/goapi/example/config"
+	"github.com/dcwangmit01/goapi/config"
 	"github.com/dcwangmit01/goapi/registry"
 	"github.com/dcwangmit01/goapi/resources/certs"
 	swf "github.com/dcwangmit01/goapi/resources/swagger/files"
@@ -108,7 +108,7 @@ func StartServer() {
 		CommonInterceptors,
 	}
 	grpcServer := grpc.NewServer(opts...)
-	for _, grpcfunc := range registry.serviceRegistry.GrpcServiceHandlers {
+	for _, grpcfunc := range registry.ServiceRegistry.GrpcServiceHandlers {
 		grpcfunc(grpcServer)
 	}
 

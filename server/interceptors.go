@@ -22,7 +22,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 
-	"github.com/dcwangmit01/goapi/example/config"
+	"github.com/dcwangmit01/goapi/config"
 	"github.com/dcwangmit01/goapi/jwt"
 )
 

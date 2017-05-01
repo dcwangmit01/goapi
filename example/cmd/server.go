@@ -4,6 +4,11 @@ import (
 	"github.com/spf13/cobra"
 
 	svr "github.com/dcwangmit01/goapi/server"
+
+	// do not import, but trigger the init functions which
+	// register the grpc service into the serviceregistry
+	_ "github.com/dcwangmit01/goapi/example/service"
+	_ "github.com/dcwangmit01/goapi/service"
 )
 
 // serveCmd represents the serve command
