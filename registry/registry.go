@@ -1,4 +1,4 @@
-package service
+package registry
 
 import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -6,21 +6,21 @@ import (
 	"google.golang.org/grpc"
 )
 
-var Registry = ServiceRegistry{}
+var ServiceRegistry = serviceRegistry{}
 
 type GrpcServiceHandler func(*grpc.Server)
 type GrpcGatewayHandler func(context.Context,
 	*runtime.ServeMux, string, []grpc.DialOption) error
 
-type ServiceRegistry struct {
+type serviceRegistry struct {
 	GrpcServiceHandlers []GrpcServiceHandler
 	GrpcGatewayHandlers []GrpcGatewayHandler
 }
 
-func (r *ServiceRegistry) AddGrpcServiceHandler(f GrpcServiceHandler) {
-	r.GrpcServiceHandlers = append(r.GrpcServiceHandlers, f)
+func (sr *serviceRegistry) AddGrpcServiceHandler(f GrpcServiceHandler) {
+	sr.GrpcServiceHandlers = append(sr.GrpcServiceHandlers, f)
 }
 
-func (r *ServiceRegistry) AddGrpcGatewayHandler(f GrpcGatewayHandler) {
-	r.GrpcGatewayHandlers = append(r.GrpcGatewayHandlers, f)
+func (sr *serviceRegistry) AddGrpcGatewayHandler(f GrpcGatewayHandler) {
+	sr.GrpcGatewayHandlers = append(sr.GrpcGatewayHandlers, f)
 }

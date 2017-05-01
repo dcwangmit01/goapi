@@ -10,13 +10,14 @@ import (
 
 	"github.com/dcwangmit01/goapi/example/config"
 	pb "github.com/dcwangmit01/goapi/example/pb"
+	"github.com/dcwangmit01/goapi/registry"
 	"github.com/dcwangmit01/goapi/sqlitekv"
 	"github.com/dcwangmit01/goapi/util"
 )
 
 func init() {
-	Registry.AddGrpcGatewayHandler(pb.RegisterKeyValHandlerFromEndpoint)
-	Registry.AddGrpcServiceHandler(func(grpcServer *grpc.Server) {
+	registry.ServiceRegistry.AddGrpcGatewayHandler(pb.RegisterKeyValHandlerFromEndpoint)
+	registry.ServiceRegistry.AddGrpcServiceHandler(func(grpcServer *grpc.Server) {
 		pb.RegisterKeyValServer(grpcServer, NewKeyValService())
 	})
 }

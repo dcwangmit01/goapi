@@ -7,12 +7,13 @@ import (
 
 	"github.com/dcwangmit01/goapi/example/config"
 	pb "github.com/dcwangmit01/goapi/pb"
+	"github.com/dcwangmit01/goapi/registry"
 	"google.golang.org/grpc"
 )
 
 func init() {
-	Registry.AddGrpcGatewayHandler(pb.RegisterAuthHandlerFromEndpoint)
-	Registry.AddGrpcServiceHandler(func(grpcServer *grpc.Server) {
+	registry.ServiceRegistry.AddGrpcGatewayHandler(pb.RegisterAuthHandlerFromEndpoint)
+	registry.ServiceRegistry.AddGrpcServiceHandler(func(grpcServer *grpc.Server) {
 		pb.RegisterAuthServer(grpcServer, NewAuthService())
 	})
 }

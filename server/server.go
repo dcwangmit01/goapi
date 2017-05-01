@@ -18,7 +18,7 @@ import (
 	"google.golang.org/grpc/credentials"
 
 	"github.com/dcwangmit01/goapi/example/config"
-	"github.com/dcwangmit01/goapi/example/service"
+	"github.com/dcwangmit01/goapi/registry"
 	"github.com/dcwangmit01/goapi/resources/certs"
 	swf "github.com/dcwangmit01/goapi/resources/swagger/files"
 	swui "github.com/dcwangmit01/goapi/resources/swagger/ui"
@@ -88,7 +88,7 @@ func registerGrpcGatewayHandlers(mux *http.ServeMux) {
 	})
 	copts := []grpc.DialOption{grpc.WithTransportCredentials(ccreds)}
 
-	for _, grpcgwfunc := range service.Registry.GrpcGatewayHandlers {
+	for _, grpcgwfunc := range registry.ServiceRegistry.GrpcGatewayHandlers {
 		err = grpcgwfunc(ctx, gwmux, config.ServerAddress, copts)
 		if err != nil {
 			panic(err)
@@ -108,7 +108,7 @@ func StartServer() {
 		CommonInterceptors,
 	}
 	grpcServer := grpc.NewServer(opts...)
-	for _, grpcfunc := range service.Registry.GrpcServiceHandlers {
+	for _, grpcfunc := range registry.serviceRegistry.GrpcServiceHandlers {
 		grpcfunc(grpcServer)
 	}
 
