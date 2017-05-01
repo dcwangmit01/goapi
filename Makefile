@@ -15,6 +15,10 @@ SWAGGER_UI_VERSION := 2.2.8
 .PHONY: all
 all: deps check vendor code_gen resource_gen cert_gen compile  ## run all targets
 
+.PHONY: gosources
+gosources:
+	@echo $(GOSOURCES) | sed -e 's/\s\+/\n/g'
+
 .PHONY: deps
 deps: _deps  ## install host dependencies
 	@# install the arm cross compiler

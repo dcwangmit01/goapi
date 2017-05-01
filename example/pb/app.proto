@@ -41,7 +41,6 @@ message UserMessage {
 	string password = 3;
 	string name = 4;
 	string role = 5;
-	string phone = 6;
 }
 
 service Auth {
