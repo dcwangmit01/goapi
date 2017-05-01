@@ -37,13 +37,12 @@ message SettingsMessage {
 }
 message UserMessage {
 	string id = 1;
-	string email = 2;
-	string name = 3;
-	string password = 4;
+	string username = 2;
+	string password = 3;
+	string name = 4;
 	string role = 5;
 	string phone = 6;
 }
-
 
 service Auth {
   rpc Auth(AuthRequestMessage) returns (AuthResponseMessage) {
