@@ -48,6 +48,12 @@ http://www.alexedwards.net/blog/a-recap-of-request-handling
 http://www.alexedwards.net/blog/making-and-using-middleware
 */
 
+var serverAddress string
+
+func init() {
+	serverAddress = fmt.Sprintf("%s:%d", config.Host, config.Port)
+}
+
 func triageHandlerFunc(grpcHandler http.Handler, webHandler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
@@ -83,13 +89,13 @@ func registerGrpcGatewayHandlers(mux *http.ServeMux) {
 	gwmux := grpc_gw_runtime.NewServeMux()
 	ctx := context.Background()
 	ccreds := credentials.NewTLS(&tls.Config{
-		ServerName: config.ServerAddress,
+		ServerName: serverAddress,
 		RootCAs:    certs.CertPool,
 	})
 	copts := []grpc.DialOption{grpc.WithTransportCredentials(ccreds)}
 
 	for _, grpcgwfunc := range registry.ServiceRegistry.GrpcGatewayHandlers {
-		err = grpcgwfunc(ctx, gwmux, config.ServerAddress, copts)
+		err = grpcgwfunc(ctx, gwmux, serverAddress, copts)
 		if err != nil {
 			panic(err)
 		}
@@ -104,7 +110,7 @@ func StartServer() {
 	   Create the grpc handler
 	*/
 	opts := []grpc.ServerOption{
-		grpc.Creds(credentials.NewClientTLSFromCert(certs.CertPool, config.ServerAddress)),
+		grpc.Creds(credentials.NewClientTLSFromCert(certs.CertPool, serverAddress)),
 		CommonInterceptors,
 	}
 	grpcServer := grpc.NewServer(opts...)
@@ -129,7 +135,7 @@ func StartServer() {
 	}
 
 	srv := &http.Server{
-		Addr:    config.ServerAddress,
+		Addr:    serverAddress,
 		Handler: triageHandlerFunc(grpcServer, mux),
 		TLSConfig: &tls.Config{
 			Certificates: []tls.Certificate{*certs.KeyPair},

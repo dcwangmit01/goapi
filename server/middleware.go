@@ -18,8 +18,8 @@ import (
     for now.
 
   # Instructions
-  srv := &http.Server{
-    Addr:    config.ServerAddress,
+  srv := &http.Server{p
+    Addr:    fmt.Sprintf("%s:%d", config.Host, config.Port),
     Handler: triageHandlerFunc(CommonMiddleware.Then(grpcServer), CommonMiddleware.Then(mux)),
 
   # HTTP status codes:
