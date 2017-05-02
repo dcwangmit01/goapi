@@ -1,6 +1,22 @@
-# goapi
+# GOAPI
 
-This repo is a forkable base project for implementing golang API servers.
+This golang library is a framework for implementing an API server.  The
+all-in-one binary CLI tool built by this project may act as either the client
+or the server, depending on the command line arguments.
+
+The API server responds to both GRPC and JSON REST requests.  The framework
+also includes an /auth endpoint which responds with JWT auth tokens, a user
+database, as well as role based access control.
+
+The example client and server implementation demonstrates a key/value store,
+which is only available to authenticated users.
+
+
+![Image of Terminal](https://github.com/dcwangmit01/goapi/raw/master/demo/demo.gif)
+
+# How this library works
+
+This goapi repo is a base library used for implementing golang API servers.
 
 It uses [GRPC](http://www.grpc.io/) and
 [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) instead of

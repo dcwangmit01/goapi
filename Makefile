@@ -29,6 +29,10 @@ deps: _deps  ## install host dependencies
 	@if ! which sqlite3 > /dev/null; then \
 	  sudo apt-get -yq install sqlite3; \
 	fi
+	@# install ttyrec
+	@if ! which ttyrec > /dev/null; then \
+	  sudo apt-get -yq install ttyrec; \
+	fi
 
 .PHONY: check
 check: _check  ## checks
@@ -52,6 +56,7 @@ vendor: check glide.lock  ## install/build all 3rd party vendor libs and bins
 	go build -o vendor/bin/cfssljson vendor/github.com/cloudflare/cfssl/cmd/cfssljson/*.go
 	go build -o vendor/bin/ginkgo vendor/github.com/onsi/ginkgo/ginkgo/*.go
 	go build -o vendor/bin/goimports `ls vendor/golang.org/x/tools/cmd/goimports/* | grep -v goimports_not_gc.go` # exclude a file
+	go build -o vendor/bin/ttyrec2gif vendor/github.com/sugyan/ttyrec2gif/*.go
 
 .PHONY: code_gen
 code_gen: check code_gen_helper  ## generate grpc go files from proto spec
@@ -197,6 +202,12 @@ testrandom: _test format
 clean:  ## delete all non-repo files
 	rm -rf bin .ginkgo .build vendor
 	find ./ -type f -name '*.coverprofile' | xargs rm -f
+
+.PHONY: demo
+demo: ## run and record the demo-magic script
+	ttyrec -e 'yes "" | ./demo/demo.sh' ./demo/recording.ttyrec
+	ttyrec2gif -in ./demo/recording.ttyrec -out demo/demo.gif -s 1.0
+	rm -f ./demo/recording.ttyrec
 
 .PHONY: notes
 notes:
