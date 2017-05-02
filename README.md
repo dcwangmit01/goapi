@@ -1,8 +1,8 @@
 # GOAPI
 
 This golang library is a framework for implementing an API server.  The
-all-in-one binary CLI tool built by this project may act as either the client
-or the server, depending on the command line arguments.
+statically-linked all-in-one CLI binary built by this project may act as either
+the client or the server, depending on the command line arguments.
 
 The API server responds to both GRPC and JSON REST requests.  The framework
 also includes an /auth endpoint which responds with JWT auth tokens, a user
@@ -12,7 +12,7 @@ The example client and server implementation demonstrates a key/value store,
 which is only available to authenticated users.
 
 
-![Image of Terminal](https://github.com/dcwangmit01/goapi/raw/master/demo/demo.gif)
+![Animated Image of Terminal](https://github.com/dcwangmit01/goapi/raw/master/demo/demo.gif)
 
 # How this library works
 

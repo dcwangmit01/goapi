@@ -16,3 +16,11 @@ func StructFromYamlStr(s interface{}, yamlString string) error {
 	err := yaml.Unmarshal([]byte(yamlString), s)
 	return err
 }
+
+func StructToYamlFile(s interface{}, filename string) error {
+	str, err := StructToYamlStr(s)
+	if err != nil {
+		return err
+	}
+	return StringToFile(str, filename)
+}

@@ -121,7 +121,7 @@ func keyvalHelper(cmd *cobra.Command, args []string,
 	}
 
 	// connect with the jwt auth token
-	conn, ctx, err := clt.ConnectWithToken(config.Host, config.Port, tokenStr, certs.CertPool)
+	conn, ctx, err := clt.ConnectWithToken(config.GetHost(), config.GetPort(), tokenStr, certs.CertPool)
 	if err != nil {
 		return err
 	}

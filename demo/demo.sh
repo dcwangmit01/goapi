@@ -65,6 +65,11 @@ pe "goapi server &"
 sleep $SLEEP_SHORT
 clear
 
+p  "# Inspect the current configuration"
+pe "goapi config list"
+sleep $SLEEP_SHORT
+clear
+
 p  "# Obtain a JWT auth token as a client"
 pe "goapi auth login --help"
 sleep $SLEEP_SHORT

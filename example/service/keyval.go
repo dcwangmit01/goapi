@@ -22,7 +22,7 @@ func init() {
 	})
 }
 
-var skv = sqlitekv.New(config.AppName + ".db")
+var skv = sqlitekv.New(config.GetAppName() + ".db")
 
 type kvService struct{}
 

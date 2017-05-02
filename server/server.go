@@ -51,7 +51,7 @@ http://www.alexedwards.net/blog/making-and-using-middleware
 var serverAddress string
 
 func init() {
-	serverAddress = fmt.Sprintf("%s:%d", config.Host, config.Port)
+	serverAddress = fmt.Sprintf("%s:%d", config.GetHost(), config.GetPort())
 }
 
 func triageHandlerFunc(grpcHandler http.Handler, webHandler http.Handler) http.Handler {
@@ -129,7 +129,7 @@ func StartServer() {
 	/*
 	   Start the server
 	*/
-	conn, err := net.Listen("tcp", fmt.Sprintf(":%d", config.Port))
+	conn, err := net.Listen("tcp", fmt.Sprintf(":%d", config.GetPort()))
 	if err != nil {
 		panic(err)
 	}
@@ -143,7 +143,7 @@ func StartServer() {
 		},
 	}
 
-	fmt.Printf("grpc on port: %d\n", config.Port)
+	fmt.Printf("grpc on port: %d\n", config.GetPort())
 	err = srv.Serve(tls.NewListener(conn, srv.TLSConfig))
 
 	if err != nil {

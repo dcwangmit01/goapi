@@ -41,7 +41,7 @@ func Authenticate(username string, password string) (string, error) {
 
 	// connect to the grpc server
 	ctx := context.Background()
-	conn, err := GrpcTlsConnect(config.Host, config.Port, ctx, certs.CertPool)
+	conn, err := GrpcTlsConnect(config.GetHost(), config.GetPort(), ctx, certs.CertPool)
 	if err != nil {
 		return "", err
 	}
