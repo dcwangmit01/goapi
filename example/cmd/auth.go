@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 
 	clt "github.com/dcwangmit01/goapi/client"
+	"github.com/dcwangmit01/goapi/config"
 	"github.com/dcwangmit01/goapi/jwt"
 	"github.com/dcwangmit01/goapi/util"
 )
@@ -17,6 +18,8 @@ var (
 func init() {
 	RootCmd.AddCommand(authRootCmd)
 	authRootCmd.AddCommand(loginCmd)
+	loginCmd.PersistentFlags().StringVarP(&optionUsername, "username", "u", "", "Username for authentication")
+	loginCmd.PersistentFlags().StringVarP(&optionPassword, "password", "p", "", "Password for authentication")
 	loginCmd.Flags().BoolVarP(&optionTokenOnly, "token-only", "t", false, "Output only the token")
 }
 
@@ -26,10 +29,11 @@ var authRootCmd = &cobra.Command{
 }
 
 var loginCmd = &cobra.Command{
-	Use:   "login <username> <password>",
+	Use:   "login",
 	Short: "Auth and save the JWT token to config",
 	Long: `Authenticate against the API auth endpoint.
-  * With the provided USERNAME AND PASSWORD
+  * Uses --username and --password if specified
+    * Else obtains user input from stdin
   * Hit the /auth endpoint
   * Save the token in the config
   * Print the token to the screen`,
@@ -42,16 +46,24 @@ var loginCmd = &cobra.Command{
 func appAuthLogin(cmd *cobra.Command, args []string) error {
 
 	// validate args
-	if len(args) != 2 {
+	if len(args) != 0 {
 		cmd.Usage()
 		return invalidInputErr
 	}
 
+	// get the username and password
+	var err error
+	username := optionUsername
+	password := optionPassword
+	if len(username) == 0 || len(password) == 0 {
+		username, password, err = util.CredentialsFromStdin()
+		if err != nil {
+			return err
+		}
+	}
+
 	// authenticate
-	tokenStr, err := clt.Authenticate(
-		args[0], // username
-		args[1], // password
-	)
+	tokenStr, err := clt.Authenticate(username, password)
 	if err != nil {
 		return err
 	}
@@ -71,5 +83,13 @@ func appAuthLogin(cmd *cobra.Command, args []string) error {
 		}
 		fmt.Printf("%v", dump)
 	}
+
+	// store the token in the user's config file
+	config.Viper.Set("token", tokenStr)
+	err = config.SaveConfig()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

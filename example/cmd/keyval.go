@@ -13,11 +13,6 @@ import (
 	pb "github.com/dcwangmit01/goapi/example/pb"
 )
 
-var (
-	optionUsername string
-	optionPassword string
-)
-
 func init() {
 	RootCmd.AddCommand(keyvalRootCmd)
 	keyvalRootCmd.AddCommand(keyvalCreateCmd)

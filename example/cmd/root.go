@@ -10,8 +10,11 @@ import (
 )
 
 var (
-	cfgFile         string
-	invalidInputErr = errors.New("Invalid Command Line Input")
+	optionUsername string
+	optionPassword string
+
+	optionConfigFile string
+	invalidInputErr  = errors.New("Invalid Command Line Input")
 )
 
 // This represents the base command when called without any subcommands
@@ -40,7 +43,7 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports Persistent Flags, which, if defined here,
 	// will be global for your application.
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.goapi.yaml)")
+	RootCmd.PersistentFlags().StringVar(&optionConfigFile, "config", "", "config file (default is $HOME/.goapi.yaml)")
 
 	// Cobra also supports local flags, which will only run when
 	// this action is called directly.  Any flags ending with "P"
@@ -50,8 +53,8 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	if cfgFile != "" { // enable ability to specify config file via flag
-		viper.SetConfigFile(cfgFile)
+	if optionConfigFile != "" { // enable ability to specify config file via flag
+		viper.SetConfigFile(optionConfigFile)
 	}
 
 	viper.SetConfigName(".goapi") // name of config file (without extension)

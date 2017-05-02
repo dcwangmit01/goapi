@@ -36,6 +36,7 @@ func init() {
 	Viper.SetConfigType("yaml") // the configuration is a yaml file
 
 	// Always set defaults, whether or not the config file exists
+	Viper.SetDefault("configpath", configPath)
 	Viper.SetDefault("appname", appName)
 	Viper.SetDefault("host", "localhost")
 	Viper.SetDefault("port", 10080)

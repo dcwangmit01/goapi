@@ -1,5 +1,5 @@
-hash: 2d764a14f94480949da60abb306344cb49d54d9a16d11b94a539362aea4c8c19
-updated: 2017-04-27T05:06:13.333207161Z
+hash: 6e9c3938048e9fc8dcea4f7f6effe4fce9ae2eb54af5ae719ac3ef7be3540ca7
+updated: 2017-05-02T23:07:42.292845706Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
@@ -130,11 +130,14 @@ imports:
   version: 314c91c3e94238576bab29cbcdd44b57ab8e0d39
 - name: github.com/spf13/viper
   version: 0967fc9aceab2ce9da34061253ac10fb99bba5b2
+- name: github.com/sugyan/ttyrec2gif
+  version: d25ebb322ff03e2ac1988bed2e41280708e17aac
 - name: golang.org/x/crypto
   version: c7af5bf2638a1164f2eb5467c39c6cffbd13a02e
   subpackages:
   - bcrypt
   - blowfish
+  - ssh/terminal
 - name: golang.org/x/net
   version: da118f7b8e5954f39d0d2130ab35d4bf0e3cb344
   subpackages:

@@ -47,6 +47,8 @@ import:
 - package: github.com/satori/go.uuid
   version: ^1.1.0
 - package: golang.org/x/crypto
+  subpackages:
+  - ssh/terminal
 - package: github.com/dgrijalva/jwt-go
   version: ^3.0.0
 - package: github.com/mikespook/gorbac
@@ -61,3 +63,4 @@ import:
 - package: google.golang.org/genproto
   subpackages:
   - googleapis/api/annotations
+- package: github.com/sugyan/ttyrec2gif

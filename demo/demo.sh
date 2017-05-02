@@ -65,8 +65,9 @@ pe "goapi server &"
 sleep $SLEEP_SHORT
 clear
 
-p  "# Inspect the current configuration"
-pe "goapi config list"
+p  "# Obtain a client auth token and save to config file"
+p  "
+pe "goapi auth login -u admin -p password"
 sleep $SLEEP_SHORT
 clear
 
