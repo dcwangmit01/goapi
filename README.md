@@ -144,9 +144,18 @@ curl -k https://localhost:10080/swagger.json
 
 ## Library Usage
 
-To use this project as a library copy the contents of `<goapi_project>/example`
-to your own project `<your_project>`.  Rewrite the imports with `sed -i
-'s@dcwangmit01/example@your_project`.  Then copy over and edit the Makefile
+To use this project as a library, here are the instructions
+
+* Copy some of the contents of this project to to your own project
+`cp -r cfssl example/* glide.* main.go Makefile scripts <your_project>`.
+* Edit glide.yaml to set `package: github.com/you/youapi`.
+
+
+
+  Rewrite the imports with `sed -i
+'s@dcwangmit01/example@your_project`.  Customize Makefile
+
+
 
 ## Extending the API
 

@@ -64,32 +64,32 @@ code_gen: check code_gen_helper  ## generate grpc go files from proto spec
 
 .PHONY: code_gen_helper
 code_gen_helper: \
-	pb/goapi.pb.go pb/goapi.pb.gw.go pb/goapi.swagger.json \
+	pb/app.pb.go pb/app.pb.gw.go pb/app.swagger.json \
 	example/pb/app.pb.go example/pb/app.pb.gw.go example/pb/app.swagger.json
 
-pb/goapi.pb.go: pb/goapi.proto
+pb/app.pb.go: pb/app.proto
 	@# Generate the GRPC definitons from the .proto file
 	protoc \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --go_out=plugins=grpc:. \
-	  pb/goapi.proto
+	  pb/app.proto
 
-pb/goapi.pb.gw.go: pb/goapi.proto
+pb/app.pb.gw.go: pb/app.proto
 	@# Generate the GRPC Gateway which proxies to JSON from the .proto file
 	protoc \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --grpc-gateway_out=logtostderr=true:. \
-	  pb/goapi.proto
+	  pb/app.proto
 
-pb/goapi.swagger.json: pb/goapi.proto
+pb/app.swagger.json: pb/app.proto
 	@# Generate the swagger definition from the .proto file
 	protoc -I/usr/local/include -I. \
 	  -I . \
 	  -I vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --swagger_out=logtostderr=true:. \
-	  pb/goapi.proto
+	  pb/app.proto
 
 example/pb/app.pb.go: example/pb/app.proto
 	@# Generate the GRPC definitons from the .proto file

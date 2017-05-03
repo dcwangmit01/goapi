@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "pb/goapi.proto",
+    "title": "pb/app.proto",
     "version": "version not set"
   },
   "schemes": [
