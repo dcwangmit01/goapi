@@ -52,8 +52,7 @@ func init() {
 			fmt.Println("Config file changed: ", e.Name)
 		})
 	} else {
-		fmt.Println("No configuration file loaded - using defaults")
-		panic(err)
+		fmt.Fprintf(os.Stderr, "No configuration file loaded - using defaults\n")
 	}
 }
 

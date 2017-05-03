@@ -5,8 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	clt "github.com/dcwangmit01/goapi/client"
-	"github.com/dcwangmit01/goapi/config"
+	"github.com/dcwangmit01/goapi/client"
 	"github.com/dcwangmit01/goapi/jwt"
 	"github.com/dcwangmit01/goapi/util"
 )
@@ -51,23 +50,23 @@ func appAuthLogin(cmd *cobra.Command, args []string) error {
 		return invalidInputErr
 	}
 
-	// get the username and password
-	var err error
-	username := optionUsername
-	password := optionPassword
-	if len(username) == 0 || len(password) == 0 {
-		username, password, err = util.CredentialsFromStdin()
-		if err != nil {
-			return err
-		}
-	}
-
-	// authenticate
-	tokenStr, err := clt.Authenticate(username, password)
+	// get the auth token
+	tokenStr, err := client.GetAuthTokenFromOptionOrConfigOrStdin(
+		true,           // optionTry
+		optionUsername, // optionUsername
+		optionPassword, // optionPassword
+		false,          // optionContinue
+		false,          // configTry
+		false,          // configContinue
+		true,           // stdinTry
+		true,           // stdinContinue
+		true,           // saveNewToken
+	)
 	if err != nil {
 		return err
 	}
 
+	// print output
 	if optionTokenOnly == true {
 		// print the token
 		fmt.Println(tokenStr)
@@ -82,13 +81,6 @@ func appAuthLogin(cmd *cobra.Command, args []string) error {
 			return err
 		}
 		fmt.Printf("%v", dump)
-	}
-
-	// store the token in the user's config file
-	config.Viper.Set("token", tokenStr)
-	err = config.SaveConfig()
-	if err != nil {
-		return err
 	}
 
 	return nil

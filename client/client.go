@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/dcwangmit01/goapi/jwt"
 	"github.com/dcwangmit01/goapi/util"
 
 	"github.com/dcwangmit01/goapi/config"
@@ -90,4 +91,68 @@ func ConnectWithToken(host string, port int, authToken string, certPool *x509.Ce
 	// return the connection and error directly, relying on the
 	// caller to close the connection
 	return conn, ctx, err
+}
+
+func GetAuthTokenFromOptionOrConfigOrStdin(
+	optionTry bool,
+	optionUsername string,
+	optionPassword string,
+	optionContinue bool,
+	configTry bool,
+	configContinue bool,
+	stdinTry bool,
+	stdinContinue bool,
+	saveNewToken bool) (string, error) {
+
+	// Return a valid auth token: If optUsername and optPassword are
+	// provided, then authenticate from the API and return the token.
+	// Otherwise, fall back to the other methods
+
+	// prefer options first
+	if optionTry == true && optionUsername != "" && optionPassword != "" {
+		// authenticate using the specified options for username/password
+		token, err := Authenticate(optionUsername, optionPassword)
+		if optionContinue == false || err == nil {
+			if err == nil && saveNewToken == true {
+				// save token in config file
+				config.Viper.Set("token", token)
+				config.SaveConfig()
+			}
+			return token, err
+		}
+		// then keep trying with the next method
+	}
+
+	// then try getting a valid token from the configuration file
+	if configTry == true && config.Viper.IsSet("token") {
+		tokstr := config.Viper.GetString("token")
+		token, _, err := jwt.ParseJwt(tokstr)
+		if configContinue == false || (err == nil && token.Valid) {
+			return tokstr, err
+		}
+		// then keep trying with the next method
+	}
+
+	// then try getting credentials from stdin and then autnenticating
+	if stdinTry == true {
+		username, password, err := util.CredentialsFromStdin()
+		if err != nil {
+			return "", err
+		}
+
+		token, err := Authenticate(username, password)
+		if stdinContinue == false || err == nil {
+			if err == nil && saveNewToken == true {
+				// save token in config file
+				config.Viper.Set("token", token)
+				config.SaveConfig()
+			}
+			return token, err
+		}
+		// then keep trying with the next method
+	}
+
+	return "", errors.New("Failed to obtain a valid auth token\n" +
+		"  Please refresh the auth token with 'goapi auth login'\n" +
+		"  Or specify valid auth credentials with option '-u and -p'")
 }

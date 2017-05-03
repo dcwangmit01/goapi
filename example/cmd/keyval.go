@@ -9,7 +9,7 @@ import (
 	"github.com/dcwangmit01/goapi/resources/certs"
 	"github.com/dcwangmit01/goapi/util"
 
-	clt "github.com/dcwangmit01/goapi/client"
+	"github.com/dcwangmit01/goapi/client"
 	pb "github.com/dcwangmit01/goapi/example/pb"
 )
 
@@ -109,14 +109,24 @@ func keyvalHelper(cmd *cobra.Command, args []string,
 		return invalidInputErr
 	}
 
-	// authenticate
-	tokenStr, err := clt.Authenticate(optionUsername, optionPassword)
+	// get the auth token
+	tokenStr, err := client.GetAuthTokenFromOptionOrConfigOrStdin(
+		true,           // optionTry
+		optionUsername, // optionUsername
+		optionPassword, // optionPassword
+		true,           // optionContinue
+		true,           // configTry
+		true,           // configContinue
+		false,          // stdinTry
+		false,          // stdinContinue
+		true,           // saveNewToken
+	)
 	if err != nil {
 		return err
 	}
 
 	// connect with the jwt auth token
-	conn, ctx, err := clt.ConnectWithToken(config.GetHost(), config.GetPort(), tokenStr, certs.CertPool)
+	conn, ctx, err := client.ConnectWithToken(config.GetHost(), config.GetPort(), tokenStr, certs.CertPool)
 	if err != nil {
 		return err
 	}
@@ -137,18 +147,18 @@ func keyvalHelper(cmd *cobra.Command, args []string,
 	}
 
 	// create the client and send the request
-	client := pb.NewKeyValClient(conn)
+	cli := pb.NewKeyValClient(conn)
 
 	var rsp interface{}
 	switch operation {
 	case kvCreate:
-		rsp, err = client.KeyValCreate(ctx, req)
+		rsp, err = cli.KeyValCreate(ctx, req)
 	case kvRead:
-		rsp, err = client.KeyValRead(ctx, req)
+		rsp, err = cli.KeyValRead(ctx, req)
 	case kvUpdate:
-		rsp, err = client.KeyValUpdate(ctx, req)
+		rsp, err = cli.KeyValUpdate(ctx, req)
 	case kvDelete:
-		rsp, err = client.KeyValDelete(ctx, req)
+		rsp, err = cli.KeyValDelete(ctx, req)
 	default:
 		panic("Code Error")
 	}
