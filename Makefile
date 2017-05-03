@@ -200,7 +200,7 @@ testrandom: _test format
 
 .PHONY: clean
 clean:  ## delete all non-repo files
-	rm -rf bin .ginkgo .build vendor
+	rm -rf bin .ginkgo .build vendor *.bak
 	find ./ -type f -name '*.coverprofile' | xargs rm -f
 
 .PHONY: demo
