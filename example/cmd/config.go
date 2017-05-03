@@ -99,7 +99,7 @@ func configGet(cmd *cobra.Command, args []string) error {
 	if !config.Viper.IsSet(key) {
 		return errors.New("config key not found")
 	}
-	fmt.Printf("%s=%v\n", key, config.Viper.Get(key))
+	fmt.Printf("%v\n", config.Viper.Get(key))
 
 	return nil
 }

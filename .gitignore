@@ -33,3 +33,4 @@ cfssl/certs
 *.coverprofile
 *.db
 *.ttyrec
+*.bak

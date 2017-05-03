@@ -205,8 +205,8 @@ clean:  ## delete all non-repo files
 
 .PHONY: demo
 demo: ## run and record the demo-magic script
-	ttyrec -e 'yes "" | ./demo/demo.sh' ./demo/recording.ttyrec
-	ttyrec2gif -in ./demo/recording.ttyrec -out demo/demo.gif -s 1.0
+	ttyrec -e './demo/demo.sh' ./demo/recording.ttyrec
+	ttyrec2gif -in ./demo/recording.ttyrec -out demo/demo.gif -s 1.0 -col 80 -row 24
 	rm -f ./demo/recording.ttyrec
 
 .PHONY: notes
