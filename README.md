@@ -147,14 +147,28 @@ curl -k https://localhost:10080/swagger.json
 To use this project as a library, here are the instructions
 
 * Copy some of the contents of this project to to your own project
-`cp -r cfssl example/* glide.* main.go Makefile scripts <your_project>`.
+```
+# Assuming you are already in your new project root directory
+
+GOAPI_PATH=/go/src/github.com/dcwangmit01/goapi
+
+cp -r ${GOAPI_PATH}/example/* .
+cp -r ${GOAPI_PATH}/glide.* .
+cp -r ${GOAPI_PATH}/main.go .
+cp -r ${GOAPI_PATH}/Makefile .
+cp -r ${GOAPI_PATH}/scripts .
+
+cp -r ${GOAPI_PATH}/cfssl .
+make -C cfssl mrclean # we'll regenerate the cert files later
+```
+
+Then, do the following edits:
 * Edit glide.yaml to set `package: github.com/you/youapi`.
-
-
-
-  Rewrite the imports with `sed -i
-'s@dcwangmit01/example@your_project`.  Customize Makefile
-
+* Edit Makefile and delete all targets and references starting with `example/`.
+* Rewrite the imports with: `sed -i 's@dcwangmit01/goapi/example@YOUR_GITHUB_ID/YOUR_PROJECT@' $(make gosources)`
+* Customize `cfssl/cfssl-csr.json`.  The main project Makefile will call make
+  for cfssl.
+* WIP WIP WIP WIP WIP WIP WIP WIP WIP WIP
 
 
 ## Extending the API

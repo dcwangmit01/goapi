@@ -142,7 +142,7 @@ $(RESOURCE_DIR)/swagger/files/files.go: $(BUILD_DIR)/swagger-ui-$(SWAGGER_UI_VER
 	@# Generate the swagger.json file as a golang file
 	mkdir -p $(RESOURCE_DIR)/swagger/files
 	mkdir -p $(BUILD_DIR)/swagger/files
-	cp -f $(CURDIR)/example/pb/app.swagger.json $(BUILD_DIR)/swagger/files/swagger.json
+	cp -f $(CURDIR)/pb/app.swagger.json $(BUILD_DIR)/swagger/files/swagger.json
 	cd $(BUILD_DIR)/swagger/files && \
 	  go-bindata-assetfs -o $(RESOURCE_DIR)/swagger/files/files.go -pkg files 2>/dev/null ./... || true
 

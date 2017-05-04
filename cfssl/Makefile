@@ -19,7 +19,7 @@ cfssl/certs/insecure-key.pem cfssl/certs/insecure.pem:
 	cfssl selfsign localhost cfssl-csr.json | cfssljson -bare $(CERTS_DIR)/insecure
 
 mrclean:
-	rm -rf $(CA_DIR) $(CERTS_DIR) *.json *.ovpn
+	rm -rf $(CA_DIR) $(CERTS_DIR)
 
 certcheck:
 	openssl x509 -text -in $(CERTS_DIR)/insecure.pem
