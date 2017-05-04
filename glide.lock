@@ -1,5 +1,5 @@
-hash: 6e9c3938048e9fc8dcea4f7f6effe4fce9ae2eb54af5ae719ac3ef7be3540ca7
-updated: 2017-05-02T23:07:42.292845706Z
+hash: f46d17b78515184916e29a580e9909a3208f61025df4d9a75b2effa318e1d923
+updated: 2017-05-04T02:53:22.300480957Z
 imports:
 - name: github.com/cloudflare/cfssl
   version: db0d0650b6496bfe8061ec56a92edd32d8e75c30
@@ -18,15 +18,16 @@ imports:
 - name: github.com/golang/glog
   version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998
 - name: github.com/golang/protobuf
-  version: 2bba0603135d7d7f5cb73b2125beeda19c09f4ef
+  version: 18c9bb3261723cd5401db4d0c9fbc5c3b6c70fe8
   subpackages:
   - jsonpb
   - proto
   - protoc-gen-go
   - protoc-gen-go/descriptor
   - ptypes/any
+  - ptypes/struct
 - name: github.com/grpc-ecosystem/go-grpc-middleware
-  version: 164c5fae744b141cd3e4a182b40d66fd4655c822
+  version: fff9f161df01e29fa746676e2e303a4a9336508d
   subpackages:
   - auth
   - logging
@@ -121,25 +122,25 @@ imports:
 - name: github.com/spf13/cast
   version: acbeb36b902d72a7a4c18e8f3241075e7ab763e4
 - name: github.com/spf13/cobra
-  version: 6dd90846ba124894ee1206c89021e90e8179f1a4
+  version: 8f0203be891287870100e4af46262cdf4a4261d1
   subpackages:
   - cobra
 - name: github.com/spf13/jwalterweatherman
   version: fa7ca7e836cf3a8bb4ebf799f472c12d7e903d66
 - name: github.com/spf13/pflag
-  version: 314c91c3e94238576bab29cbcdd44b57ab8e0d39
+  version: c990990ab4981d84da820b7b00c85139ca150b5f
 - name: github.com/spf13/viper
   version: 0967fc9aceab2ce9da34061253ac10fb99bba5b2
 - name: github.com/sugyan/ttyrec2gif
   version: d25ebb322ff03e2ac1988bed2e41280708e17aac
 - name: golang.org/x/crypto
-  version: c7af5bf2638a1164f2eb5467c39c6cffbd13a02e
+  version: 04eae0b62feaaf659a0ce2c4e8dc70b6ae2fff67
   subpackages:
   - bcrypt
   - blowfish
   - ssh/terminal
 - name: golang.org/x/net
-  version: da118f7b8e5954f39d0d2130ab35d4bf0e3cb344
+  version: feeb485667d1fdabe727840fe00adc22431bc86e
   subpackages:
   - context
   - http2
@@ -153,14 +154,15 @@ imports:
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: a9a820217f98f7c8a207ec1e45a874e1fe12c478
+  version: 470f45bf29f4147d6fbd7dfd0a02a848e49f5bf4
   subpackages:
   - secure/bidirule
   - transform
   - unicode/bidi
+  - unicode/cldr
   - unicode/norm
 - name: golang.org/x/tools
-  version: 3aa1caa08a9813c4635689965b58bd050828f0bf
+  version: 2382e3994d48b1d22acc2c86bcad0a2aff028e32
   subpackages:
   - cmd/goimports
 - name: google.golang.org/genproto
@@ -169,7 +171,7 @@ imports:
   - googleapis/api/annotations
   - googleapis/rpc/status
 - name: google.golang.org/grpc
-  version: c73e0165df8e5495c523feb93a8a6c19b9452817
+  version: d2e1b51f33ff8c5e4a15560ff049d200e83726c5
   subpackages:
   - codes
   - credentials
