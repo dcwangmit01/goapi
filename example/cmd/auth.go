@@ -24,7 +24,7 @@ func init() {
 
 var authRootCmd = &cobra.Command{
 	Use:   "auth",
-	Short: "Authenticate with goapi service",
+	Short: "Authenticate with the API service",
 }
 
 var loginCmd = &cobra.Command{

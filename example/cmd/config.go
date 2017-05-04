@@ -20,18 +20,17 @@ func init() {
 var configRootCmd = &cobra.Command{
 	Use:   "config",
 	Short: "Client used to set Key/Value on gRPC service",
-	Example: `  # List all configs:
-  goapi config list
+	Example: fmt.Sprintf(`  # List all configs:
+  %[1]v config list
 
   # Get a config value:
-  goapi config get <key>
+  %[1]v config get <key>
 
   # Set a config value:
-  goapi config set <key> <value>
+  %[1]v config set <key> <value>
 
   # Unset a config value:
-  goapi config unset <key>
-`,
+  %[1]v config unset <key>`, config.GetAppName()),
 }
 
 var configListCmd = &cobra.Command{

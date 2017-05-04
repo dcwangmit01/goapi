@@ -157,6 +157,8 @@ cp -r ${GOAPI_PATH}/glide.* .
 cp -r ${GOAPI_PATH}/main.go .
 cp -r ${GOAPI_PATH}/Makefile .
 cp -r ${GOAPI_PATH}/scripts .
+cp -r ${GOAPI_PATH}/.gitignore .
+cp -r ${GOAPI_PATH}/demo .
 
 cp -r ${GOAPI_PATH}/cfssl .
 make -C cfssl mrclean # we'll regenerate the cert files later
@@ -168,7 +170,7 @@ Then, do the following edits:
 * Rewrite the imports with: `sed -i 's@dcwangmit01/goapi/example@YOUR_GITHUB_ID/YOUR_PROJECT@' $(make gosources)`
 * Customize `cfssl/cfssl-csr.json`.  The main project Makefile will call make
   for cfssl.
-* WIP WIP WIP WIP WIP WIP WIP WIP WIP WIP
+* Include goapi as a glide dependency `glide get github.com/dcwangmit01/goapi`
 
 
 ## Extending the API

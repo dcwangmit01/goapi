@@ -35,17 +35,17 @@ const (
 var keyvalRootCmd = &cobra.Command{
 	Use:   "keyval",
 	Short: "Client used to set Key/Value on gRPC service",
-	Example: `  # Create a key:
-  goapi keyval create <key> <value>
+	Example: fmt.Sprintf(`  # Create a key:
+  %[1]v keyval create <key> <value>
 
   # Read a key:
-  goapi keyval read <key>
+  %[1]v keyval read <key>
 
   # Update a key:
-  goapi keyval update <key> <value>
+  %[1]v keyval update <key> <value>
 
   # Delete a key:
-  goapi keyval delete <key>`,
+  %[1]v keyval delete <key>`, config.GetAppName()),
 }
 
 var keyvalCreateCmd = &cobra.Command{

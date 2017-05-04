@@ -1,6 +1,7 @@
 package cmd_test
 
 import (
+	"github.com/dcwangmit01/goapi/config"
 	"github.com/dcwangmit01/goapi/example/cmd"
 
 	. "github.com/onsi/ginkgo"
@@ -58,7 +59,7 @@ var _ = Describe("Cmd", func() {
 
 				// process the output
 				//  (?s): allows for "." to represent "\n"
-				Expect(out).Should(MatchRegexp("(?s)goapi.*help.*keyval"))
+				Expect(out).Should(MatchRegexp(format.Sprintf("(?s)%v.*help.*keyval", config.GetAppName())))
 				Expect(err).Should(BeNil())
 			})
 		})
@@ -79,7 +80,7 @@ var _ = Describe("Cmd", func() {
 
 				// process the output
 				//  (?s): allows for "." to represent "\n"
-				Expect(out).Should(MatchRegexp("(?s)goapi.*keyval.*create.*read.*update.*delete"))
+				Expect(out).Should(MatchRegexp(format.Sprintf("(?s)%v.*keyval.*create.*read.*update.*delete", config.GetAppName())))
 				Expect(err).Should(BeNil())
 			})
 		})
