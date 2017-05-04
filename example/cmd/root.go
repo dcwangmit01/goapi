@@ -9,6 +9,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
+/////////////////////////////////////////////////////////////////////
+// Edit the following in order to set the app name of this program
+var _ = config.SetAppName("goapi")
+
+func init() {
+	config.Init()
+}
+
+/////////////////////////////////////////////////////////////////////
+
 var (
 	optionUsername string
 	optionPassword string

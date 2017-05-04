@@ -167,6 +167,7 @@ make -C cfssl mrclean # we'll regenerate the cert files later
 Then, do the following edits:
 * Edit glide.yaml to set `package: github.com/you/youapi`.
 * Edit Makefile and delete all targets and references starting with `example/`.
+* Edit the file cmd/root.go and modify SetAppName with the name of your binary
 * Rewrite the imports with: `sed -i 's@dcwangmit01/goapi/example@YOUR_GITHUB_ID/YOUR_PROJECT@' $(make gosources)`
 * Customize `cfssl/cfssl-csr.json`.  The main project Makefile will call make
   for cfssl.
