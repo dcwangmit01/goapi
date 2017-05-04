@@ -22,6 +22,9 @@ other standard requirements for any API server.
 The example client and server implementation demonstrates a key/value store,
 which is only available to authenticated users.
 
+An example project that uses this library may be found at:
+[goapi-example](https://github.com/dcwangmit01/goapi-example)
+
 ## Demo
 
 ![Animated Image of Terminal](https://github.com/dcwangmit01/goapi/raw/master/demo/demo.gif)
