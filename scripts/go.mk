@@ -3,6 +3,7 @@ CURDIR     := $(shell readlink -f ./)
 GOSOURCES  := $(shell find * ! -path 'vendor*' -type f -name '*.go' )
 GOPKG      ?= $(shell grep "^package" glide.yaml | cut -d ' ' -f 2)  # assumes glide.yaml
 GO_DIR     := $(GOPATH)/src/$(GOPKG)
+BIN_NAME   := $(shell basename $(GOPKG))
 
 # Modify the current path to use locally built tools
 PATH := $(shell readlink -f ./bin/linux_amd64):$(shell readlink -f ./vendor/bin):$(PATH)

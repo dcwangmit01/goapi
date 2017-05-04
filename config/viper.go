@@ -11,16 +11,17 @@ import (
 
 // globals
 var (
-	Viper = viper.New()
+	Viper *viper.Viper
 
-	appName    = "please_set_appname_in_cmd_root_go"
+	appName    = os.Args[0]
 	configName = "config"
 	configType = "yaml"
-	configDir  string
-	configPath string
+	configDir  = ""
+	configPath = ""
 )
 
-func Init() {
+func init() {
+	Viper = viper.New()
 
 	// Explicity set configPath as the config file location
 	//   /home/<user>/.goapi/config.yaml
@@ -66,11 +67,6 @@ func GetPort() int {
 
 func GetAppName() string {
 	return appName
-}
-
-func SetAppName(s string) error {
-	appName = s
-	return nil
 }
 
 // for the time being, viper does not support saving the config back to disk.

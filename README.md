@@ -168,13 +168,10 @@ cp -r ${GOAPI_PATH}/resources/certs/config.go ./resources/certs
 ```
 
 Then, do the following edits:
-* Edit glide.yaml to set `package: github.com/you/youapi`.
+* Edit glide.yaml to set `package: github.com/YOUR_GITHUB_ID/YOUR_PROJECT`.
 * Edit Makefile and delete all targets and references starting with `example/`.
-* Edit the file cmd/root.go and modify SetAppName with the name of your binary
 * Rewrite the imports with: `sed -i 's@dcwangmit01/goapi/example@YOUR_GITHUB_ID/YOUR_PROJECT@' $(make gosources)`
 * Rewrite certs imports with: `sed -i 's@dcwangmit01/goapi/resources/certs@YOUR_GITHUB_ID/YOUR_PROJECT/resources/certs@' $(make gosources)`
-* Customize `cfssl/cfssl-csr.json`.  The main project Makefile will call make
-  for cfssl.
 * Include goapi as a glide dependency `glide get github.com/dcwangmit01/goapi`
 
 Note: Much of the above can be streamlined given time and effort.

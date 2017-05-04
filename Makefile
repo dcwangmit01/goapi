@@ -1,6 +1,5 @@
 include scripts/go.mk
 
-BIN_NAME     := $(shell basename $(GOPKG))
 BIN_DIR      := $(shell readlink -f ./bin)
 BUILD_DIR    := $(shell readlink -f ./.build)
 CACHE_DIR    := $(shell readlink -f ./.cache)
